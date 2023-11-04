@@ -1,11 +1,18 @@
 package com.flightagency.dto;
 
-import java.sql.Date;
-
 public class FilterFlightDto {
 
+    /**
+     * ایدی شهر مبدا
+     */
     private int originId;
+    /**
+     * ایدی شهر مقصد
+     */
     private int destinationId;
+    /**
+     * تاریخ پرواز
+     */
     private java.sql.Date flyDate;
 
     public FilterFlightDto() {

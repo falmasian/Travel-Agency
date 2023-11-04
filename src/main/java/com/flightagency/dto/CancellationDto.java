@@ -3,7 +3,14 @@ package com.flightagency.dto;
 import java.util.ArrayList;
 
 public class CancellationDto {
+
+    /**
+     * ایدی مشتری
+     */
     private String customerId;
+    /**
+     * کد ملی های کنسلی مسافران
+     */
     private ArrayList<String> nationalCodes;
 
     public CancellationDto() {

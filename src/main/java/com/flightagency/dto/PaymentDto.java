@@ -1,7 +1,9 @@
 package com.flightagency.dto;
 
 public class PaymentDto {
-
+    /**
+     * کد پیگیری
+     */
     private String tracingCode;
 
     public PaymentDto() {

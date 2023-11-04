@@ -1,7 +1,9 @@
 package com.flightagency.dto;
 
 public class CityDto {
-
+    /**
+     * نام شهر
+     */
     String cityName;
 
     public CityDto() {

@@ -10,13 +10,27 @@ import java.util.List;
 @Component
 public interface CityController {
 
-    @GetMapping(value = "/api/city", produces = MediaType.APPLICATION_JSON_VALUE)
+    /**
+     * @return List<CityDto>
+     *     همه ی شهر ها را نشان می دهد
+     */
+    @GetMapping(value = "/api/city/getAll", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     List<CityDto> getAllCities();
 
-    @PostMapping(value = "/api/city", consumes = MediaType.APPLICATION_JSON_VALUE)
+    /**
+     * @param cityDto
+     * اضافه کردن یک شهر
+     */
+    @PostMapping(value = "/api/city/insert", consumes = MediaType.APPLICATION_JSON_VALUE)
     void insertCity(@RequestBody CityDto cityDto);
 
-    @DeleteMapping(value = "/api/city/{id}")
+
+    /**
+     * @param id    ایدی شهر
+     * @return boolean
+     * حدف یک شهر با ایدی ان
+     */
+    @DeleteMapping(value = "/api/city/delete/{id}")
     boolean deleteCity(@PathVariable int id);
 }

@@ -41,7 +41,7 @@ public class BookingClient {
     }
 
     public boolean filterFlights() {
-        String cityUrl = baseUrl + "/api/city";
+        String cityUrl = baseUrl + "/api/city/getAll";
         ParameterizedTypeReference<List<CityDto>> cityResponseType = new ParameterizedTypeReference<>() {
         };
         ResponseEntity<List<CityDto>> cityResponse = restTemplate.exchange(cityUrl, HttpMethod.GET, null, cityResponseType);
@@ -55,7 +55,7 @@ public class BookingClient {
             System.out.println(i + ". " + c.getCityName());
         }
         FilterFlightDto filterFlightDto = getInput();
-        String filterUrl = baseUrl + "/api/filterFlight";
+        String filterUrl = baseUrl + "/api/book/filter";
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<FilterFlightDto> requestEntity = new HttpEntity<>(filterFlightDto, headers);
@@ -129,7 +129,7 @@ public class BookingClient {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<BookingDto> requestEntity = new HttpEntity<>(bookingDto, headers);
-        String url = baseUrl + "/api/booking";
+        String url = baseUrl + "/api/book/reserve";
         ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
         return response.getBody();
     }
@@ -148,7 +148,7 @@ public class BookingClient {
     }
 
     public void getAllFlights() {
-        String endpoint = "/api/flight";
+        String endpoint = "/api/flight/getAll";
         String url = baseUrl + endpoint;
         ParameterizedTypeReference<List<FlightDto>> responseType = new ParameterizedTypeReference<>() {
         };
@@ -198,7 +198,7 @@ public class BookingClient {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<CancellationDto> requestEntity = new HttpEntity<>(cancellationDto, headers);
-        String url = baseUrl + "/api/cancellation";
+        String url = baseUrl + "/api/book/cancel";
         ResponseEntity<Float> response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, Float.class);
         Float cost = response.getBody();
 
@@ -215,7 +215,7 @@ public class BookingClient {
         System.out.println("please enter your national code: ");
         String nationalCode = scanner.nextLine().trim();
         ReservationDto reservationDto = new ReservationDto(nationalCode);
-        String url = baseUrl + "/api/reservation";
+        String url = baseUrl + "/api/book/getAllCustomerReservations";
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<ReservationDto> requestEntity = new HttpEntity<>(reservationDto, headers);

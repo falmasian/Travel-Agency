@@ -451,3 +451,112 @@ Caused by: org.springframework.web.client.HttpServerErrorException$InternalServe
 10:38:38.910 [http-nio-8080-exec-8] INFO  c.flightagency.aspect.LoggingAspect - Response: 200.0
 10:39:49.591 [http-nio-8080-exec-3] INFO  c.flightagency.aspect.LoggingAspect - Method Name: getAllFlights
 10:39:49.596 [http-nio-8080-exec-3] INFO  c.flightagency.aspect.LoggingAspect - Response: [FlightDto{flightNumber=33, originId=1, destinationId=3, flyDateTime=2023-04-05 11:30:00.0, cost=220.0, capacity=40, remainingSeats=63}, FlightDto{flightNumber=21, originId=1, destinationId=3, flyDateTime=2023-04-05 01:00:00.0, cost=200.0, capacity=35, remainingSeats=20}, FlightDto{flightNumber=45, originId=2, destinationId=4, flyDateTime=2023-06-22 00:00:00.0, cost=330.0, capacity=20, remainingSeats=16}, FlightDto{flightNumber=123, originId=1, destinationId=3, flyDateTime=2022-11-11 00:00:00.0, cost=100.0, capacity=10, remainingSeats=10}, FlightDto{flightNumber=221, originId=1, destinationId=3, flyDateTime=2022-11-11 01:00:00.0, cost=110.1, capacity=12, remainingSeats=12}, FlightDto{flightNumber=555, originId=1, destinationId=3, flyDateTime=2022-11-11 00:00:00.0, cost=444.9, capacity=23, remainingSeats=23}, FlightDto{flightNumber=44, originId=1, destinationId=2, flyDateTime=2023-05-05 00:00:00.0, cost=350.0, capacity=20, remainingSeats=20}, FlightDto{flightNumber=1021, originId=4, destinationId=5, flyDateTime=2023-12-28 15:52:22.12, cost=157.5, capacity=10, remainingSeats=10}]
+15:36:19.368 [main] INFO  c.f.FlightAgencyApplication - Starting FlightAgencyApplication using Java 17.0.8 with PID 1900 (D:\FlightAgency\target\classes started by F.Almasian in D:\FlightAgency)
+15:36:19.370 [main] INFO  c.f.FlightAgencyApplication - No active profile set, falling back to 1 default profile: "default"
+15:36:20.092 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+15:36:20.097 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+15:36:20.098 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+15:36:20.098 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.15]
+15:36:20.164 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+15:36:20.165 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 751 ms
+15:36:20.360 [main] ERROR c.f.database.ConnectOracleDB - could not connect to database.
+15:36:20.606 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+15:36:20.614 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+15:36:20.620 [main] INFO  c.f.FlightAgencyApplication - Started FlightAgencyApplication in 1.501 seconds (process running for 2.146)
+15:37:35.619 [main] INFO  c.f.FlightAgencyApplication - Starting FlightAgencyApplication using Java 17.0.8 with PID 5568 (D:\FlightAgency\target\classes started by F.Almasian in D:\FlightAgency)
+15:37:35.620 [main] INFO  c.f.FlightAgencyApplication - No active profile set, falling back to 1 default profile: "default"
+15:37:36.253 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+15:37:36.256 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+15:37:36.257 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+15:37:36.258 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.15]
+15:37:36.318 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+15:37:36.318 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 661 ms
+15:37:36.947 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+15:37:36.953 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+15:37:36.959 [main] INFO  c.f.FlightAgencyApplication - Started FlightAgencyApplication in 1.585 seconds (process running for 2.178)
+15:37:39.568 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+15:37:39.568 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+15:37:39.568 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 0 ms
+15:37:39.590 [http-nio-8080-exec-1] INFO  c.flightagency.aspect.LoggingAspect - Method Name: getAllCities
+15:37:39.715 [http-nio-8080-exec-1] INFO  c.flightagency.aspect.LoggingAspect - Response: [CityDto{cityName='tehran'}, CityDto{cityName='mashhad'}, CityDto{cityName='shiraz'}, CityDto{cityName='esfahan'}, CityDto{cityName='gilan'}, CityDto{cityName='ahvaz'}, CityDto{cityName='booshehr'}, CityDto{cityName='New York'}]
+15:37:47.912 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+15:37:47.928 [main] ERROR o.s.boot.SpringApplication - Application run failed
+java.lang.IllegalStateException: Failed to execute CommandLineRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:774)
+	at org.springframework.boot.SpringApplication.lambda$callRunners$3(SpringApplication.java:755)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:183)
+	at java.base/java.util.stream.SortedOps$SizedRefSortingSink.end(SortedOps.java:357)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:510)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)
+	at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:150)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:173)
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+	at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:596)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:750)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:323)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1306)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1295)
+	at com.flightagency.FlightAgencyApplication.main(FlightAgencyApplication.java:12)
+Caused by: org.springframework.web.client.HttpClientErrorException$NotFound: 404 : "{"timestamp":"2023-11-04T12:07:47.902+00:00","status":404,"error":"Not Found","path":"/api/filterFlight"}"
+	at org.springframework.web.client.HttpClientErrorException.create(HttpClientErrorException.java:112)
+	at org.springframework.web.client.DefaultResponseErrorHandler.handleError(DefaultResponseErrorHandler.java:183)
+	at org.springframework.web.client.DefaultResponseErrorHandler.handleError(DefaultResponseErrorHandler.java:137)
+	at org.springframework.web.client.ResponseErrorHandler.handleError(ResponseErrorHandler.java:63)
+	at org.springframework.web.client.RestTemplate.handleResponse(RestTemplate.java:915)
+	at org.springframework.web.client.RestTemplate.doExecute(RestTemplate.java:864)
+	at org.springframework.web.client.RestTemplate.execute(RestTemplate.java:764)
+	at org.springframework.web.client.RestTemplate.exchange(RestTemplate.java:675)
+	at com.flightagency.client.BookingClient.filterFlights(BookingClient.java:64)
+	at com.flightagency.client.BookingClient.bookingProcess(BookingClient.java:29)
+	at com.flightagency.client.Client.selectingItem(Client.java:43)
+	at com.flightagency.client.Client.process(Client.java:60)
+	at com.flightagency.server.MyCommandLineRunner.run(MyCommandLineRunner.java:17)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:771)
+	... 14 common frames omitted
+15:38:23.735 [main] INFO  c.f.FlightAgencyApplication - Starting FlightAgencyApplication using Java 17.0.8 with PID 15452 (D:\FlightAgency\target\classes started by F.Almasian in D:\FlightAgency)
+15:38:23.737 [main] INFO  c.f.FlightAgencyApplication - No active profile set, falling back to 1 default profile: "default"
+15:38:24.391 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+15:38:24.395 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+15:38:24.396 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+15:38:24.396 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.15]
+15:38:24.456 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+15:38:24.457 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 680 ms
+15:38:25.044 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+15:38:25.050 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+15:38:25.057 [main] INFO  c.f.FlightAgencyApplication - Started FlightAgencyApplication in 1.532 seconds (process running for 2.048)
+15:38:27.690 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+15:38:27.690 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+15:38:27.690 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 0 ms
+15:38:27.708 [http-nio-8080-exec-1] INFO  c.flightagency.aspect.LoggingAspect - Method Name: getAllCities
+15:38:27.818 [http-nio-8080-exec-1] INFO  c.flightagency.aspect.LoggingAspect - Response: [CityDto{cityName='tehran'}, CityDto{cityName='mashhad'}, CityDto{cityName='shiraz'}, CityDto{cityName='esfahan'}, CityDto{cityName='gilan'}, CityDto{cityName='ahvaz'}, CityDto{cityName='booshehr'}, CityDto{cityName='New York'}]
+15:38:35.945 [http-nio-8080-exec-3] INFO  c.flightagency.aspect.LoggingAspect - Method Name: filter
+15:38:35.947 [http-nio-8080-exec-3] INFO  c.flightagency.aspect.LoggingAspect - Request Body: FilterFlightDto{originId=1, destinationId=3, flyDate=2023-04-05}
+15:38:35.965 [http-nio-8080-exec-3] INFO  c.flightagency.aspect.LoggingAspect - Response: [FlightDto{flightNumber=33, originId=1, destinationId=3, flyDateTime=2023-04-05 11:30:00.0, cost=220.0, capacity=40, remainingSeats=63}, FlightDto{flightNumber=21, originId=1, destinationId=3, flyDateTime=2023-04-05 01:00:00.0, cost=200.0, capacity=35, remainingSeats=20}]
+15:38:55.926 [http-nio-8080-exec-4] INFO  c.flightagency.aspect.LoggingAspect - Method Name: book
+15:38:55.927 [http-nio-8080-exec-4] INFO  c.flightagency.aspect.LoggingAspect - Request Body: BookingDto{customerId='1122331199', flightId=21, nationalCodes=[1122331199]}
+15:38:55.933 [http-nio-8080-exec-4] INFO  c.f.service.BookingService - a temporary reservation with tracking code 708619 created by customer with ID 1122331199 
+15:38:55.934 [http-nio-8080-exec-4] INFO  c.flightagency.aspect.LoggingAspect - Response: 708619
+15:39:14.123 [http-nio-8080-exec-5] INFO  c.f.service.PaymentService - reservation with tracking code 708619 is inserted in database.
+15:39:14.139 [http-nio-8080-exec-5] INFO  c.f.service.PaymentService - remain seats of flight with ID 21 is updated.
+15:39:14.139 [http-nio-8080-exec-5] INFO  c.f.service.PaymentService - reservation with tracking code 708619 is payed.
+15:39:25.661 [http-nio-8080-exec-6] INFO  c.flightagency.aspect.LoggingAspect - Method Name: getAllReservations
+15:39:25.667 [http-nio-8080-exec-6] INFO  c.flightagency.aspect.LoggingAspect - Request Body: ReservationDto{nationalCode='1122331199'}
+15:39:25.720 [http-nio-8080-exec-6] INFO  c.flightagency.aspect.LoggingAspect - Response: [ReservationGetDto{customerId='1122331199', flightId=21, trackingCode='708619', nationalCode='1122331199'}]
+15:39:37.578 [http-nio-8080-exec-9] INFO  c.flightagency.aspect.LoggingAspect - Method Name: getAllCities
+15:39:37.585 [http-nio-8080-exec-9] INFO  c.flightagency.aspect.LoggingAspect - Response: [CityDto{cityName='tehran'}, CityDto{cityName='mashhad'}, CityDto{cityName='shiraz'}, CityDto{cityName='esfahan'}, CityDto{cityName='gilan'}, CityDto{cityName='ahvaz'}, CityDto{cityName='booshehr'}, CityDto{cityName='New York'}]
+15:39:52.892 [http-nio-8080-exec-7] INFO  c.flightagency.aspect.LoggingAspect - Method Name: filter
+15:39:52.894 [http-nio-8080-exec-7] INFO  c.flightagency.aspect.LoggingAspect - Request Body: FilterFlightDto{originId=2, destinationId=3, flyDate=2023-09-12}
+15:39:52.904 [http-nio-8080-exec-7] INFO  c.flightagency.aspect.LoggingAspect - Response: []
+15:39:56.020 [http-nio-8080-exec-8] INFO  c.flightagency.aspect.LoggingAspect - Method Name: getAllFlights
+15:39:56.030 [http-nio-8080-exec-8] INFO  c.flightagency.aspect.LoggingAspect - Response: [FlightDto{flightNumber=33, originId=1, destinationId=3, flyDateTime=2023-04-05 11:30:00.0, cost=220.0, capacity=40, remainingSeats=63}, FlightDto{flightNumber=21, originId=1, destinationId=3, flyDateTime=2023-04-05 01:00:00.0, cost=200.0, capacity=35, remainingSeats=19}, FlightDto{flightNumber=45, originId=2, destinationId=4, flyDateTime=2023-06-22 00:00:00.0, cost=330.0, capacity=20, remainingSeats=16}, FlightDto{flightNumber=123, originId=1, destinationId=3, flyDateTime=2022-11-11 00:00:00.0, cost=100.0, capacity=10, remainingSeats=10}, FlightDto{flightNumber=221, originId=1, destinationId=3, flyDateTime=2022-11-11 01:00:00.0, cost=110.1, capacity=12, remainingSeats=12}, FlightDto{flightNumber=555, originId=1, destinationId=3, flyDateTime=2022-11-11 00:00:00.0, cost=444.9, capacity=23, remainingSeats=23}, FlightDto{flightNumber=44, originId=1, destinationId=2, flyDateTime=2023-05-05 00:00:00.0, cost=350.0, capacity=20, remainingSeats=20}, FlightDto{flightNumber=1021, originId=4, destinationId=5, flyDateTime=2023-12-28 15:52:22.12, cost=157.5, capacity=10, remainingSeats=10}]
+15:40:31.544 [http-nio-8080-exec-2] INFO  c.flightagency.aspect.LoggingAspect - Method Name: getAllReservations
+15:40:31.544 [http-nio-8080-exec-2] INFO  c.flightagency.aspect.LoggingAspect - Request Body: ReservationDto{nationalCode='1122331199'}
+15:40:31.549 [http-nio-8080-exec-2] INFO  c.flightagency.aspect.LoggingAspect - Response: [ReservationGetDto{customerId='1122331199', flightId=21, trackingCode='708619', nationalCode='1122331199'}]
+15:40:35.749 [http-nio-8080-exec-10] INFO  c.flightagency.aspect.LoggingAspect - Method Name: cancelling
+15:40:35.750 [http-nio-8080-exec-10] INFO  c.flightagency.aspect.LoggingAspect - Request Body: CancellationDto{customerId='1122331199', nationalCodes=[1122331199]}
+15:40:35.774 [http-nio-8080-exec-10] INFO  c.f.service.CancellationService - tickets cancelled.
+15:40:35.775 [http-nio-8080-exec-10] INFO  c.flightagency.aspect.LoggingAspect - Response: 200.0
+15:40:42.894 [http-nio-8080-exec-1] INFO  c.flightagency.aspect.LoggingAspect - Method Name: getAllFlights
+15:40:42.897 [http-nio-8080-exec-1] INFO  c.flightagency.aspect.LoggingAspect - Response: [FlightDto{flightNumber=33, originId=1, destinationId=3, flyDateTime=2023-04-05 11:30:00.0, cost=220.0, capacity=40, remainingSeats=63}, FlightDto{flightNumber=21, originId=1, destinationId=3, flyDateTime=2023-04-05 01:00:00.0, cost=200.0, capacity=35, remainingSeats=20}, FlightDto{flightNumber=45, originId=2, destinationId=4, flyDateTime=2023-06-22 00:00:00.0, cost=330.0, capacity=20, remainingSeats=16}, FlightDto{flightNumber=123, originId=1, destinationId=3, flyDateTime=2022-11-11 00:00:00.0, cost=100.0, capacity=10, remainingSeats=10}, FlightDto{flightNumber=221, originId=1, destinationId=3, flyDateTime=2022-11-11 01:00:00.0, cost=110.1, capacity=12, remainingSeats=12}, FlightDto{flightNumber=555, originId=1, destinationId=3, flyDateTime=2022-11-11 00:00:00.0, cost=444.9, capacity=23, remainingSeats=23}, FlightDto{flightNumber=44, originId=1, destinationId=2, flyDateTime=2023-05-05 00:00:00.0, cost=350.0, capacity=20, remainingSeats=20}, FlightDto{flightNumber=1021, originId=4, destinationId=5, flyDateTime=2023-12-28 15:52:22.12, cost=157.5, capacity=10, remainingSeats=10}]

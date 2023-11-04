@@ -1,6 +1,9 @@
 package com.flightagency.dto;
 
 public class ReservationDto {
+    /**
+     * کد ملی
+     */
     String nationalCode;
 
     public ReservationDto() {

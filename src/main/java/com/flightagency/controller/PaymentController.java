@@ -8,6 +8,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @Component
 public interface PaymentController {
-    @PostMapping(value =  "/api/payment", consumes = MediaType.APPLICATION_JSON_VALUE)
-     float payment(@RequestBody PaymentDto paymentDto);
+    /**
+     * @param paymentDto
+     * @return cost
+     * عملیات پرداخت را انجام میدهد
+     * هزینه را نشان میدهد
+     */
+    @PostMapping(value = "/api/payment", consumes = MediaType.APPLICATION_JSON_VALUE)
+    float payment(@RequestBody PaymentDto paymentDto);
 }

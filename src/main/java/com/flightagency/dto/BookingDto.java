@@ -3,8 +3,17 @@ package com.flightagency.dto;
 import java.util.ArrayList;
 
 public class BookingDto {
+    /**
+     * ایدی رزرو کننده
+     */
     private String customerId;
+    /**
+     * شماره پرواز
+     */
     private int flightId;
+    /**
+     * کد ملی های مسافران
+     */
     private ArrayList<String> nationalCodes = new ArrayList<>();
 
     public BookingDto() {

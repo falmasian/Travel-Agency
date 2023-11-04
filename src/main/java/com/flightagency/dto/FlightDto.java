@@ -1,15 +1,35 @@
 package com.flightagency.dto;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 
 public class FlightDto {
+    /**
+     * شماره پرواز
+     */
     private int flightNumber;
+    /**
+     * ایدی شهر مبدا
+     */
     private int originId;
+    /**
+     * ایدی شهر مقصد
+     */
     private int destinationId;
+    /**
+     * تاریخ و ساعت پرواز
+     */
     private Timestamp flyDateTime;
+    /**
+     * هزیه بلیط
+     */
     private float cost;
+    /**
+     * ظرفیت ئرواز
+     */
     private int capacity;
+    /**
+     * صندلی های فروش نرفته
+     */
     private int remainingSeats;
 
     public FlightDto() {

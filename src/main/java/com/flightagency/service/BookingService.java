@@ -29,7 +29,7 @@ public class BookingService {
     }
 
     @ServiceAnnotation
-    public String booking(BookingDto bookingDto) {
+    public String book(BookingDto bookingDto) {
         Reservation reservation = bookingMapper.toReservation(bookingDto);
         try {
             Flight chosenFlight = flightInfoDao.getFlightInfoByFlightNumber(reservation.getFlightId());
