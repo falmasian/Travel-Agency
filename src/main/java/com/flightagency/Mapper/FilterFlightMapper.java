@@ -9,7 +9,7 @@ public class FilterFlightMapper {
 
     public Flight toFlight(FilterFlightDto filterFlightDto) {
         return new Flight(filterFlightDto.getOriginId(), filterFlightDto.getDestinationId()
-                , filterFlightDto.getFlyDate());
+                , java.sql.Date.valueOf(String.valueOf(filterFlightDto.getFlyDate())));
     }
 
     public FilterFlightDto toFilterFlightDto(Flight flight) {

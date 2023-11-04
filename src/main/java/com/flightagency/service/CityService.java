@@ -1,7 +1,8 @@
 package com.flightagency.service;
 
 import com.flightagency.Mapper.CityMapper;
-import com.flightagency.config.dao.CityDao;
+import com.flightagency.aspect.ServiceAnnotation;
+import com.flightagency.dao.CityDao;
 import com.flightagency.dto.CityDto;
 import com.flightagency.entity.City;
 import org.springframework.stereotype.Component;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
+
 @Component
 public class CityService {
 
@@ -21,6 +23,7 @@ public class CityService {
         this.cityMapper = cityMapper;
     }
 
+    @ServiceAnnotation
     public List<CityDto> getAllCities() {
         return cityDao.getAllCity()
                 .stream()
@@ -28,11 +31,13 @@ public class CityService {
                 .collect(toList());
     }
 
+    @ServiceAnnotation
     public void insertCity(CityDto cityDto) {
         City city = cityMapper.toCity(cityDto);
         cityDao.insertCity(city);
     }
 
+    @ServiceAnnotation
     public boolean deleteCityById(int id) {
         return cityDao.deleteCityById(id) > 0;
     }

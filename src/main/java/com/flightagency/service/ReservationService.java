@@ -2,7 +2,8 @@ package com.flightagency.service;
 
 import com.flightagency.Mapper.ReservationGetMapper;
 import com.flightagency.Mapper.ReservationMapper;
-import com.flightagency.config.dao.ReservationDao;
+import com.flightagency.aspect.ServiceAnnotation;
+import com.flightagency.dao.ReservationDao;
 import com.flightagency.dto.ReservationDto;
 import com.flightagency.dto.ReservationGetDto;
 import com.flightagency.entity.Reservation;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
+
 @Component
 public class ReservationService {
     private ReservationDao reservationDao;
@@ -23,6 +25,7 @@ public class ReservationService {
         this.reservationMapper = reservationMapper;
     }
 
+    @ServiceAnnotation
     public List<ReservationGetDto> getAllReservations(ReservationDto reservationDto) {
         Reservation r = reservationMapper.toReservation(reservationDto);
         return reservationDao.getAllReservationsByCostomerId(r.getCustomerId().trim())

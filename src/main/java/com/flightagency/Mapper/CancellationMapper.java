@@ -8,12 +8,12 @@ import org.springframework.stereotype.Component;
 public class CancellationMapper {
     public Reservation toReservation(CancellationDto cancellationDto) {
         Reservation reservation = new Reservation();
-        reservation.setTrackingCode(cancellationDto.getTrackingCode());
+        reservation.setCustomerId(cancellationDto.getCustomerId());
         reservation.setNationalCodes(cancellationDto.getNationalCodes());
         return reservation;
     }
 
     public CancellationDto toCancellationDto(Reservation reservation) {
-        return new CancellationDto(reservation.getTrackingCode(), reservation.getNationalCodes());
+        return new CancellationDto(reservation.getCustomerId(), reservation.getNationalCodes());
     }
 }

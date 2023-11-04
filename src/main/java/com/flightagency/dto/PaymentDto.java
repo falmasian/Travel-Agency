@@ -18,4 +18,11 @@ public class PaymentDto {
     public void setTracingCode(String tracingCode) {
         this.tracingCode = tracingCode;
     }
+
+    @Override
+    public String toString() {
+        return "PaymentDto{" +
+               "tracingCode='" + tracingCode + '\'' +
+               '}';
+    }
 }

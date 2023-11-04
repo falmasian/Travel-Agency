@@ -1,22 +1,14 @@
 package com.flightagency.controller;
 
 import com.flightagency.dto.CancellationDto;
-import com.flightagency.service.CancellationService;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-public class CancellationController {
-
-    private CancellationService cancellationService;
-
-    public CancellationController(CancellationService cancellationService) {
-        this.cancellationService = cancellationService;
-    }
-
-    @PostMapping("/api/cancellation")
-    public boolean cancelling(@RequestBody CancellationDto cancellationDto){
-        return cancellationService.cancelling(cancellationDto);
-    }
+@Component
+public interface CancellationController {
+    @PostMapping(value = "/api/cancellation", consumes = MediaType.APPLICATION_JSON_VALUE
+            , produces = MediaType.APPLICATION_JSON_VALUE)
+    float cancelling(@RequestBody CancellationDto cancellationDto);
 }

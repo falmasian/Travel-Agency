@@ -1,4 +1,4 @@
-package com.flightagency.config.dao;
+package com.flightagency.dao;
 
 import com.flightagency.entity.Flight;
 import org.slf4j.Logger;

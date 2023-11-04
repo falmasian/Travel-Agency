@@ -1,4 +1,4 @@
-package com.flightagency.config.dao;
+package com.flightagency.dao;
 
 import java.sql.Connection;
 

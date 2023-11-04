@@ -1,16 +1,19 @@
 package com.flightagency.config;
 
-import com.flightagency.admin.CreateTables;
-import com.flightagency.config.dao.CityDao;
-import com.flightagency.config.dao.FlightInfoDao;
-import com.flightagency.config.dao.ReservationDao;
+import com.flightagency.dao.CityDao;
+import com.flightagency.dao.FlightInfoDao;
+import com.flightagency.dao.ReservationDao;
 import com.flightagency.database.ConnectOracleDB;
+import com.flightagency.database.CreateTables;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.web.client.RestTemplate;
 
 import java.sql.Connection;
 
 @Configuration
+@EnableAspectJAutoProxy
 public class Config {
 
     @Bean
@@ -50,6 +53,11 @@ public class Config {
     @Bean
     public CreateTables createTables() throws Exception {
         return new CreateTables(connection());
+    }
+
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
     }
 
 //    @Bean
@@ -127,5 +135,6 @@ public class Config {
 //    public CancellationMapper cancellationMapper() {
 //        return new CancellationMapper();
 //    }
+
 }
 

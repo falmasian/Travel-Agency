@@ -1,4 +1,4 @@
-package com.flightagency.admin;
+package com.flightagency.database;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

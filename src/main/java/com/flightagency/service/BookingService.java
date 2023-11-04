@@ -1,9 +1,10 @@
 package com.flightagency.service;
 
 import com.flightagency.Mapper.BookingMapper;
+import com.flightagency.aspect.ServiceAnnotation;
 import com.flightagency.cache.CacheElement;
-import com.flightagency.config.dao.CityDao;
-import com.flightagency.config.dao.FlightInfoDao;
+import com.flightagency.dao.CityDao;
+import com.flightagency.dao.FlightInfoDao;
 import com.flightagency.dto.BookingDto;
 import com.flightagency.entity.Flight;
 import com.flightagency.entity.Reservation;
@@ -27,10 +28,14 @@ public class BookingService {
         this.bookingMapper = bookingMapper;
     }
 
-    public boolean booking(BookingDto bookingDto) {
+    @ServiceAnnotation
+    public String booking(BookingDto bookingDto) {
         Reservation reservation = bookingMapper.toReservation(bookingDto);
         try {
             Flight chosenFlight = flightInfoDao.getFlightInfoByFlightNumber(reservation.getFlightId());
+            if (chosenFlight == null) {
+                return "-1";
+            }
             int key = chosenFlight.getFlightNumber();
             if (!CreatedCaches.flightCapacityCacheManager.isKeyInCache(CreatedCaches.flightCapacityCacheName, key)) {
                 boolean result = CreatedCaches.flightCapacityCacheManager
@@ -42,11 +47,11 @@ public class BookingService {
                 CreatedCaches.reservationCacheManager.putInCacheWithName(CreatedCaches.reservedFlightsCacheName, reservation.getTrackingCode(), new CacheElement(reservation));
                 fc.addTemporaryReserves(reservation.getNumberOfTickets());
                 logger.info("a temporary reservation with tracking code {} created by customer with ID {} ", reservation.getTrackingCode(), reservation.getCustomerId());
-                return true;
+                return reservation.getTrackingCode();
             }
         } catch (Exception ex) {
             logger.error("Error in the server");
         }
-        return false;
+        return "";
     }
 }

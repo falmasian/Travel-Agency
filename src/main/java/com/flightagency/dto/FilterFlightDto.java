@@ -6,12 +6,12 @@ public class FilterFlightDto {
 
     private int originId;
     private int destinationId;
-    private Date flyDate;
+    private java.sql.Date flyDate;
 
     public FilterFlightDto() {
     }
 
-    public FilterFlightDto(int originId, int destinationId, Date flyDate) {
+    public FilterFlightDto(int originId, int destinationId, java.sql.Date flyDate) {
         this.originId = originId;
         this.destinationId = destinationId;
         this.flyDate = flyDate;
@@ -33,11 +33,20 @@ public class FilterFlightDto {
         this.destinationId = destinationId;
     }
 
-    public Date getFlyDate() {
+    public java.sql.Date getFlyDate() {
         return flyDate;
     }
 
-    public void setFlyDate(Date flyDate) {
+    public void setFlyDate(java.sql.Date flyDate) {
         this.flyDate = flyDate;
+    }
+
+    @Override
+    public String toString() {
+        return "FilterFlightDto{" +
+               "originId=" + originId +
+               ", destinationId=" + destinationId +
+               ", flyDate=" + flyDate +
+               '}';
     }
 }

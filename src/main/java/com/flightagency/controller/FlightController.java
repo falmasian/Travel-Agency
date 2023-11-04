@@ -1,33 +1,24 @@
 package com.flightagency.controller;
 
 import com.flightagency.dto.FlightDto;
-import com.flightagency.service.FlightService;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
-public class FlightController {
+@Component
+public interface FlightController {
 
-    private FlightService flightService;
-
-    public FlightController(FlightService flightService) {
-        this.flightService = flightService;
-    }
-
-    @GetMapping("/api/flight")
+    @GetMapping(value = "/api/flight", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public List<FlightDto> getAllFlights() {
-        return flightService.getAllFlights();
-    }
+    List<FlightDto> getAllFlights();
 
-    @PostMapping("/api/flight")
-    public void insertFlight(@RequestBody FlightDto flightDto) {
-        flightService.insertFlight(flightDto);
-    }
+    @PostMapping(value = "/api/flight", consumes = MediaType.APPLICATION_JSON_VALUE
+            , produces = MediaType.APPLICATION_JSON_VALUE)
+    void insertFlight(@RequestBody FlightDto flightDto);
 
-    @DeleteMapping("/api/flight/{id}")
-    public boolean deleteFlight(@PathVariable int id) {
-        return flightService.deleteFlight(id);
-    }
+    @DeleteMapping(value = "/api/flight/{id}", consumes = MediaType.APPLICATION_JSON_VALUE
+            , produces = MediaType.APPLICATION_JSON_VALUE)
+    boolean deleteFlight(@PathVariable int id);
 }

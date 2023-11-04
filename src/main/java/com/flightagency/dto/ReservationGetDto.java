@@ -47,4 +47,14 @@ public class ReservationGetDto {
     public void setNationalCode(String nationalCode) {
         this.nationalCode = nationalCode;
     }
+
+    @Override
+    public String toString() {
+        return "ReservationGetDto{" +
+               "customerId='" + customerId + '\'' +
+               ", flightId=" + flightId +
+               ", trackingCode='" + trackingCode + '\'' +
+               ", nationalCode='" + nationalCode + '\'' +
+               '}';
+    }
 }

@@ -3,23 +3,23 @@ package com.flightagency.dto;
 import java.util.ArrayList;
 
 public class CancellationDto {
-    private String trackingCode;
+    private String customerId;
     private ArrayList<String> nationalCodes;
 
     public CancellationDto() {
     }
 
-    public CancellationDto(String trackingCode, ArrayList<String> nationalCodes) {
-        this.trackingCode = trackingCode;
+    public CancellationDto(String customerId, ArrayList<String> nationalCodes) {
+        this.customerId = customerId;
         this.nationalCodes = nationalCodes;
     }
 
-    public String getTrackingCode() {
-        return trackingCode;
+    public String getCustomerId() {
+        return customerId;
     }
 
-    public void setTrackingCode(String trackingCode) {
-        this.trackingCode = trackingCode;
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
     }
 
     public ArrayList<String> getNationalCodes() {
@@ -28,5 +28,13 @@ public class CancellationDto {
 
     public void setNationalCodes(ArrayList<String> nationalCodes) {
         this.nationalCodes = nationalCodes;
+    }
+
+    @Override
+    public String toString() {
+        return "CancellationDto{" +
+               "customerId='" + customerId + '\'' +
+               ", nationalCodes=" + nationalCodes +
+               '}';
     }
 }

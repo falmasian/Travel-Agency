@@ -18,5 +18,10 @@ public class ReservationDto {
         this.nationalCode = nationalCode;
     }
 
-
+    @Override
+    public String toString() {
+        return "ReservationDto{" +
+               "nationalCode='" + nationalCode + '\'' +
+               '}';
+    }
 }

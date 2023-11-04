@@ -1,4 +1,4 @@
-package com.flightagency.config.dao;
+package com.flightagency.dao;
 
 import com.flightagency.entity.City;
 import org.slf4j.Logger;
@@ -44,7 +44,7 @@ public class CityDao extends BaseDao {
 
         var query = "select * from city";
         List<City> cities = new ArrayList<>();
-        if (connection == null){
+        if (connection == null) {
             logger.error("conn is null");
         }
         try (var ps = connection.prepareStatement(query)) {

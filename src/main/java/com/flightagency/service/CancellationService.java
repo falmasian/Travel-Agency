@@ -1,9 +1,11 @@
 package com.flightagency.service;
 
+
 import com.flightagency.Mapper.CancellationMapper;
+import com.flightagency.aspect.ServiceAnnotation;
 import com.flightagency.cache.CacheElement;
-import com.flightagency.config.dao.FlightInfoDao;
-import com.flightagency.config.dao.ReservationDao;
+import com.flightagency.dao.FlightInfoDao;
+import com.flightagency.dao.ReservationDao;
 import com.flightagency.dto.CancellationDto;
 import com.flightagency.entity.Flight;
 import com.flightagency.entity.Reservation;
@@ -28,33 +30,33 @@ public class CancellationService {
         this.cancellationMapper = cancellationMapper;
     }
 
-    public boolean cancelling(CancellationDto cancellationDto) {
-        Reservation reservation = cancellationMapper.toReservation(cancellationDto);
+    @ServiceAnnotation
+    public float cancelling(CancellationDto cancellationDto) {
+        Reservation inputReservation = cancellationMapper.toReservation(cancellationDto);
         try {
-            List<Reservation> reservations = reservationDao.getAllReservationsByTrackingCode(reservation.getTrackingCode());
+            List<Reservation> reservations = reservationDao.getAllReservationsByCostomerId(inputReservation.getCustomerId());
             if (reservations == null || reservations.size() <= 0) {
-                return false;
+                return -1;
             }
             for (Reservation reserve : reservations) {
-                if (!reservation.getNationalCodes().contains(reserve.getNationalCode())) {
-                    reservations.remove(reserve);
-                }
+                System.out.println(reserve.getCustomerId() + " " + reserve.getNationalCode());
             }
             int numberOfTickets = reservations.size();
             int flightId = reservations.get(0).getFlightId();
             float cost = flightInfoDao.getCostByFlightId(flightId) * numberOfTickets;
             flightInfoDao.increaseRemainSeatsById(flightId, numberOfTickets);
             Flight flight = flightInfoDao.getFlightInfoByFlightNumber(flightId);
-            boolean result = CreatedCaches.flightCapacityCacheManager.putInCacheWithName(CreatedCaches.flightCapacityCacheName, flightId, new CacheElement<Flight>(flight));
+            CreatedCaches.flightCapacityCacheManager.putInCacheWithName(CreatedCaches.flightCapacityCacheName
+                    , flightId, new CacheElement<Flight>(flight));
             flight.updateAfterCancellation(numberOfTickets);
-            for (String code : reservation.getNationalCodes()) {
-                reservationDao.deleteByTrackingCodeAndNationalCode(reservation.getTrackingCode(), code);
+            for (String code : inputReservation.getNationalCodes()) {
+                reservationDao.deleteByCustomerIdAndPassengerNationalCode(inputReservation.getCustomerId(), code);
             }
             logger.info("tickets cancelled.");
-            return true;
+            return cost;
         } catch (Exception ex) {
             logger.error("Error in the server");
         }
-        return false;
+        return -2;
     }
 }

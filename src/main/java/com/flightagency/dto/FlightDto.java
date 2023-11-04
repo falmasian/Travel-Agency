@@ -80,4 +80,17 @@ public class FlightDto {
     public void setRemainingSeats(int remainingSeats) {
         this.remainingSeats = remainingSeats;
     }
+
+    @Override
+    public String toString() {
+        return "FlightDto{" +
+               "flightNumber=" + flightNumber +
+               ", originId=" + originId +
+               ", destinationId=" + destinationId +
+               ", flyDateTime=" + flyDateTime +
+               ", cost=" + cost +
+               ", capacity=" + capacity +
+               ", remainingSeats=" + remainingSeats +
+               '}';
+    }
 }

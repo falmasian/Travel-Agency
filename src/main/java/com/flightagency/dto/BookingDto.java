@@ -39,4 +39,13 @@ public class BookingDto {
     public void setNationalCodes(ArrayList<String> nationalCodes) {
         this.nationalCodes = nationalCodes;
     }
+
+    @Override
+    public String toString() {
+        return "BookingDto{" +
+               "customerId='" + customerId + '\'' +
+               ", flightId=" + flightId +
+               ", nationalCodes=" + nationalCodes +
+               '}';
+    }
 }

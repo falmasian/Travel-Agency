@@ -1,4 +1,4 @@
-package com.flightagency.config.dao;
+package com.flightagency.dao;
 
 import com.flightagency.entity.Reservation;
 import org.slf4j.Logger;
@@ -120,10 +120,10 @@ public class ReservationDao extends BaseDao {
         return reservations;
     }
 
-    public void deleteByTrackingCodeAndNationalCode(String trackingCode, String nationalcode) {
-        var query = "delete from reservation where trackingCode = ? and passengerNationalCode = ?";
+    public void deleteByCustomerIdAndPassengerNationalCode(String customerId, String nationalcode) {
+        var query = "delete from reservation where CustomerId = ? and passengerNationalCode = ?";
         try (var ps = connection.prepareStatement(query)) {
-            ps.setString(1, trackingCode);
+            ps.setString(1, customerId);
             ps.setString(2, nationalcode);
             ps.executeQuery();
         } catch (Exception e) {

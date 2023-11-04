@@ -1,8 +1,9 @@
 package com.flightagency.service;
 
 import com.flightagency.Mapper.PaymentMapper;
-import com.flightagency.config.dao.FlightInfoDao;
-import com.flightagency.config.dao.ReservationDao;
+import com.flightagency.aspect.ServiceAnnotation;
+import com.flightagency.dao.FlightInfoDao;
+import com.flightagency.dao.ReservationDao;
 import com.flightagency.dto.PaymentDto;
 import com.flightagency.entity.Flight;
 import com.flightagency.entity.Reservation;
@@ -39,6 +40,7 @@ public class PaymentService {
         return cost;
     }
 
+    @ServiceAnnotation
     private float pay(String tracingCode) {
         try {
             Reservation reservation = findReservationByTrackingCode(tracingCode);
@@ -49,13 +51,13 @@ public class PaymentService {
                     return calculateCostOfReservation(reservation);
                 } else {
                     deleteReservationFromCache(tracingCode);
-                    return 0;
+                    return -1;
                 }
             }
         } catch (NumberFormatException ex) {
             logger.error("Error in the server");
         }
-        return 0;
+        return -2;
     }
 
     private Reservation findReservationByTrackingCode(String tracingCode) {

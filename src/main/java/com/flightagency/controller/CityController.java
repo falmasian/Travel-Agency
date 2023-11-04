@@ -1,34 +1,22 @@
 package com.flightagency.controller;
 
-import com.flightagency.Mapper.CityMapper;
 import com.flightagency.dto.CityDto;
-import com.flightagency.service.CityService;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
-public class CityController {
+@Component
+public interface CityController {
 
-    private CityService cityService;
-
-    public CityController(CityService cityService, CityMapper cityMapper) {
-        this.cityService = cityService;
-    }
-
-    @GetMapping("/api/city")
+    @GetMapping(value = "/api/city", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public List<CityDto> getAllCities() {
-        return cityService.getAllCities();
-    }
+    List<CityDto> getAllCities();
 
-    @PostMapping("/api/city")
-    public void insertCity(@RequestBody  CityDto cityDto) {
-        cityService.insertCity(cityDto);
-    }
+    @PostMapping(value = "/api/city", consumes = MediaType.APPLICATION_JSON_VALUE)
+    void insertCity(@RequestBody CityDto cityDto);
 
-    @DeleteMapping("/api/city/{id}")
-    public boolean deleteCity(@PathVariable int id) {
-        return cityService.deleteCityById(id);
-    }
+    @DeleteMapping(value = "/api/city/{id}")
+    boolean deleteCity(@PathVariable int id);
 }

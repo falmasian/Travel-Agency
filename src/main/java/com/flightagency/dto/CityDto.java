@@ -20,4 +20,10 @@ public class CityDto {
         this.cityName = cityName;
     }
 
+    @Override
+    public String toString() {
+        return "CityDto{" +
+               "cityName='" + cityName + '\'' +
+               '}';
+    }
 }
