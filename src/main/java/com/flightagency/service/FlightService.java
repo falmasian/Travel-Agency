@@ -4,7 +4,9 @@ import com.flightagency.Mapper.FlightMapper;
 import com.flightagency.aspect.ServiceAnnotation;
 import com.flightagency.dao.FlightInfoDao;
 import com.flightagency.dto.FlightDto;
-import com.flightagency.entity.Flight;
+import com.flightagency.entity.FlightInfo;
+import com.flightagency.repository.FlightRepository;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -14,17 +16,17 @@ import static java.util.stream.Collectors.toList;
 @Component
 public class FlightService {
 
-    private final FlightInfoDao flightInfoDao;
+    private final FlightRepository flightRepository;
     private FlightMapper flightMapper;
 
-    public FlightService(FlightInfoDao flightInfoDao, FlightMapper flightMapper) {
-        this.flightInfoDao = flightInfoDao;
+    public FlightService(FlightRepository flightRepository, FlightMapper flightMapper) {
+        this.flightRepository = flightRepository;
         this.flightMapper = flightMapper;
     }
 
     @ServiceAnnotation
     public List<FlightDto> getAllFlights() {
-        return flightInfoDao.getAllFlightInfo()
+        return flightRepository.findAll()
                 .stream()
                 .map(flightMapper::toFlightDto)
                 .collect(toList());
@@ -32,12 +34,17 @@ public class FlightService {
 
     @ServiceAnnotation
     public boolean deleteFlight(int id) {
-        return flightInfoDao.deleteFlightInfoById(id) > 0;
+        try {
+            flightRepository.deleteById(id);
+            return true;
+        } catch (EmptyResultDataAccessException e) {
+            return false;
+        }
     }
 
     @ServiceAnnotation
     public void insertFlight(FlightDto flightDto) {
-        Flight flight = flightMapper.toFlight(flightDto);
-        flightInfoDao.insertFlightInfo(flight);
+        FlightInfo flightInfo = flightMapper.toFlight(flightDto);
+        flightRepository.save(flightInfo);
     }
 }

@@ -1,10 +1,5 @@
 package com.flightagency.config;
 
-import com.flightagency.dao.CityDao;
-import com.flightagency.dao.FlightInfoDao;
-import com.flightagency.dao.ReservationDao;
-import com.flightagency.database.ConnectOracleDB;
-import com.flightagency.database.CreateTables;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
@@ -15,45 +10,45 @@ import java.sql.Connection;
 @Configuration
 @EnableAspectJAutoProxy
 public class Config {
-
-    @Bean
-    public ConnectOracleDB connectOracleDB() throws Exception {
-        ConnectOracleDB c= new ConnectOracleDB("static/DBpropreties.txt");
-        if (c == null){
-            System.out.println("ConnectOracleDB is null");
-        }
-        return c;
-    }
-
-    @Bean
-    public Connection connection() throws Exception {
-        Connection cc = connectOracleDB().connect();
-        if (cc == null){
-            System.out.println("Connect is null");
-        }
-        return cc;
-    }
-
-    @Bean
-    public ReservationDao reservationDao() throws Exception {
-        return new ReservationDao(connection());
-    }
-
-    @Bean
-    public FlightInfoDao flightInfoDao() throws Exception {
-        return new FlightInfoDao(connection());
-    }
-
-    @Bean
-    public CityDao cityDao() throws Exception {
-        System.out.println("");
-        return new CityDao(connection());
-    }
-
-    @Bean
-    public CreateTables createTables() throws Exception {
-        return new CreateTables(connection());
-    }
+//
+//    @Bean
+//    public ConnectOracleDB connectOracleDB() throws Exception {
+//        ConnectOracleDB c= new ConnectOracleDB("static/DBpropreties.txt");
+//        if (c == null){
+//            System.out.println("ConnectOracleDB is null");
+//        }
+//        return c;
+//    }
+//
+//    @Bean
+//    public Connection connection() throws Exception {
+//        Connection cc = connectOracleDB().connect();
+//        if (cc == null){
+//            System.out.println("Connect is null");
+//        }
+//        return cc;
+//    }
+//
+//    @Bean
+//    public ReservationDao reservationDao() throws Exception {
+//        return new ReservationDao(connection());
+//    }
+//
+//    @Bean
+//    public FlightInfoDao flightInfoDao() throws Exception {
+//        return new FlightInfoDao(connection());
+//    }
+//
+//    @Bean
+//    public CityDao cityDao() throws Exception {
+//        System.out.println("");
+//        return new CityDao(connection());
+//    }
+//
+//    @Bean
+//    public CreateTables createTables() throws Exception {
+//        return new CreateTables(connection());
+//    }
 
     @Bean
     public RestTemplate restTemplate() {

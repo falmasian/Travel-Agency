@@ -1,12 +1,14 @@
 package com.flightagency.service;
 
 import com.flightagency.Mapper.PaymentMapper;
+import com.flightagency.Mapper.ReserveMapper;
 import com.flightagency.aspect.ServiceAnnotation;
-import com.flightagency.dao.FlightInfoDao;
-import com.flightagency.dao.ReservationDao;
 import com.flightagency.dto.PaymentDto;
-import com.flightagency.entity.Flight;
+import com.flightagency.entity.FlightInfo;
 import com.flightagency.entity.Reservation;
+import com.flightagency.entity.Reserve;
+import com.flightagency.repository.FlightRepository;
+import com.flightagency.repository.ReserveRepository;
 import com.flightagency.server.CreatedCaches;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,15 +17,17 @@ import org.springframework.stereotype.Component;
 @Component
 public class PaymentService {
 
-    private final FlightInfoDao flightInfoDao;
-    private final ReservationDao reservationDao;
+    private final FlightRepository flightRepository;
+    private final ReserveRepository reserveRepository;
     private PaymentMapper paymentMapper;
+    private ReserveMapper reserveMapper;
     private static final Logger logger = LoggerFactory.getLogger(PaymentService.class);
 
-    public PaymentService(FlightInfoDao flightInfoDao, ReservationDao reservationDao, PaymentMapper paymentMapper) {
-        this.flightInfoDao = flightInfoDao;
-        this.reservationDao = reservationDao;
+    public PaymentService(FlightRepository flightRepository, ReserveRepository reserveRepository, PaymentMapper paymentMapper, ReserveMapper reserveMapper) {
+        this.flightRepository = flightRepository;
+        this.reserveRepository = reserveRepository;
         this.paymentMapper = paymentMapper;
+        this.reserveMapper = reserveMapper;
     }
 
     public float payment(PaymentDto paymentDto) {
@@ -70,11 +74,11 @@ public class PaymentService {
     }
 
     private float getCostByFlightId(int flightId) {
-        return flightInfoDao.getCostByFlightId(flightId);
+        return flightRepository.findCostById(flightId);
     }
 
     private int getRemainSeatsByFlightId(int flightId) {
-        return flightInfoDao.getRemainSeatsByFlightId(flightId);
+        return flightRepository.findRemainingSeatsById(flightId);
     }
 
     private void deleteReservationFromCache(String tracingCode) {
@@ -82,22 +86,23 @@ public class PaymentService {
     }
 
     private void updateCapacity(Reservation reservation) {
-        Flight flightCapacity = CreatedCaches.flightCapacityCacheManager.getItemFromCache(CreatedCaches.flightCapacityCacheName, reservation.getFlightId());
-        flightCapacity.updateAfterPayment(reservation.getNumberOfTickets());
+        FlightInfo flightInfo = CreatedCaches.flightCapacityCacheManager.getItemFromCache(CreatedCaches.flightCapacityCacheName, reservation.getFlightId());
+        flightInfo.updateAfterPayment(reservation.getNumberOfTickets());
     }
 
     private synchronized void insertInDatabase(Reservation reservation) {
         for (int i = 0; i < reservation.getNumberOfTickets(); i++) {
-            reservationDao.insertReservation(reservation.getCustomerId(), reservation.getFlightId(), reservation.getFromNationalCodesByIndex(i), reservation.getTrackingCode());
+            Reserve reserve = reserveMapper.toReserve(reservation , i);
+            reserveRepository.save(reserve);
         }
         logger.info("reservation with tracking code {} is inserted in database.", reservation.getTrackingCode());
     }
 
     public synchronized void updateFlightRemainSeats(int flightId, int numOfTickets) {
-        int res = flightInfoDao.decreaseRemainSeatsById(flightId, numOfTickets);
-        if (res > 0) {
-            logger.info("remain seats of flight with ID {} is updated.", flightId);
-        }
+        flightRepository.decrementRemainingSeatsById(flightId, numOfTickets);
+//        if (res > 0) {
+//            logger.info("remain seats of flight with ID {} is updated.", flightId);
+//        }
     }
 
     private void confirmReservation(String tracingCode) {

@@ -1,9 +1,16 @@
 package com.flightagency.entity;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.sql.Date;
 import java.sql.Timestamp;
 
-public class Flight {
+@Entity
+@Table(name = "flightInfo")
+public class FlightInfo {
+
+    @Id
     private int id;
     private int flightNumber;
     private int originId;
@@ -16,14 +23,14 @@ public class Flight {
     private int completedReserves;
     private int temporaryReserves;
 
-    public Flight(int originId, int destinationId, Date flyDate) {
+    public FlightInfo(int originId, int destinationId, Date flyDate) {
         this.originId = originId;
         this.destinationId = destinationId;
         this.flyDate = flyDate;
 
     }
 
-    public Flight(int id, int flightNumber, int originId, int destinationId, Timestamp flyDateTime, float cost, int capacity, int remainingSeats) {
+    public FlightInfo(int id, int flightNumber, int originId, int destinationId, Timestamp flyDateTime, float cost, int capacity, int remainingSeats) {
         this.id = id;
         this.flightNumber = flightNumber;
         this.originId = originId;

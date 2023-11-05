@@ -3,11 +3,10 @@ package com.flightagency.service;
 import com.flightagency.Mapper.BookingMapper;
 import com.flightagency.aspect.ServiceAnnotation;
 import com.flightagency.cache.CacheElement;
-import com.flightagency.dao.CityDao;
-import com.flightagency.dao.FlightInfoDao;
 import com.flightagency.dto.BookingDto;
-import com.flightagency.entity.Flight;
+import com.flightagency.entity.FlightInfo;
 import com.flightagency.entity.Reservation;
+import com.flightagency.repository.FlightRepository;
 import com.flightagency.server.CreatedCaches;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,14 +16,12 @@ import org.springframework.stereotype.Component;
 public class BookingService {
 
     private static final Logger logger = LoggerFactory.getLogger(BookingService.class);
-    CityDao cityDao;
-    FlightInfoDao flightInfoDao;
+    private final FlightRepository flightRepository;
     private BookingMapper bookingMapper;
 
 
-    public BookingService(CityDao cityDao, FlightInfoDao flightInfoDao, BookingMapper bookingMapper) {
-        this.cityDao = cityDao;
-        this.flightInfoDao = flightInfoDao;
+    public BookingService(FlightRepository flightRepository, BookingMapper bookingMapper) {
+        this.flightRepository = flightRepository;
         this.bookingMapper = bookingMapper;
     }
 
@@ -32,16 +29,16 @@ public class BookingService {
     public String book(BookingDto bookingDto) {
         Reservation reservation = bookingMapper.toReservation(bookingDto);
         try {
-            Flight chosenFlight = flightInfoDao.getFlightInfoByFlightNumber(reservation.getFlightId());
+            FlightInfo chosenFlight = flightRepository.getReferenceById(reservation.getFlightId());
             if (chosenFlight == null) {
                 return "-1";
             }
             int key = chosenFlight.getFlightNumber();
             if (!CreatedCaches.flightCapacityCacheManager.isKeyInCache(CreatedCaches.flightCapacityCacheName, key)) {
                 boolean result = CreatedCaches.flightCapacityCacheManager
-                        .putInCacheWithName(CreatedCaches.flightCapacityCacheName, key, new CacheElement<Flight>(chosenFlight));
+                        .putInCacheWithName(CreatedCaches.flightCapacityCacheName, key, new CacheElement<FlightInfo>(chosenFlight));
             }
-            Flight fc = CreatedCaches.flightCapacityCacheManager.getItemFromCache(CreatedCaches.flightCapacityCacheName, key);
+            FlightInfo fc = CreatedCaches.flightCapacityCacheManager.getItemFromCache(CreatedCaches.flightCapacityCacheName, key);
             int remain = fc.getRemainingCapacity();
             if (remain >= reservation.getNumberOfTickets()) {
                 CreatedCaches.reservationCacheManager.putInCacheWithName(CreatedCaches.reservedFlightsCacheName, reservation.getTrackingCode(), new CacheElement(reservation));

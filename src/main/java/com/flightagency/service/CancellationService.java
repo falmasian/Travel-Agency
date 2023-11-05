@@ -2,13 +2,14 @@ package com.flightagency.service;
 
 
 import com.flightagency.Mapper.CancellationMapper;
+import com.flightagency.Mapper.ReserveMapper;
 import com.flightagency.aspect.ServiceAnnotation;
 import com.flightagency.cache.CacheElement;
-import com.flightagency.dao.FlightInfoDao;
-import com.flightagency.dao.ReservationDao;
 import com.flightagency.dto.CancellationDto;
-import com.flightagency.entity.Flight;
+import com.flightagency.entity.FlightInfo;
 import com.flightagency.entity.Reservation;
+import com.flightagency.repository.FlightRepository;
+import com.flightagency.repository.ReserveRepository;
 import com.flightagency.server.CreatedCaches;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,21 +21,25 @@ import java.util.List;
 public class CancellationService {
 
     private static final Logger logger = LoggerFactory.getLogger(CancellationService.class);
-    FlightInfoDao flightInfoDao;
-    ReservationDao reservationDao;
+    private final FlightRepository flightRepository;
+    private final ReserveRepository reserveRepository;
     private CancellationMapper cancellationMapper;
+    private ReserveMapper reserveMapper;
 
-    public CancellationService(FlightInfoDao flightInfoDao, ReservationDao reservationDao, CancellationMapper cancellationMapper) {
-        this.flightInfoDao = flightInfoDao;
-        this.reservationDao = reservationDao;
+    public CancellationService(FlightRepository flightRepository, ReserveRepository reserveRepository
+            , CancellationMapper cancellationMapper, ReserveMapper reserveMapper) {
+        this.flightRepository = flightRepository;
+        this.reserveRepository = reserveRepository;
         this.cancellationMapper = cancellationMapper;
+        this.reserveMapper = reserveMapper;
     }
 
     @ServiceAnnotation
     public float cancelling(CancellationDto cancellationDto) {
         Reservation inputReservation = cancellationMapper.toReservation(cancellationDto);
         try {
-            List<Reservation> reservations = reservationDao.getAllReservationsByCostomerId(inputReservation.getCustomerId());
+            List<Reservation> reservations = reserveRepository.findReserveByCustomerId(inputReservation.getCustomerId())
+                    .stream().map(reserveMapper::toReservation).toList();
             if (reservations == null || reservations.size() <= 0) {
                 return -1;
             }
@@ -43,14 +48,14 @@ public class CancellationService {
             }
             int numberOfTickets = reservations.size();
             int flightId = reservations.get(0).getFlightId();
-            float cost = flightInfoDao.getCostByFlightId(flightId) * numberOfTickets;
-            flightInfoDao.increaseRemainSeatsById(flightId, numberOfTickets);
-            Flight flight = flightInfoDao.getFlightInfoByFlightNumber(flightId);
+            float cost = flightRepository.findCostById(flightId) * numberOfTickets;
+            flightRepository.incrementRemainingSeatsById(flightId, numberOfTickets);
+            FlightInfo flight = flightRepository.getReferenceById(flightId);
             CreatedCaches.flightCapacityCacheManager.putInCacheWithName(CreatedCaches.flightCapacityCacheName
-                    , flightId, new CacheElement<Flight>(flight));
+                    , flightId, new CacheElement<FlightInfo>(flight));
             flight.updateAfterCancellation(numberOfTickets);
             for (String code : inputReservation.getNationalCodes()) {
-                reservationDao.deleteByCustomerIdAndPassengerNationalCode(inputReservation.getCustomerId(), code);
+                reserveRepository.deleteByCustomerIdAndPassengerNationalCode(inputReservation.getCustomerId(), code);
             }
             logger.info("tickets cancelled.");
             return cost;

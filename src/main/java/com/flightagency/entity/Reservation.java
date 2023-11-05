@@ -1,9 +1,12 @@
 package com.flightagency.entity;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.util.ArrayList;
 
 public class Reservation {
 
+    private int id;
     private String customerId;
     private int flightId;
     private String trackingCode;
@@ -29,6 +32,14 @@ public class Reservation {
         this.flightId = flightId;
         this.nationalCode = nationalCode;
         this.trackingCode = trackingCode;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getFlightId() {

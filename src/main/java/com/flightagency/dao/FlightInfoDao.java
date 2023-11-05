@@ -1,6 +1,6 @@
 package com.flightagency.dao;
 
-import com.flightagency.entity.Flight;
+import com.flightagency.entity.FlightInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,7 +17,7 @@ public class FlightInfoDao extends BaseDao {
         super(connection);
     }
 
-    public void insertFlightInfo(Flight flight) {
+    public void insertFlightInfo(FlightInfo flight) {
         int res = 0;
         var query = "insert into flightInfo(id,flightNumber,originId,destinationId,flyDate,cost,capacity,remainingSeats) values(?,?,?,?,?,?,?,?)";
         try (var ps = connection.prepareStatement(query)) {
@@ -57,14 +57,14 @@ public class FlightInfoDao extends BaseDao {
         return 0;
     }
 
-    public ArrayList<Flight> getAllFlightInfo() {
+    public ArrayList<FlightInfo> getAllFlightInfo() {
         var query = "select id,flightNumber,originId,destinationId,flyDate,cost,capacity,remainingSeats from flightInfo";
-        ArrayList<Flight> flightArrayList = new ArrayList<>();
+        ArrayList<FlightInfo> flightArrayList = new ArrayList<>();
         try (var ps = connection.prepareStatement(query)) {
             ResultSet rs = ps.executeQuery();
             System.out.println("flight number  originId destinationId  Fly time cost Seats number");
             while (rs.next()) {
-                Flight flight = new Flight(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4),
+                FlightInfo flight = new FlightInfo(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4),
                         rs.getTimestamp(5), rs.getFloat(6), rs.getInt(7), rs.getInt(8));
                 flightArrayList.add(flight);
             }
@@ -74,16 +74,16 @@ public class FlightInfoDao extends BaseDao {
         return flightArrayList;
     }
 
-    public List<Flight> getAllFilterFlightInfo(Flight flight) {
+    public List<FlightInfo> getAllFilterFlightInfo(FlightInfo flight) {
         var query = "select * from flightInfo where originId = ? AND destinationId = ? AND trunc(flyDate) = ?";
-        List<Flight> flights = new ArrayList<>();
+        List<FlightInfo> flights = new ArrayList<>();
         try (var ps = connection.prepareStatement(query)) {
             ps.setInt(1, flight.getOriginId());
             ps.setInt(2, flight.getDestinationId());
             ps.setDate(3, flight.getFlyDate());
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                flights.add(new Flight(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getTimestamp(5),
+                flights.add(new FlightInfo(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getTimestamp(5),
                         rs.getFloat(6), rs.getInt(7), rs.getInt(8)));
             }
         } catch (Exception e) {
@@ -93,13 +93,13 @@ public class FlightInfoDao extends BaseDao {
     }
 
 
-    public Flight getFlightInfoByFlightNumber(int flightNumber) {
+    public FlightInfo getFlightInfoByFlightNumber(int flightNumber) {
         var query = "select * from flightInfo where id = ?";
         try (var ps = connection.prepareStatement(query)) {
             ps.setInt(1, flightNumber);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                return new Flight(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getTimestamp(5),
+                return new FlightInfo(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getTimestamp(5),
                         rs.getFloat(6), rs.getInt(7), rs.getInt(8));
             }
         } catch (Exception e) {
