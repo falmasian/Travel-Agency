@@ -7,23 +7,25 @@ import com.flightagency.dto.PaymentDto;
 import com.flightagency.entity.FlightInfo;
 import com.flightagency.entity.Reservation;
 import com.flightagency.entity.Reserve;
-import com.flightagency.repository.FlightRepository;
+import com.flightagency.repository.FlightIfoRepository;
 import com.flightagency.repository.ReserveRepository;
 import com.flightagency.server.CreatedCaches;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 public class PaymentService {
 
-    private final FlightRepository flightRepository;
+    private final FlightIfoRepository flightRepository;
     private final ReserveRepository reserveRepository;
-    private PaymentMapper paymentMapper;
-    private ReserveMapper reserveMapper;
+    private final PaymentMapper paymentMapper;
+    private final ReserveMapper reserveMapper;
     private static final Logger logger = LoggerFactory.getLogger(PaymentService.class);
 
-    public PaymentService(FlightRepository flightRepository, ReserveRepository reserveRepository, PaymentMapper paymentMapper, ReserveMapper reserveMapper) {
+    public PaymentService(FlightIfoRepository flightRepository, ReserveRepository reserveRepository, PaymentMapper paymentMapper, ReserveMapper reserveMapper) {
         this.flightRepository = flightRepository;
         this.reserveRepository = reserveRepository;
         this.paymentMapper = paymentMapper;
@@ -99,7 +101,17 @@ public class PaymentService {
     }
 
     public synchronized void updateFlightRemainSeats(int flightId, int numOfTickets) {
-        flightRepository.decrementRemainingSeatsById(flightId, numOfTickets);
+
+
+        Optional<FlightInfo> optionalFlight = flightRepository.findById(flightId);
+
+        if (optionalFlight.isPresent()) {
+            FlightInfo flight = optionalFlight.get();
+            int currentAvailableSeats = flight.getRemainingSeats();
+            flight.setRemainingSeats(currentAvailableSeats - numOfTickets);
+            flightRepository.save(flight);
+        }
+
 //        if (res > 0) {
 //            logger.info("remain seats of flight with ID {} is updated.", flightId);
 //        }

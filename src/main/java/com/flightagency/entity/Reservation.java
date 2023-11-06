@@ -1,7 +1,5 @@
 package com.flightagency.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
 import java.util.ArrayList;
 
 public class Reservation {
@@ -16,7 +14,6 @@ public class Reservation {
     private boolean completed;
 
     public Reservation() {
-
     }
 
     public Reservation(String customerId, int flightId, int numberOfTickets) {

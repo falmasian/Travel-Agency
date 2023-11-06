@@ -3,31 +3,44 @@ package com.flightagency.entity;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.sql.Date;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "flightInfo")
+@Table(name = "FlightInfo")
 public class FlightInfo {
 
     @Id
     private int id;
+
     private int flightNumber;
+
     private int originId;
+
     private int destinationId;
+
     private Timestamp flyDateTime;
+
+    @Transient
     private Date flyDate;
+
     private float cost;
+
     private int capacity;
+
     private int remainingSeats;
+
+    @Transient
     private int completedReserves;
+
+    @Transient
     private int temporaryReserves;
 
     public FlightInfo(int originId, int destinationId, Date flyDate) {
         this.originId = originId;
         this.destinationId = destinationId;
         this.flyDate = flyDate;
-
     }
 
     public FlightInfo(int id, int flightNumber, int originId, int destinationId, Timestamp flyDateTime, float cost, int capacity, int remainingSeats) {
@@ -43,36 +56,48 @@ public class FlightInfo {
         temporaryReserves = 0;
     }
 
-    public void SetOriginId(int id) {
-        originId = id;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public void SetDestinationId(int id) {
-        destinationId = id;
+    public void setFlightNumber(int flightNumber) {
+        this.flightNumber = flightNumber;
     }
 
-    public void SetFlyDate(Date date) {
-        flyDate = date;
+    public void setOriginId(int originId) {
+        this.originId = originId;
     }
 
-    public void SetFlightNumber(int number) {
-        flightNumber = number;
+    public void setDestinationId(int destinationId) {
+        this.destinationId = destinationId;
     }
 
-    public void SetFlyDateTime(Timestamp time) {
-        flyDateTime = time;
+    public void setFlyDateTime(Timestamp flyDateTime) {
+        this.flyDateTime = flyDateTime;
     }
 
-    public void SetCapacity(int cap) {
-        capacity = cap;
+    public void setFlyDate(Date flyDate) {
+        this.flyDate = flyDate;
     }
 
-    public void SetRemainingSeats(int seats) {
-        remainingSeats = seats;
+    public void setCost(float cost) {
+        this.cost = cost;
     }
 
-    public void SetCost(Float co) {
-        cost = co;
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+
+    public void setRemainingSeats(int remainingSeats) {
+        this.remainingSeats = remainingSeats;
+    }
+
+    public void setCompletedReserves(int completedReserves) {
+        this.completedReserves = completedReserves;
+    }
+
+    public void setTemporaryReserves(int temporaryReserves) {
+        this.temporaryReserves = temporaryReserves;
     }
 
     public int getId() {

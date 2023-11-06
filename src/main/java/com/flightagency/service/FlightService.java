@@ -5,7 +5,8 @@ import com.flightagency.aspect.ServiceAnnotation;
 import com.flightagency.dao.FlightInfoDao;
 import com.flightagency.dto.FlightDto;
 import com.flightagency.entity.FlightInfo;
-import com.flightagency.repository.FlightRepository;
+
+import com.flightagency.repository.FlightIfoRepository;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
 
@@ -16,10 +17,10 @@ import static java.util.stream.Collectors.toList;
 @Component
 public class FlightService {
 
-    private final FlightRepository flightRepository;
+    private final FlightIfoRepository flightRepository;
     private FlightMapper flightMapper;
 
-    public FlightService(FlightRepository flightRepository, FlightMapper flightMapper) {
+    public FlightService(FlightIfoRepository flightRepository, FlightMapper flightMapper) {
         this.flightRepository = flightRepository;
         this.flightMapper = flightMapper;
     }

@@ -2,9 +2,11 @@ package com.flightagency.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import java.time.LocalDate;
 
 @Entity
+@Table(name = "Customer")
 public class Customer {
 
     @Id

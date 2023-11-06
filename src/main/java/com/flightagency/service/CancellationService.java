@@ -8,7 +8,7 @@ import com.flightagency.cache.CacheElement;
 import com.flightagency.dto.CancellationDto;
 import com.flightagency.entity.FlightInfo;
 import com.flightagency.entity.Reservation;
-import com.flightagency.repository.FlightRepository;
+import com.flightagency.repository.FlightIfoRepository;
 import com.flightagency.repository.ReserveRepository;
 import com.flightagency.server.CreatedCaches;
 import org.slf4j.Logger;
@@ -16,17 +16,18 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class CancellationService {
 
     private static final Logger logger = LoggerFactory.getLogger(CancellationService.class);
-    private final FlightRepository flightRepository;
+    private final FlightIfoRepository flightRepository;
     private final ReserveRepository reserveRepository;
     private CancellationMapper cancellationMapper;
     private ReserveMapper reserveMapper;
 
-    public CancellationService(FlightRepository flightRepository, ReserveRepository reserveRepository
+    public CancellationService(FlightIfoRepository flightRepository, ReserveRepository reserveRepository
             , CancellationMapper cancellationMapper, ReserveMapper reserveMapper) {
         this.flightRepository = flightRepository;
         this.reserveRepository = reserveRepository;
@@ -49,7 +50,22 @@ public class CancellationService {
             int numberOfTickets = reservations.size();
             int flightId = reservations.get(0).getFlightId();
             float cost = flightRepository.findCostById(flightId) * numberOfTickets;
-            flightRepository.incrementRemainingSeatsById(flightId, numberOfTickets);
+
+
+
+            Optional<FlightInfo> optionalFlight = flightRepository.findById(flightId);
+
+            if (optionalFlight.isPresent()) {
+                FlightInfo flight = optionalFlight.get();
+                int currentAvailableSeats = flight.getRemainingSeats();
+                flight.setRemainingSeats(currentAvailableSeats + numberOfTickets);
+                flightRepository.save(flight);
+            }
+
+
+
+
+
             FlightInfo flight = flightRepository.getReferenceById(flightId);
             CreatedCaches.flightCapacityCacheManager.putInCacheWithName(CreatedCaches.flightCapacityCacheName
                     , flightId, new CacheElement<FlightInfo>(flight));

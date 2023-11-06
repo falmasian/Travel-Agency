@@ -1,12 +1,10 @@
 package com.flightagency.entity;
 
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
+@Table(name = "Reserve")
 public class Reserve {
 
     @Id
@@ -31,8 +29,7 @@ public class Reserve {
         this.trackingCode = trackingCode;
         this.passengerNationalCode = passengerNationalCode;
     }
-
-    public int getId() {
+     public int getId() {
         return id;
     }
 
