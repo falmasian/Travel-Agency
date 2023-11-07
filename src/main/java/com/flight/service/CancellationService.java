@@ -3,7 +3,7 @@ package com.flight.service;
 
 import com.flight.Mapper.CancellationMapper;
 import com.flight.Mapper.ReserveMapper;
-import com.flight.aspect.ServiceAnnotation;
+import com.flight.aspect.ServiceLoggingAspect;
 import com.flight.cache.CacheElement;
 import com.flight.dto.CancellationDto;
 import com.flight.entity.FlightInfo;
@@ -35,7 +35,7 @@ public class CancellationService {
         this.reserveMapper = reserveMapper;
     }
 
-    @ServiceAnnotation
+    @ServiceLoggingAspect
     public float cancelling(CancellationDto cancellationDto) {
         Reservation inputReservation = cancellationMapper.toReservation(cancellationDto);
         try {
@@ -49,7 +49,8 @@ public class CancellationService {
             }
             int numberOfTickets = reservations.size();
             int flightId = reservations.get(0).getFlightId();
-            float cost = flightRepository.findCostById(flightId) * numberOfTickets;
+            Optional<FlightInfo> f = flightRepository.findById(flightId);
+            float cost = f.get().getCost() * numberOfTickets;
 
 
 

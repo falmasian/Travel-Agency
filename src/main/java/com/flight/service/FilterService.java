@@ -2,14 +2,15 @@ package com.flight.service;
 
 import com.flight.Mapper.FilterFlightMapper;
 import com.flight.Mapper.FlightMapper;
-import com.flight.aspect.ServiceAnnotation;
+import com.flight.aspect.ServiceLoggingAspect;
 import com.flight.dto.FilterFlightDto;
 import com.flight.dto.FlightDto;
 import com.flight.entity.FlightInfo;
 import com.flight.repository.FlightIfoRepository;
 import org.springframework.stereotype.Component;
 
-import java.sql.Date;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Component
@@ -25,18 +26,20 @@ public class FilterService {
         this.flightMapper = flightMapper;
     }
 
-    @ServiceAnnotation
+    @ServiceLoggingAspect
     public List<FlightDto> filter(FilterFlightDto filterFlightDto) {
         FlightInfo flight = filterFlightMapper.toFlight(filterFlightDto);
 
-        java.util.Date inputDate = new java.util.Date(flight.getFlyDate().getTime());
-
-
+        Calendar c = Calendar.getInstance();
+        c.setTime(flight.getFlyDate());
+        c.add(Calendar.DATE, 1);
+        Date nextDay = c.getTime();
         return flightRepository.findFlightInfoByOriginIdAndDestinationId(flight.getOriginId()
                         , flight.getDestinationId())
                 .stream()
                 .filter(f -> f.getRemainingSeats() > 0)
-                .filter(f -> (new Date(f.getFlyDateTime().getTime())).equals(inputDate))
+                .filter(f -> f.getFlyDateTime().after(flight.getFlyDate()))
+                .filter(f -> f.getFlyDateTime().before(nextDay))
                 .map(flightMapper::toFlightDto).toList();
     }
 }

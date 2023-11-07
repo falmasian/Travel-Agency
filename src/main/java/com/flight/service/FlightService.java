@@ -1,7 +1,7 @@
 package com.flight.service;
 
 import com.flight.Mapper.FlightMapper;
-import com.flight.aspect.ServiceAnnotation;
+import com.flight.aspect.ServiceLoggingAspect;
 import com.flight.dto.FlightDto;
 import com.flight.entity.FlightInfo;
 
@@ -24,7 +24,7 @@ public class FlightService {
         this.flightMapper = flightMapper;
     }
 
-    @ServiceAnnotation
+    @ServiceLoggingAspect
     public List<FlightDto> getAllFlights() {
         return flightRepository.findAll()
                 .stream()
@@ -32,7 +32,7 @@ public class FlightService {
                 .collect(toList());
     }
 
-    @ServiceAnnotation
+    @ServiceLoggingAspect
     public boolean deleteFlight(int id) {
         try {
             flightRepository.deleteById(id);
@@ -42,7 +42,7 @@ public class FlightService {
         }
     }
 
-    @ServiceAnnotation
+    @ServiceLoggingAspect
     public void insertFlight(FlightDto flightDto) {
         FlightInfo flightInfo = flightMapper.toFlight(flightDto);
         flightRepository.save(flightInfo);

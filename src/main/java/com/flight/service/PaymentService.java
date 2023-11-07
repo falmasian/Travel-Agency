@@ -2,7 +2,7 @@ package com.flight.service;
 
 import com.flight.Mapper.PaymentMapper;
 import com.flight.Mapper.ReserveMapper;
-import com.flight.aspect.ServiceAnnotation;
+import com.flight.aspect.ServiceLoggingAspect;
 import com.flight.dto.PaymentDto;
 import com.flight.entity.FlightInfo;
 import com.flight.entity.Reservation;
@@ -46,7 +46,7 @@ public class PaymentService {
         return cost;
     }
 
-    @ServiceAnnotation
+    @ServiceLoggingAspect
     private float pay(String tracingCode) {
         try {
             Reservation reservation = findReservationByTrackingCode(tracingCode);
@@ -76,11 +76,14 @@ public class PaymentService {
     }
 
     private float getCostByFlightId(int flightId) {
-        return flightRepository.findCostById(flightId);
+
+        Optional<FlightInfo> f = flightRepository.findById(flightId);
+        return f.get().getCost();
     }
 
     private int getRemainSeatsByFlightId(int flightId) {
-        return flightRepository.findRemainingSeatsById(flightId);
+        Optional<FlightInfo> f = flightRepository.findById(flightId);
+        return f.get().getRemainingSeats();
     }
 
     private void deleteReservationFromCache(String tracingCode) {
@@ -97,7 +100,7 @@ public class PaymentService {
 
     private synchronized void insertInDatabase(Reservation reservation) {
         for (int i = 0; i < reservation.getNumberOfTickets(); i++) {
-            Reserve reserve = reserveMapper.toReserve(reservation , i);
+            Reserve reserve = reserveMapper.toReserve(reservation, i);
             reserveRepository.save(reserve);
         }
         logger.info("reservation with tracking code {} is inserted in database.", reservation.getTrackingCode());

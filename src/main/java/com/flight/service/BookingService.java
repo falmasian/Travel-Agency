@@ -1,7 +1,7 @@
 package com.flight.service;
 
 import com.flight.Mapper.BookingMapper;
-import com.flight.aspect.ServiceAnnotation;
+import com.flight.aspect.ServiceLoggingAspect;
 import com.flight.cache.CacheElement;
 import com.flight.dto.BookingDto;
 import com.flight.entity.FlightInfo;
@@ -27,7 +27,7 @@ public class BookingService {
         this.bookingMapper = bookingMapper;
     }
 
-    @ServiceAnnotation
+    @ServiceLoggingAspect
     public String book(BookingDto bookingDto) {
         Reservation reservation = bookingMapper.toReservation(bookingDto);
         try {

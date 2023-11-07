@@ -10,8 +10,11 @@ import lombok.NoArgsConstructor;
 public class City {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+   @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column(name = "cityName")
     private String cityName;
 
     public City(int id, String cityName) {
@@ -29,5 +32,13 @@ public class City {
 
     public String getCityName() {
         return cityName;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
     }
 }

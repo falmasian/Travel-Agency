@@ -10,6 +10,6 @@ import java.lang.annotation.Target;
 @Component
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ServiceAnnotation {
+public @interface ServiceLoggingAspect {
 
 }
