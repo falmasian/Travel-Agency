@@ -32,8 +32,6 @@ public class ReservationService {
 
     @ServiceLoggingAspect
     public List<ReservationGetDto> getAllReservations(ReservationDto reservationDto) {
-        reserveRepository.findAll().forEach(Reserve::getId);
-        reserveRepository.findAll().forEach(r -> r.toString());
         Reservation r = reservationMapper.toReservation(reservationDto);
         return reserveRepository.findReserveByCustomerId(r.getCustomerId().trim())
                 .stream()

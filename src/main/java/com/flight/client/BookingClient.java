@@ -171,7 +171,7 @@ public class BookingClient {
             return;
         }
         System.out.println("you have reserved " + reservationGetDtoList.size() + " seats with this tracking code." +
-                           " \n How many do you want to cancel?");
+                           " \nHow many do you want to cancel?");
 
         Scanner ss = new Scanner(System.in);
         int numberOfTickets = ss.nextInt();
@@ -190,7 +190,12 @@ public class BookingClient {
             System.out.println("enter passanger number " + j + " nationalcode: ");
             Scanner scanner1 = new Scanner(System.in);
             String code = scanner1.nextLine().trim();
-            nationalcodes.add(code);
+            if(reservationGetDtoList.stream().filter(c -> c.getNationalCode().equals(code.trim())).toList().size()>0) {
+                nationalcodes.add(code);
+            }else {
+                System.out.println("You do not have a reservation with this national code.please enter again.");
+                i--;
+            }
         }
         CancellationDto cancellationDto = new CancellationDto(customerId, nationalcodes);
 
@@ -206,7 +211,7 @@ public class BookingClient {
             System.out.println("The tickets have been successfully cancelled.\n"
                                + cost + "$ will be deposited into your account within twenty-four hours");
         } else {
-            System.out.println("Could not able to cancel .");
+            System.out.println("Could not able to cancel.");
         }
     }
 
@@ -233,7 +238,7 @@ public class BookingClient {
             System.out.println("customerId   flight number   passenger nationalCode  tracingCode");
             for (ReservationGetDto r : reservationGetDtoList) {
                 System.out.println(r.getCustomerId() + "    " + r.getFlightId() + "    " + r.getNationalCode()
-                                   + "    " + r.getNationalCode());
+                                   + "    " + r.getTrackingCode());
             }
         }
         return reservationGetDtoList;

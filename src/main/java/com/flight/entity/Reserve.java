@@ -17,7 +17,7 @@ public class Reserve {
     private String trackingCode;
     private String passengerNationalCode;
 
-    public Reserve(int id, String customerId, int flightId, String trackingCode, String passengerNationalCode) {
+    public Reserve(int id, String customerId, int flightId, String passengerNationalCode, String trackingCode) {
         this.id = id;
         this.customerId = customerId;
         this.flightId = flightId;
@@ -25,7 +25,7 @@ public class Reserve {
         this.passengerNationalCode = passengerNationalCode;
     }
 
-    public Reserve(String customerId, int flightId, String trackingCode, String passengerNationalCode) {
+    public Reserve(String customerId, int flightId, String passengerNationalCode, String trackingCode) {
         this.customerId = customerId;
         this.flightId = flightId;
         this.trackingCode = trackingCode;

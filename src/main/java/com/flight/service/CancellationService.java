@@ -44,14 +44,10 @@ public class CancellationService {
             if (reservations == null || reservations.size() <= 0) {
                 return -1;
             }
-            for (Reservation reserve : reservations) {
-                System.out.println(reserve.getCustomerId() + " " + reserve.getNationalCode());
-            }
             int numberOfTickets = reservations.size();
             int flightId = reservations.get(0).getFlightId();
             Optional<FlightInfo> f = flightRepository.findById(flightId);
             float cost = f.get().getCost() * numberOfTickets;
-
 
 
             Optional<FlightInfo> optionalFlight = flightRepository.findById(flightId);
@@ -62,9 +58,6 @@ public class CancellationService {
                 flight.setRemainingSeats(currentAvailableSeats + numberOfTickets);
                 flightRepository.save(flight);
             }
-
-
-
 
 
             FlightInfo flight = flightRepository.getReferenceById(flightId);
@@ -82,7 +75,7 @@ public class CancellationService {
         return -2;
     }
 
-    public synchronized void updateAfterCancellation(int numOfCancelled,  FlightInfo flight ) {
+    public synchronized void updateAfterCancellation(int numOfCancelled, FlightInfo flight) {
         flight.setCompletedReserves(flight.getCompletedReserves() - numOfCancelled);
         flight.setRemainingSeats(flight.getRemainingSeats() + numOfCancelled);
         flight.setCompletedReserves(flight.getCompletedReserves() - numOfCancelled);
