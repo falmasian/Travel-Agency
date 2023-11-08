@@ -51,10 +51,10 @@ public class BookingDto {
 
     @Override
     public String toString() {
-        return "    BookingDto{" + '\n' +
+        return "BookingDto{" + '\n' +
                "    customerId=" + customerId + ",\n" +
                "    flightId=" + flightId + ",\n" +
-               "    nationalCodes=" + nationalCodes + ",\n" +
+               "    nationalCodes=" + nationalCodes + "\n" +
                '}' + "\n";
     }
 }

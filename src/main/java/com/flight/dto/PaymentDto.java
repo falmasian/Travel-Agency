@@ -23,8 +23,8 @@ public class PaymentDto {
 
     @Override
     public String toString() {
-        return "    PaymentDto{" + ",\n" +
-               "    tracingCode=" + tracingCode + ",\n" +
+        return "PaymentDto{" + "\n" +
+               "    tracingCode=" + tracingCode + "\n" +
                '}' + "\n";
     }
 }

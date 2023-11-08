@@ -20,7 +20,7 @@ public class LoggingAspect {
         }
         Object response = joinPoint.proceed();
         if (response != null) {
-            logger.info("Response: " + response.toString());
+            logger.info("\nResponse: " + response);
         } else {
             logger.info("Response: []");
         }

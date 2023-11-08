@@ -24,7 +24,7 @@ public class CityDto {
 
     @Override
     public String toString() {
-        return "    CityDto{" + ",\n" +
+        return "CityDto{" + "\n" +
                "    cityName=" + cityName + ",\n" +
                '}' + "\n";
     }

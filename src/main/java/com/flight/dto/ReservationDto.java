@@ -23,8 +23,8 @@ public class ReservationDto {
 
     @Override
     public String toString() {
-        return "    ReservationDto{" + ",\n" +
-               "    nationalCode=" + nationalCode + ",\n" +
+        return "ReservationDto{" + "\n" +
+               "    nationalCode=" + nationalCode + "\n" +
                '}' + "\n";
     }
 }
