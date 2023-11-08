@@ -17,6 +17,8 @@ public class LoggingAspect {
         logger.info("Method Name: " + joinPoint.getSignature().getName());
         if (joinPoint.getArgs().length > 0 && joinPoint.getArgs() != null) {
             logger.info("\nRequest Body: " + joinPoint.getArgs()[0].toString());
+        }else {
+            logger.info("\nRequest Body: []");
         }
         Object response = joinPoint.proceed();
         if (response != null) {
