@@ -39,9 +39,9 @@ public class CancellationDto {
 
     @Override
     public String toString() {
-        return "CancellationDto{" +
-               "customerId='" + customerId + '\'' +
-               ", nationalCodes=" + nationalCodes +
-               '}';
+        return "    CancellationDto{" + ",\n" +
+               "    customerId=" + customerId + ",\n" +
+               "    nationalCodes=" + nationalCodes + ",\n" +
+               '}' + "\n";
     }
 }

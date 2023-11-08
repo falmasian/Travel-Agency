@@ -17,17 +17,17 @@ public class FlightControllerImpl implements FlightController {
     }
 
     @Override
-    public List<FlightDto> getAllFlights() {
+    public List<FlightDto> getAll() {
         return flightService.getAllFlights();
     }
 
     @Override
-    public void insertFlight(FlightDto flightDto) {
+    public void insert(FlightDto flightDto) {
         flightService.insertFlight(flightDto);
     }
 
     @Override
-    public boolean deleteFlight(int id) {
+    public boolean delete(int id) {
         return flightService.deleteFlight(id);
     }
 }

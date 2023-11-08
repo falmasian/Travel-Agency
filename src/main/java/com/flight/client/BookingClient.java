@@ -65,7 +65,7 @@ public class BookingClient {
 
         List<FlightDto> flightDtoList = filterResponse.getBody();
         if (flightDtoList == null || flightDtoList.size() <= 0) {
-            System.out.println("no result.");
+            System.out.println("No match flights with this specification was found");
             return false;
         }
         System.out.println("flight number	origin code	destination code  flight date			cost   remaining seats");
@@ -192,6 +192,7 @@ public class BookingClient {
             String code = scanner1.nextLine().trim();
             if (reservationGetDtoList.stream().filter(c -> c.getNationalCode().equals(code.trim())).toList().size() > 0) {
                 nationalcodes.add(code);
+                System.out.println(nationalcodes.contains(code));
             } else {
                 System.out.println("You do not have a reservation with this national code.please enter again.");
                 i--;

@@ -16,7 +16,7 @@ public class LoggingAspect {
     public Object logRequestAndResponse(ProceedingJoinPoint joinPoint) throws Throwable {
         logger.info("Method Name: " + joinPoint.getSignature().getName());
         if (joinPoint.getArgs().length > 0 && joinPoint.getArgs() != null) {
-            logger.info("Request Body: " + joinPoint.getArgs()[0].toString());
+            logger.info("\nRequest Body: " + joinPoint.getArgs()[0].toString());
         }
         Object response = joinPoint.proceed();
         if (response != null) {

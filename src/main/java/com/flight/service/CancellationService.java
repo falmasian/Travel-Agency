@@ -41,6 +41,9 @@ public class CancellationService {
         try {
             List<Reservation> reservations = reserveRepository.findReserveByCustomerId(inputReservation.getCustomerId())
                     .stream().map(reserveMapper::toReservation).toList();
+
+
+
             if (reservations == null || reservations.size() <= 0) {
                 return -1;
             }
@@ -62,7 +65,7 @@ public class CancellationService {
 
             FlightInfo flight = flightRepository.getReferenceById(flightId);
             CreatedCaches.flightCapacityCacheManager.putInCacheWithName(CreatedCaches.flightCapacityCacheName
-                    , flightId, new CacheElement<FlightInfo>(flight));
+                    , flightId, new CacheElement<>(flight));
             updateAfterCancellation(numberOfTickets, flight);
             for (String code : inputReservation.getNationalCodes()) {
                 reserveRepository.deleteByCustomerIdAndPassengerNationalCode(inputReservation.getCustomerId(), code);

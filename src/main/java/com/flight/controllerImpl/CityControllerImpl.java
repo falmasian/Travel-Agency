@@ -18,17 +18,17 @@ public class CityControllerImpl implements CityController {
     }
 
     @Override
-    public List<CityDto> getAllCities() {
+    public List<CityDto> getAll() {
         return cityService.getAllCities();
     }
 
     @Override
-    public void insertCity(CityDto cityDto) {
+    public void insert(CityDto cityDto) {
         cityService.insertCity(cityDto);
     }
 
     @Override
-    public boolean deleteCity(int id) {
+    public boolean delete(int id) {
         return cityService.deleteCityById(id);
     }
 }

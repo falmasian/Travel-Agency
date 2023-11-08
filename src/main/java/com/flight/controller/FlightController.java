@@ -16,14 +16,14 @@ public interface FlightController {
      */
     @GetMapping(value = "/api/flight/getAll", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    List<FlightDto> getAllFlights();
+    List<FlightDto> getAll();
 
     /**
      * @param flightDto اضافه کردن پرواز
      */
     @PostMapping(value = "/api/flight/insert", consumes = MediaType.APPLICATION_JSON_VALUE
             , produces = MediaType.APPLICATION_JSON_VALUE)
-    void insertFlight(@RequestBody FlightDto flightDto);
+    void insert(@RequestBody FlightDto flightDto);
 
 
     /**
@@ -33,5 +33,5 @@ public interface FlightController {
      */
     @DeleteMapping(value = "/api/flight/delete/{id}", consumes = MediaType.APPLICATION_JSON_VALUE
             , produces = MediaType.APPLICATION_JSON_VALUE)
-    boolean deleteFlight(@PathVariable int id);
+    boolean delete(@PathVariable int id);
 }

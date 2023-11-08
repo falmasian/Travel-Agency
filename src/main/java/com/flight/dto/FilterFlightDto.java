@@ -50,10 +50,10 @@ public class FilterFlightDto {
 
     @Override
     public String toString() {
-        return "FilterFlightDto{" +
-               "originId=" + originId +
-               ", destinationId=" + destinationId +
-               ", flyDate=" + flyDate +
-               '}';
+        return "    FilterFlightDto{" + ",\n" +
+               "    originId=" + originId + ",\n" +
+               "    destinationId=" + destinationId + ",\n" +
+               "    flyDate=" + flyDate + ",\n" +
+               "}\n";
     }
 }

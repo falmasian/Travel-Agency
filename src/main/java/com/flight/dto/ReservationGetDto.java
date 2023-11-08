@@ -62,11 +62,11 @@ public class ReservationGetDto {
 
     @Override
     public String toString() {
-        return "ReservationGetDto{" +
-               "customerId='" + customerId + '\'' +
-               ", flightId=" + flightId +
-               ", trackingCode='" + trackingCode + '\'' +
-               ", nationalCode='" + nationalCode + '\'' +
-               '}';
+        return "    ReservationGetDto{" +
+               "    customerId=" + customerId + ",\n" +
+               "    flightId=" + flightId + ",\n" +
+               "    trackingCode=" + trackingCode + ",\n" +
+               "    nationalCode='" + nationalCode + ",\n" +
+               '}' + "\n";
     }
 }

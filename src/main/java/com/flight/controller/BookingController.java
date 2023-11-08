@@ -18,7 +18,7 @@ public interface BookingController {
      * عملیات رزرو  را انجام میدهد و کد پیگیری را برمیگرداند
      */
     @PostMapping(value = "/api/book/reserve", consumes = MediaType.APPLICATION_JSON_VALUE)
-    String book(@RequestBody BookingDto bookingDto);
+    String reserve(@RequestBody BookingDto bookingDto);
 
 
     /**
@@ -37,7 +37,7 @@ public interface BookingController {
      */
     @PostMapping(value = "/api/book/cancel", consumes = MediaType.APPLICATION_JSON_VALUE
             , produces = MediaType.APPLICATION_JSON_VALUE)
-    float cancelling(@RequestBody CancellationDto cancellationDto);
+    float cancel(@RequestBody CancellationDto cancellationDto);
 
     /**
      * @param reservationDto

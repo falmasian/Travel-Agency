@@ -26,7 +26,7 @@ public class BookingControllerImpl implements BookingController {
     }
 
     @Override
-    public String book(BookingDto bookingDto) {
+    public String reserve(BookingDto bookingDto) {
         return bookingService.book(bookingDto);
     }
 
@@ -36,7 +36,7 @@ public class BookingControllerImpl implements BookingController {
     }
 
     @Override
-    public float cancelling(CancellationDto cancellationDto) {
+    public float cancel(CancellationDto cancellationDto) {
         return cancellationService.cancelling(cancellationDto);
     }
 

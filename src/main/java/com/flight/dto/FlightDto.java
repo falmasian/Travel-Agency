@@ -103,14 +103,14 @@ public class FlightDto {
 
     @Override
     public String toString() {
-        return "FlightDto{" +
-               "flightNumber=" + flightNumber +
-               ", originId=" + originId +
-               ", destinationId=" + destinationId +
-               ", flyDateTime=" + flyDateTime +
-               ", cost=" + cost +
-               ", capacity=" + capacity +
-               ", remainingSeats=" + remainingSeats +
-               '}';
+        return "    FlightDto{" +
+               "    flightNumber=" + flightNumber + ",\n" +
+               "    originId=" + originId + ",\n" +
+               "    destinationId=" + destinationId + ",\n" +
+               "    flyDateTime=" + flyDateTime + ",\n" +
+               "    cost=" + cost + ",\n" +
+               "    capacity=" + capacity + ",\n" +
+               "    remainingSeats=" + remainingSeats + ",\n" +
+               '}' + "\n";
     }
 }
