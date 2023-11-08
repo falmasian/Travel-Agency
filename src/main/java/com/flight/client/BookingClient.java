@@ -190,9 +190,9 @@ public class BookingClient {
             System.out.println("enter passanger number " + j + " nationalcode: ");
             Scanner scanner1 = new Scanner(System.in);
             String code = scanner1.nextLine().trim();
-            if(reservationGetDtoList.stream().filter(c -> c.getNationalCode().equals(code.trim())).toList().size()>0) {
+            if (reservationGetDtoList.stream().filter(c -> c.getNationalCode().equals(code.trim())).toList().size() > 0) {
                 nationalcodes.add(code);
-            }else {
+            } else {
                 System.out.println("You do not have a reservation with this national code.please enter again.");
                 i--;
             }

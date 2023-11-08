@@ -12,15 +12,14 @@ public interface FlightController {
 
     /**
      * @return List<FlightDto>
-     *     همه پرواز هارا نشان میدهد
+     * همه پرواز هارا نشان میدهد
      */
     @GetMapping(value = "/api/flight/getAll", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     List<FlightDto> getAllFlights();
 
     /**
-     * @param flightDto
-     * اضافه کردن پرواز
+     * @param flightDto اضافه کردن پرواز
      */
     @PostMapping(value = "/api/flight/insert", consumes = MediaType.APPLICATION_JSON_VALUE
             , produces = MediaType.APPLICATION_JSON_VALUE)

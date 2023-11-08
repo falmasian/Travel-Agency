@@ -19,9 +19,9 @@ public class LoggingAspect {
             logger.info("Request Body: " + joinPoint.getArgs()[0].toString());
         }
         Object response = joinPoint.proceed();
-        if(response != null) {
+        if (response != null) {
             logger.info("Response: " + response.toString());
-        }else {
+        } else {
             logger.info("Response: []");
         }
         return response;

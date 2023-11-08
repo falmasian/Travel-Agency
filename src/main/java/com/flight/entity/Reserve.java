@@ -31,7 +31,8 @@ public class Reserve {
         this.trackingCode = trackingCode;
         this.passengerNationalCode = passengerNationalCode;
     }
-     public int getId() {
+
+    public int getId() {
         return id;
     }
 

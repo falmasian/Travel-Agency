@@ -4,7 +4,6 @@ import com.flight.Mapper.FlightMapper;
 import com.flight.aspect.ServiceLoggingAspect;
 import com.flight.dto.FlightDto;
 import com.flight.entity.FlightInfo;
-
 import com.flight.repository.FlightIfoRepository;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;

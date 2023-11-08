@@ -7,7 +7,6 @@ import com.flight.aspect.ServiceLoggingAspect;
 import com.flight.dto.ReservationDto;
 import com.flight.dto.ReservationGetDto;
 import com.flight.entity.Reservation;
-import com.flight.entity.Reserve;
 import com.flight.repository.ReserveRepository;
 import org.springframework.stereotype.Component;
 
@@ -23,7 +22,7 @@ public class ReservationService {
     private ReserveMapper reserveMapper;
 
     public ReservationService(ReserveRepository reserveRepository, ReservationGetMapper reservationGetMapper
-            , ReservationMapper reservationMapper,ReserveMapper reserveMapper) {
+            , ReservationMapper reservationMapper, ReserveMapper reserveMapper) {
         this.reserveRepository = reserveRepository;
         this.reservationGetMapper = reservationGetMapper;
         this.reservationMapper = reservationMapper;
