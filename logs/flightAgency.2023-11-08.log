@@ -1465,3 +1465,95 @@ Response: [FlightDto{
     remainingSeats=33
 }
 ]
+14:56:51.275 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+14:56:51.277 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+14:56:51.296 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+14:56:54.622 [main] INFO  com.flight.FlightAgencyApplication - Starting FlightAgencyApplication using Java 17.0.8 with PID 8308 (D:\FlightAgency\target\classes started by F.Almasian in D:\FlightAgency)
+14:56:54.624 [main] INFO  com.flight.FlightAgencyApplication - No active profile set, falling back to 1 default profile: "default"
+14:56:54.918 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+14:56:54.960 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 37 ms. Found 4 JPA repository interfaces.
+14:56:55.418 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+14:56:55.422 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+14:56:55.424 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+14:56:55.424 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.15]
+14:56:55.488 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+14:56:55.489 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 826 ms
+14:56:55.595 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+14:56:55.770 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection oracle.jdbc.driver.T4CConnection@7bbcf6f0
+14:56:55.771 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+14:56:55.792 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+14:56:55.824 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.2.13.Final
+14:56:55.825 [main] INFO  org.hibernate.cfg.Environment - HHH000406: Using bytecode reflection optimizer
+14:56:55.984 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+14:56:56.672 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+14:56:56.674 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+14:56:56.994 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+14:56:57.204 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+14:56:57.210 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+14:56:57.216 [main] INFO  com.flight.FlightAgencyApplication - Started FlightAgencyApplication in 2.826 seconds (process running for 3.403)
+14:57:08.509 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+14:57:08.509 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+14:57:08.510 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+14:57:08.536 [http-nio-8080-exec-1] INFO  com.flight.aspect.LoggingAspect - 
+Method Name: getAllFlights
+14:57:08.536 [http-nio-8080-exec-1] INFO  com.flight.aspect.LoggingAspect - 
+Request Body: []
+14:57:08.628 [http-nio-8080-exec-1] INFO  com.flight.aspect.LoggingAspect - 
+Response: [FlightDto{
+    flightNumber=1,
+    originId=1,
+    destinationId=2,
+    flyDateTime=2023-03-05 12:30:00.594,
+    cost=250.5,
+    capacity=25,
+    remainingSeats=25
+}
+, FlightDto{
+    flightNumber=2,
+    originId=1,
+    destinationId=2,
+    flyDateTime=2023-04-05 19:00:00.594,
+    cost=190.0,
+    capacity=35,
+    remainingSeats=39
+}
+, FlightDto{
+    flightNumber=3,
+    originId=4,
+    destinationId=3,
+    flyDateTime=2023-05-12 19:00:00.594,
+    cost=180.0,
+    capacity=35,
+    remainingSeats=36
+}
+, FlightDto{
+    flightNumber=4,
+    originId=4,
+    destinationId=2,
+    flyDateTime=2023-11-05 12:30:00.594,
+    cost=256.5,
+    capacity=25,
+    remainingSeats=25
+}
+, FlightDto{
+    flightNumber=5,
+    originId=1,
+    destinationId=2,
+    flyDateTime=2023-05-12 19:00:00.594,
+    cost=190.0,
+    capacity=35,
+    remainingSeats=35
+}
+, FlightDto{
+    flightNumber=6,
+    originId=1,
+    destinationId=2,
+    flyDateTime=2023-04-05 19:00:00.594,
+    cost=190.0,
+    capacity=35,
+    remainingSeats=33
+}
+]
+14:57:53.727 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+14:57:53.729 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+14:57:53.759 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.

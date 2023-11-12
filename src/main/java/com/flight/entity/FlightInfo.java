@@ -1,9 +1,6 @@
 package com.flight.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
+import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
 
 import java.sql.Date;
@@ -24,6 +21,12 @@ public class FlightInfo {
     private int destinationId;
 
     private Timestamp flyDateTime;
+
+//    @ManyToOne
+//    private City originCity;
+//
+//    @ManyToOne
+//    private City destinationCity;
 
     @Transient
     private Date flyDate;
@@ -46,7 +49,8 @@ public class FlightInfo {
         this.flyDate = flyDate;
     }
 
-    public FlightInfo(int id, int flightNumber, int originId, int destinationId, Timestamp flyDateTime, float cost, int capacity, int remainingSeats) {
+    public FlightInfo(int id, int flightNumber, int originId, int destinationId, Timestamp flyDateTime,
+                      float cost, int capacity, int remainingSeats) {
         this.id = id;
         this.flightNumber = flightNumber;
         this.originId = originId;
@@ -155,5 +159,19 @@ public class FlightInfo {
         return temporaryReserves;
     }
 
-
+//    public City getOriginCity() {
+//        return originCity;
+//    }
+//
+//    public void setOriginCity(City originCity) {
+//        this.originCity = originCity;
+//    }
+//
+//    public City getDestinationCity() {
+//        return destinationCity;
+//    }
+//
+//    public void setDestinationCity(City destinationCity) {
+//        this.destinationCity = destinationCity;
+//    }
 }

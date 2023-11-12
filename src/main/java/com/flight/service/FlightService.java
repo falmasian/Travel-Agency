@@ -25,11 +25,17 @@ public class FlightService {
 
     @ServiceLoggingAspect
     public List<FlightDto> getAllFlights() {
+
         return flightRepository.findAll()
                 .stream()
                 .map(flightMapper::toFlightDto)
                 .collect(toList());
     }
+//    @ServiceLoggingAspect
+//    public List<FlightJoinCityDtoh> getAllJoinFlights() {
+//
+//        return flightJoinedRepository.getFlightsJoinCities().stream()
+//    }
 
     @ServiceLoggingAspect
     public boolean deleteFlight(int id) {

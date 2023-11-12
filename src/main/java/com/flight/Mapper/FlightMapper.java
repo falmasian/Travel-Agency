@@ -12,6 +12,13 @@ public class FlightMapper {
                 , flight.getFlyDateTime(), flight.getCost(), flight.getCapacity(), flight.getRemainingSeats());
     }
 
+
+//    public FlightJoinCityDto toFlightJoinCityDto(FlightInfo flight) {
+//        return new FlightJoinCityDto(flight.getFlightNumber(), flight.getOriginId(), flight.getDestinationId()
+//                , flight.getOriginCity().getCityName() , flight.getDestinationCity().getCityName()
+//                , flight.getFlyDateTime(), flight.getCost(), flight.getCapacity(), flight.getRemainingSeats());
+//    }
+
     public FlightInfo toFlight(FlightDto flightDto) {
         return new FlightInfo(flightDto.getFlightNumber(), flightDto.getFlightNumber(), flightDto.getOriginId()
                 , flightDto.getDestinationId(), flightDto.getFlyDateTime(), flightDto.getCost(), flightDto.getCapacity()
