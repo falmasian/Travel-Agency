@@ -238,7 +238,8 @@ public class BookingClient {
         ParameterizedTypeReference<List<ReservationGetDto>> responseType = new ParameterizedTypeReference<>() {
         };
 
-        ResponseEntity<List<ReservationGetDto>> response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, responseType);
+        ResponseEntity<List<ReservationGetDto>> response = restTemplate.exchange(url, HttpMethod.POST
+                , requestEntity, responseType);
 
         List<ReservationGetDto> reservationGetDtoList = response.getBody();
 
