@@ -64,7 +64,8 @@ public class PaymentService {
     }
 
     private Reservation findReservationByTrackingCode(String tracingCode) {
-        return CreatedCaches.reservationCacheManager.getItemFromCache(CreatedCaches.reservedFlightsCacheName, tracingCode);
+        return CreatedCaches.reservationCacheManager.getItemFromCache(CreatedCaches.reservedFlightsCacheName
+                , tracingCode);
     }
 
     private float calculateCostOfReservation(Reservation reservation) {
@@ -88,7 +89,8 @@ public class PaymentService {
     }
 
     private synchronized void updateCapacity(Reservation reservation) {
-        FlightInfo flightInfo = CreatedCaches.flightCapacityCacheManager.getItemFromCache(CreatedCaches.flightCapacityCacheName, reservation.getFlightId());
+        FlightInfo flightInfo = CreatedCaches.flightCapacityCacheManager
+                .getItemFromCache(CreatedCaches.flightCapacityCacheName, reservation.getFlightId());
         int numOfCompleted = reservation.getNumberOfTickets();
         flightInfo.setCompletedReserves(flightInfo.getCompletedReserves() + numOfCompleted);
         flightInfo.setTemporaryReserves(flightInfo.getTemporaryReserves() - numOfCompleted);

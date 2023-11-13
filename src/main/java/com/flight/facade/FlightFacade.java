@@ -10,7 +10,7 @@ import java.util.List;
 @Component
 public interface FlightFacade {
 
-    String baseUrl = "/api/flight/";
+    String baseUrl = "/flight/";
 
     /**
      * @return List<FlightDto>

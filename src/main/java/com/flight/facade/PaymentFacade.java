@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 @Component
 public interface PaymentFacade {
 
-    String url = "/api/payment";
+    String url = "/payment";
     /**
      * @param paymentDto
      * @return cost

@@ -12,7 +12,7 @@ import java.util.List;
 @Component
 public interface BookingFacade {
 
-    String baseUrl = "/api/book/";
+    String baseUrl = "/book/";
     /**
      * @param bookingDto
      * @return tracing code

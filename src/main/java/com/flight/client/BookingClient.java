@@ -2,6 +2,7 @@ package com.flight.client;
 
 import com.flight.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
@@ -17,7 +18,8 @@ public class BookingClient {
 
 
     private final RestTemplate restTemplate;
-    private static final String BASE_URL = "http://localhost:8080";
+    @Value("${rest.client.base-url}")
+    private String BASE_URL;
 
     @Autowired
     public BookingClient(RestTemplate restTemplate) {

@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface CityFacade {
 
-    String baseUrl = "/api/city/";
+    String baseUrl = "/city/";
 
     /**
      * @return List<CityDto>
