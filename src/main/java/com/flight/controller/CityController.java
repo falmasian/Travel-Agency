@@ -1,36 +1,34 @@
 package com.flight.controller;
 
+import com.flight.Mapper.CityMapper;
+import com.flight.facade.CityFacade;
 import com.flight.dto.CityDto;
-import org.springframework.http.MediaType;
-import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.*;
+import com.flight.service.CityService;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Component
-public interface CityController {
+@RestController
+public class CityController implements CityFacade {
 
-    /**
-     * @return List<CityDto>
-     *     همه ی شهر ها را نشان می دهد
-     */
-    @GetMapping(value = "/api/city/getAll", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    List<CityDto> getAll();
+    private CityService cityService;
 
-    /**
-     * @param cityDto
-     * اضافه کردن یک شهر
-     */
-    @PostMapping(value = "/api/city/insert", consumes = MediaType.APPLICATION_JSON_VALUE)
-    void insert(@RequestBody CityDto cityDto);
+    public CityController(CityService cityService, CityMapper cityMapper) {
+        this.cityService = cityService;
+    }
 
+    @Override
+    public List<CityDto> getAll() {
+        return cityService.getAllCities();
+    }
 
-    /**
-     * @param id    ایدی شهر
-     * @return boolean
-     * حدف یک شهر با ایدی ان
-     */
-    @DeleteMapping(value = "/api/city/delete/{id}")
-    boolean delete(@PathVariable int id);
+    @Override
+    public void insert(CityDto cityDto) {
+        cityService.insertCity(cityDto);
+    }
+
+    @Override
+    public boolean delete(int id) {
+        return cityService.deleteCityById(id);
+    }
 }

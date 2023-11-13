@@ -16,10 +16,10 @@ import static java.util.stream.Collectors.toList;
 
 @Component
 public class ReservationService {
-    private ReserveRepository reserveRepository;
-    private ReservationGetMapper reservationGetMapper;
-    private ReservationMapper reservationMapper;
-    private ReserveMapper reserveMapper;
+    private final ReserveRepository reserveRepository;
+    private final ReservationGetMapper reservationGetMapper;
+    private final ReservationMapper reservationMapper;
+    private final ReserveMapper reserveMapper;
 
     public ReservationService(ReserveRepository reserveRepository, ReservationGetMapper reservationGetMapper
             , ReservationMapper reservationMapper, ReserveMapper reserveMapper) {

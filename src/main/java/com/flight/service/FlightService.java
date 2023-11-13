@@ -16,7 +16,7 @@ import static java.util.stream.Collectors.toList;
 public class FlightService {
 
     private final FlightIfoRepository flightRepository;
-    private FlightMapper flightMapper;
+    private final FlightMapper flightMapper;
 
     public FlightService(FlightIfoRepository flightRepository, FlightMapper flightMapper) {
         this.flightRepository = flightRepository;

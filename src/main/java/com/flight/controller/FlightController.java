@@ -1,37 +1,33 @@
 package com.flight.controller;
 
+import com.flight.facade.FlightFacade;
 import com.flight.dto.FlightDto;
-import org.springframework.http.MediaType;
-import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.*;
+import com.flight.service.FlightService;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Component
-public interface FlightController {
+@RestController
+public class FlightController implements FlightFacade {
 
-    /**
-     * @return List<FlightDto>
-     * همه پرواز هارا نشان میدهد
-     */
-    @GetMapping(value = "/api/flight/getAll", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    List<FlightDto> getAll();
+    private FlightService flightService;
 
-    /**
-     * @param flightDto اضافه کردن پرواز
-     */
-    @PostMapping(value = "/api/flight/insert", consumes = MediaType.APPLICATION_JSON_VALUE
-            , produces = MediaType.APPLICATION_JSON_VALUE)
-    void insert(@RequestBody FlightDto flightDto);
+    public FlightController(FlightService flightService) {
+        this.flightService = flightService;
+    }
 
+    @Override
+    public List<FlightDto> getAll() {
+        return flightService.getAllFlights();
+    }
 
-    /**
-     * @param id
-     * @return boolean
-     * حدف کردن یک پرواز
-     */
-    @DeleteMapping(value = "/api/flight/delete/{id}", consumes = MediaType.APPLICATION_JSON_VALUE
-            , produces = MediaType.APPLICATION_JSON_VALUE)
-    boolean delete(@PathVariable int id);
+    @Override
+    public void insert(FlightDto flightDto) {
+        flightService.insertFlight(flightDto);
+    }
+
+    @Override
+    public boolean delete(int id) {
+        return flightService.deleteFlight(id);
+    }
 }

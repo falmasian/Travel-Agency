@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
 @EnableAspectJAutoProxy
-@EntityScan(value = "com.flight.entity")
+//@EntityScan(value = "com.flight.entity")
 @EnableJpaRepositories
 public class FlightAgencyApplication extends SpringApplication {
 

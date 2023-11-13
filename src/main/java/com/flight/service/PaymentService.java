@@ -23,7 +23,7 @@ public class PaymentService {
     private final ReserveRepository reserveRepository;
     private final PaymentMapper paymentMapper;
     private final ReserveMapper reserveMapper;
-    private static final Logger logger = LoggerFactory.getLogger(PaymentService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PaymentService.class);
 
     public PaymentService(FlightIfoRepository flightRepository, ReserveRepository reserveRepository, PaymentMapper paymentMapper, ReserveMapper reserveMapper) {
         this.flightRepository = flightRepository;
@@ -38,9 +38,9 @@ public class PaymentService {
         if (cost > 0) {
             try {
                 confirmReservation(tracingCode);
-                logger.info("reservation with tracking code {} is payed.", tracingCode);
+                LOGGER.info("reservation with tracking code {} is payed.", tracingCode);
             } catch (Exception ex) {
-                logger.error("Error in the server");
+                LOGGER.error("Error in the server");
             }
         }
         return cost;
@@ -61,7 +61,7 @@ public class PaymentService {
                 }
             }
         } catch (NumberFormatException ex) {
-            logger.error("Error in the server");
+            LOGGER.error("Error in the server");
         }
         return -2;
     }
@@ -103,7 +103,7 @@ public class PaymentService {
             Reserve reserve = reserveMapper.toReserve(reservation, i);
             reserveRepository.save(reserve);
         }
-        logger.info("reservation with tracking code {} is inserted in database.", reservation.getTrackingCode());
+        LOGGER.info("reservation with tracking code {} is inserted in database.", reservation.getTrackingCode());
     }
 
     public synchronized void updateFlightRemainSeats(int flightId, int numOfTickets) {

@@ -37,18 +37,14 @@ public class Client {
     }
 
     public void selectingItem(int item) {
-        if (item == 1) {
-            bookingClient.bookingProcess();
-        } else if (item == 2) {
-            bookingClient.cancellingProcess();
-        } else if (item == 3) {
-            bookingClient.paymentProcess();
-        } else if (item == 4) {
-            bookingClient.getAllClientReservations();
-        } else if (item == 5) {
-            bookingClient.getAllFlights();
-        } else if (item == 6) {
-            bookingClient.filterFlights();
+        switch (item) {
+            case 1 -> bookingClient.bookingProcess();
+            case 2 -> bookingClient.cancellingProcess();
+            case 3 -> bookingClient.paymentProcess();
+            case 4 -> bookingClient.getAllClientReservations();
+            case 5 -> bookingClient.getAllFlights();
+            case 6 -> bookingClient.filterFlights();
+            default -> showMenu();
         }
         process();
     }

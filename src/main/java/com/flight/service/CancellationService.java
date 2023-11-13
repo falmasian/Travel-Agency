@@ -21,11 +21,11 @@ import java.util.Optional;
 @Component
 public class CancellationService {
 
-    private static final Logger logger = LoggerFactory.getLogger(CancellationService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CancellationService.class);
     private final FlightIfoRepository flightRepository;
     private final ReserveRepository reserveRepository;
-    private CancellationMapper cancellationMapper;
-    private ReserveMapper reserveMapper;
+    private final CancellationMapper cancellationMapper;
+    private final ReserveMapper reserveMapper;
 
     public CancellationService(FlightIfoRepository flightRepository, ReserveRepository reserveRepository
             , CancellationMapper cancellationMapper, ReserveMapper reserveMapper) {
@@ -70,10 +70,10 @@ public class CancellationService {
             for (String code : inputReservation.getNationalCodes()) {
                 reserveRepository.deleteByCustomerIdAndPassengerNationalCode(inputReservation.getCustomerId(), code);
             }
-            logger.info("tickets cancelled.");
+            LOGGER.info("tickets cancelled.");
             return cost;
         } catch (Exception ex) {
-            logger.error("Error in the server");
+            LOGGER.error("Error in the server");
         }
         return -2;
     }

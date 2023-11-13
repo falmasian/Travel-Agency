@@ -17,9 +17,9 @@ import java.util.Optional;
 @Component
 public class BookingService {
 
-    private static final Logger logger = LoggerFactory.getLogger(BookingService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(BookingService.class);
     private final FlightIfoRepository flightRepository;
-    private BookingMapper bookingMapper;
+    private final BookingMapper bookingMapper;
 
 
     public BookingService(FlightIfoRepository flightRepository, BookingMapper bookingMapper) {
@@ -49,12 +49,12 @@ public class BookingService {
                 CreatedCaches.reservationCacheManager.putInCacheWithName(CreatedCaches.reservedFlightsCacheName
                         , reservation.getTrackingCode(), new CacheElement(reservation));
                 fc.addTemporaryReserves(reservation.getNumberOfTickets());
-                logger.info("a temporary reservation with tracking code {} created by customer with ID {} "
+                LOGGER.info("a temporary reservation with tracking code {} created by customer with ID {} "
                         , reservation.getTrackingCode(), reservation.getCustomerId());
                 return reservation.getTrackingCode();
             }
         } catch (Exception ex) {
-            logger.error("Error in the server");
+            LOGGER.error("Error in the server");
         }
         return "";
     }

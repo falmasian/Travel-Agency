@@ -1,0 +1,21 @@
+package com.flight.facade;
+
+import com.flight.dto.PaymentDto;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
+@Component
+public interface PaymentFacade {
+
+    String url = "/api/payment";
+    /**
+     * @param paymentDto
+     * @return cost
+     * عملیات پرداخت را انجام میدهد
+     * هزینه را نشان میدهد
+     */
+    @PostMapping(value = url, consumes = MediaType.APPLICATION_JSON_VALUE)
+    float payment(@RequestBody PaymentDto paymentDto);
+}
