@@ -76,13 +76,13 @@ public class PaymentService {
 
     private float getCostByFlightId(int flightId) {
 
-        Optional<FlightInfo> f = flightRepository.findById(flightId);
-        return f.get().getCost();
+        Optional<FlightInfo> optionalFlightInfo = flightRepository.findById(flightId);
+        return optionalFlightInfo.map(FlightInfo::getCost).orElse((float) -1);
     }
 
     private int getRemainSeatsByFlightId(int flightId) {
-        Optional<FlightInfo> f = flightRepository.findById(flightId);
-        return f.get().getRemainingSeats();
+        Optional<FlightInfo> optionalFlightInfo = flightRepository.findById(flightId);
+        return optionalFlightInfo.map(FlightInfo::getRemainingSeats).orElse(-1);
     }
 
     private void deleteReservationFromCache(String tracingCode) {
@@ -99,7 +99,7 @@ public class PaymentService {
     }
 
     @Transactional
-    private synchronized void insertInDatabase(Reservation reservation) throws Exception{
+    private synchronized void insertInDatabase(Reservation reservation){
         for (int i = 0; i < reservation.getNumberOfTickets(); i++) {
             reservation.setPassengerNationalCode(reservation.getFromNationalCodesByIndex(i));
             Reservation reserve = new Reservation(reservation.getCustomerId() , reservation.getFlightId()
@@ -123,7 +123,7 @@ public class PaymentService {
     }
 
     @Transactional
-    private void confirmReservation(String tracingCode) throws Exception{
+    private void confirmReservation(String tracingCode){
         Reservation reservation = findReservationByTrackingCode(tracingCode);
         synchronized (this) {
             insertInDatabase(reservation);
