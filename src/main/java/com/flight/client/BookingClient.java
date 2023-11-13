@@ -18,6 +18,7 @@ public class BookingClient {
 
 
     private final RestTemplate restTemplate;
+
     @Value("${rest.client.base-url}")
     private String BASE_URL;
 
@@ -45,8 +46,8 @@ public class BookingClient {
         String cityUrl = BASE_URL + "/api/city/getAll";
         ParameterizedTypeReference<List<CityDto>> cityResponseType = new ParameterizedTypeReference<>() {
         };
-        ResponseEntity<List<CityDto>> cityResponse = restTemplate.exchange(cityUrl
-                , HttpMethod.GET, null, cityResponseType);
+        ResponseEntity<List<CityDto>> cityResponse = restTemplate.exchange(cityUrl, HttpMethod.GET
+                , null, cityResponseType);
         List<CityDto> cityDtoList = cityResponse.getBody();
         if (cityDtoList == null) {
             return false;
@@ -63,8 +64,8 @@ public class BookingClient {
         HttpEntity<FilterFlightDto> requestEntity = new HttpEntity<>(filterFlightDto, headers);
         ParameterizedTypeReference<List<FlightDto>> filterResponseType = new ParameterizedTypeReference<>() {
         };
-        ResponseEntity<List<FlightDto>> filterResponse = restTemplate.exchange(filterUrl
-                , HttpMethod.POST, requestEntity, filterResponseType);
+        ResponseEntity<List<FlightDto>> filterResponse = restTemplate.exchange(filterUrl, HttpMethod.POST
+                , requestEntity, filterResponseType);
 
         List<FlightDto> flightDtoList = filterResponse.getBody();
         if (flightDtoList == null || flightDtoList.size() <= 0) {
@@ -180,8 +181,7 @@ public class BookingClient {
             return;
         }
         System.out.println("you have reserved " + reservationGetDtoList.size()
-                           + " seats with this tracking code."
-                           + " \nHow many do you want to cancel?");
+                           + " seats with this tracking code." + " \nHow many do you want to cancel?");
 
         Scanner ss = new Scanner(System.in);
         int numberOfTickets = ss.nextInt();
@@ -200,12 +200,8 @@ public class BookingClient {
             System.out.println("enter passanger number " + j + " nationalcode: ");
             Scanner scanner1 = new Scanner(System.in);
             String code = scanner1.nextLine().trim();
-            int numOfTicketsWithInputNationalCode = reservationGetDtoList
-                    .stream()
-                    .filter(c -> c.getNationalCode()
-                            .equals(code.trim()))
-                    .toList()
-                    .size();
+            int numOfTicketsWithInputNationalCode = reservationGetDtoList.stream()
+                    .filter(c -> c.getNationalCode().equals(code.trim())).toList().size();
             if (numOfTicketsWithInputNationalCode > 0) {
                 nationalcodes.add(code);
                 System.out.println(nationalcodes.contains(code));
@@ -242,8 +238,7 @@ public class BookingClient {
         ParameterizedTypeReference<List<ReservationGetDto>> responseType = new ParameterizedTypeReference<>() {
         };
 
-        ResponseEntity<List<ReservationGetDto>> response = restTemplate.exchange(url, HttpMethod.POST,
-                requestEntity, responseType);
+        ResponseEntity<List<ReservationGetDto>> response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, responseType);
 
         List<ReservationGetDto> reservationGetDtoList = response.getBody();
 
@@ -253,8 +248,8 @@ public class BookingClient {
         } else {
             System.out.println("customerId   flight number   passenger nationalCode  tracingCode");
             for (ReservationGetDto r : reservationGetDtoList) {
-                System.out.println(r.getCustomerId() + "    " + r.getFlightId() + "    " + r.getNationalCode()
-                                   + "    " + r.getTrackingCode());
+                System.out.println(r.getCustomerId() + "    " + r.getFlightId()
+                                   + "    " + r.getNationalCode() + "    " + r.getTrackingCode());
             }
         }
         return reservationGetDtoList;
