@@ -8,6 +8,7 @@ import com.flight.entity.Reservation;
 import com.flight.repository.FlightIfoRepository;
 import com.flight.repository.ReserveRepository;
 import com.flight.server.CreatedCaches;
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -97,7 +98,8 @@ public class PaymentService {
         flightInfo.setRemainingSeats(flightInfo.getRemainingSeats() - numOfCompleted);
     }
 
-    private synchronized void insertInDatabase(Reservation reservation) {
+    @Transactional
+    private synchronized void insertInDatabase(Reservation reservation) throws Exception{
         for (int i = 0; i < reservation.getNumberOfTickets(); i++) {
             reservation.setPassengerNationalCode(reservation.getFromNationalCodesByIndex(i));
             Reservation reserve = new Reservation(reservation.getCustomerId() , reservation.getFlightId()
@@ -120,7 +122,8 @@ public class PaymentService {
         }
     }
 
-    private void confirmReservation(String tracingCode) {
+    @Transactional
+    private void confirmReservation(String tracingCode) throws Exception{
         Reservation reservation = findReservationByTrackingCode(tracingCode);
         synchronized (this) {
             insertInDatabase(reservation);
