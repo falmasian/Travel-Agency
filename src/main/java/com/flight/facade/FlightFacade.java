@@ -29,7 +29,7 @@ public interface FlightFacade {
 
 
     /**
-     * @param id
+     * @param id ایدی پرواز
      * @return boolean
      * حدف کردن یک پرواز
      */

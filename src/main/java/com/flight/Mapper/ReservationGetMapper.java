@@ -7,9 +7,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class ReservationGetMapper {
     public Reservation toReservation(ReservationGetDto reservationGetDto) {
-        Reservation reservation = new Reservation(reservationGetDto.getCustomerId(), reservationGetDto.getFlightId()
+        return new Reservation(reservationGetDto.getCustomerId(), reservationGetDto.getFlightId()
                 , reservationGetDto.getNationalCode(), reservationGetDto.getTrackingCode());
-        return reservation;
     }
 
     public ReservationGetDto toReservationGetDto(Reservation reservation) {

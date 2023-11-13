@@ -8,7 +8,6 @@ import org.springframework.web.client.RestTemplate;
 @Configuration
 @EnableAspectJAutoProxy
 public class Config {
-
     @Bean
     public RestTemplate restTemplate() {
         return new RestTemplate();

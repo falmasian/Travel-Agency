@@ -53,7 +53,6 @@ public class Cache {
         return cache.putIfAbsent(key, value) == null;
     }
 
-    @SuppressWarnings("unchecked")
     public Object getElementFromCache(Object key) {
         if (cache.containsKey(key)) {
             Object current = cache.get(key);
@@ -67,7 +66,6 @@ public class Cache {
         return null;
     }
 
-    @SuppressWarnings("unchecked")
     public void removeFromCache(Object key) {
         cache.remove(key);
 

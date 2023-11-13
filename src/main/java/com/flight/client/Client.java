@@ -21,15 +21,14 @@ public class Client {
         String menu = """
                 what do you want to do?
                 1. Book Flight
-                2. Cancel Reservation 
+                2. Cancel Reservation
                 3. pay one of my reservation
-                4. see my reservations 
+                4. see my reservations
                 5. see all flights
-                6. filter Flights """;
+                6. filter Flights""";
         try {
             System.out.println(menu);
-            int item = scanner.nextInt();
-            return item;
+            return scanner.nextInt();
         } catch (Exception ex) {
             logger.error("Error in the server ");
         }

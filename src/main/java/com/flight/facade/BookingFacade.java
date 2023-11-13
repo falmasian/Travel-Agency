@@ -23,7 +23,7 @@ public interface BookingFacade {
 
 
     /**
-     * @param filterFlightDto
+     * @param filterFlightDto پرواز ورودی
      * @return List<FlightDto>
      *      همه پرواز هایی که مبدا و مقصد زمانشان با پپرواز ورودی مطابقت داشته باشد را فیلتر میکند و نشان میدهد
      */
@@ -32,7 +32,7 @@ public interface BookingFacade {
     List<FlightDto> filter(@RequestBody FilterFlightDto filterFlightDto);
 
     /**
-     * @param cancellationDto
+     * @param cancellationDto مشخصات ورودی
      * @return cost
      * کنسل کردن بلیط های رزرو شده را انجام میدهد و هزینه  ای که باید به خریدار برگردانده شود را نشان میدهد
      */
@@ -41,7 +41,7 @@ public interface BookingFacade {
     float cancel(@RequestBody CancellationDto cancellationDto);
 
     /**
-     * @param reservationDto
+     * @param reservationDto مشخصات ورودی
      * @return List<ReservationGetDto>
      *     همه ی رزرو های مشتری را نشان میدهد
      */

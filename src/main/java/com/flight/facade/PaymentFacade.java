@@ -11,7 +11,7 @@ public interface PaymentFacade {
 
     String url = "/payment";
     /**
-     * @param paymentDto
+     * @param paymentDto مشخصات ورودی
      * @return cost
      * عملیات پرداخت را انجام میدهد
      * هزینه را نشان میدهد
