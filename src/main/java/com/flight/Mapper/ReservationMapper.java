@@ -13,7 +13,7 @@ public class ReservationMapper {
         return reservation;
     }
 
-    public ReservationDto toReservationDto(Reservation reservation) {
-        return new ReservationDto(reservation.getCustomerId());
+    public ReservationDto toReservationDto(Reservation reserve) {
+        return new ReservationDto(reserve.getCustomerId());
     }
 }

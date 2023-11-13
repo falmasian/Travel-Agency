@@ -1,12 +1,10 @@
 package com.flight.service;
 
 import com.flight.Mapper.PaymentMapper;
-import com.flight.Mapper.ReserveMapper;
 import com.flight.aspect.ServiceLoggingAspect;
 import com.flight.dto.PaymentDto;
 import com.flight.entity.FlightInfo;
 import com.flight.entity.Reservation;
-import com.flight.entity.Reserve;
 import com.flight.repository.FlightIfoRepository;
 import com.flight.repository.ReserveRepository;
 import com.flight.server.CreatedCaches;
@@ -22,14 +20,13 @@ public class PaymentService {
     private final FlightIfoRepository flightRepository;
     private final ReserveRepository reserveRepository;
     private final PaymentMapper paymentMapper;
-    private final ReserveMapper reserveMapper;
     private static final Logger LOGGER = LoggerFactory.getLogger(PaymentService.class);
 
-    public PaymentService(FlightIfoRepository flightRepository, ReserveRepository reserveRepository, PaymentMapper paymentMapper, ReserveMapper reserveMapper) {
+    public PaymentService(FlightIfoRepository flightRepository, ReserveRepository reserveRepository
+            , PaymentMapper paymentMapper) {
         this.flightRepository = flightRepository;
         this.reserveRepository = reserveRepository;
         this.paymentMapper = paymentMapper;
-        this.reserveMapper = reserveMapper;
     }
 
     public float payment(PaymentDto paymentDto) {
@@ -100,7 +97,9 @@ public class PaymentService {
 
     private synchronized void insertInDatabase(Reservation reservation) {
         for (int i = 0; i < reservation.getNumberOfTickets(); i++) {
-            Reserve reserve = reserveMapper.toReserve(reservation, i);
+            reservation.setPassengerNationalCode(reservation.getFromNationalCodesByIndex(i));
+            Reservation reserve = new Reservation(reservation.getCustomerId() , reservation.getFlightId()
+                    , reservation.getFromNationalCodesByIndex(i) ,reservation.getTrackingCode());
             reserveRepository.save(reserve);
         }
         LOGGER.info("reservation with tracking code {} is inserted in database.", reservation.getTrackingCode());
@@ -117,10 +116,6 @@ public class PaymentService {
             flight.setRemainingSeats(currentAvailableSeats - numOfTickets);
             flightRepository.save(flight);
         }
-
-//        if (res > 0) {
-//            logger.info("remain seats of flight with ID {} is updated.", flightId);
-//        }
     }
 
     private void confirmReservation(String tracingCode) {

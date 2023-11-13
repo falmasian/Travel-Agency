@@ -19,7 +19,7 @@ public class LoggingAspect {
     public Object logRequestAndResponse(ProceedingJoinPoint joinPoint) throws Throwable {
 
         LOGGER.info("\n" + BEFORE_NAME_TEXT + joinPoint.getSignature().getName());
-        if (joinPoint.getArgs() != null && joinPoint.getArgs().length > 0 ) {
+        if (joinPoint.getArgs() != null && joinPoint.getArgs().length > 0) {
             LOGGER.info("\n" + BEFORE_BODY_TEXT + joinPoint.getArgs()[0].toString());
         } else {
             LOGGER.info("\n" + BEFORE_BODY_TEXT + "[]");

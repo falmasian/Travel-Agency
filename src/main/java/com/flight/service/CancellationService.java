@@ -2,7 +2,6 @@ package com.flight.service;
 
 
 import com.flight.Mapper.CancellationMapper;
-import com.flight.Mapper.ReserveMapper;
 import com.flight.aspect.ServiceLoggingAspect;
 import com.flight.cache.CacheElement;
 import com.flight.dto.CancellationDto;
@@ -25,14 +24,12 @@ public class CancellationService {
     private final FlightIfoRepository flightRepository;
     private final ReserveRepository reserveRepository;
     private final CancellationMapper cancellationMapper;
-    private final ReserveMapper reserveMapper;
 
     public CancellationService(FlightIfoRepository flightRepository, ReserveRepository reserveRepository
-            , CancellationMapper cancellationMapper, ReserveMapper reserveMapper) {
+            , CancellationMapper cancellationMapper) {
         this.flightRepository = flightRepository;
         this.reserveRepository = reserveRepository;
         this.cancellationMapper = cancellationMapper;
-        this.reserveMapper = reserveMapper;
     }
 
     @ServiceLoggingAspect
@@ -40,7 +37,7 @@ public class CancellationService {
         Reservation inputReservation = cancellationMapper.toReservation(cancellationDto);
         try {
             List<Reservation> reservations = reserveRepository.findReserveByCustomerId(inputReservation.getCustomerId())
-                    .stream().map(reserveMapper::toReservation).toList();
+                    .stream().toList();
 
 
 

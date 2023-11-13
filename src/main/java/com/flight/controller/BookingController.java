@@ -13,12 +13,13 @@ import java.util.List;
 @RestController
 public class BookingController implements BookingFacade {
 
-    private BookingService bookingService;
-    private FilterService filterService;
-    private CancellationService cancellationService;
-    private ReservationService reservationService;
+    private final BookingService bookingService;
+    private final FilterService filterService;
+    private final CancellationService cancellationService;
+    private final ReservationService reservationService;
 
-    public BookingController(BookingService bookingService, FilterService filterService, CancellationService cancellationService, ReservationService reservationService) {
+    public BookingController(BookingService bookingService, FilterService filterService
+            , CancellationService cancellationService, ReservationService reservationService) {
         this.bookingService = bookingService;
         this.filterService = filterService;
         this.cancellationService = cancellationService;

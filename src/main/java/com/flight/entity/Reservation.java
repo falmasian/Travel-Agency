@@ -1,19 +1,44 @@
 package com.flight.entity;
 
+
+import jakarta.persistence.*;
+import lombok.NoArgsConstructor;
+
 import java.util.ArrayList;
 
-public class Reservation {
+@Entity
+@Table(name = "Reserve")
+@NoArgsConstructor
+public class Reservation{
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String customerId;
     private int flightId;
     private String trackingCode;
+    private String passengerNationalCode;
+
+    @Transient
     private ArrayList<String> nationalCodes = new ArrayList<>();
-    private String nationalCode;
+    @Transient
     private int numberOfTickets;
+    @Transient
     private boolean completed;
 
-    public Reservation() {
+    public Reservation(int id, String customerId, int flightId, String passengerNationalCode, String trackingCode) {
+        this.id = id;
+        this.customerId = customerId;
+        this.flightId = flightId;
+        this.trackingCode = trackingCode;
+        this.passengerNationalCode = passengerNationalCode;
+    }
+
+    public Reservation(String customerId, int flightId, String passengerNationalCode, String trackingCode) {
+        this.customerId = customerId;
+        this.flightId = flightId;
+        this.trackingCode = trackingCode;
+        this.passengerNationalCode = passengerNationalCode;
     }
 
     public Reservation(String customerId, int flightId, int numberOfTickets) {
@@ -24,12 +49,6 @@ public class Reservation {
         completed = false;
     }
 
-    public Reservation(String customerId, int flightId, String nationalCode, String trackingCode) {
-        this.customerId = customerId;
-        this.flightId = flightId;
-        this.nationalCode = nationalCode;
-        this.trackingCode = trackingCode;
-    }
 
     public int getId() {
         return id;
@@ -39,25 +58,42 @@ public class Reservation {
         this.id = id;
     }
 
-    public int getFlightId() {
-        return flightId;
-    }
-
     public String getCustomerId() {
         return customerId;
     }
 
-    public int getNumberOfTickets() {
-        return numberOfTickets;
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
+    }
+
+    public int getFlightId() {
+        return flightId;
+    }
+
+    public void setFlightId(int flightId) {
+        this.flightId = flightId;
     }
 
     public String getTrackingCode() {
         return trackingCode;
     }
 
-    public String getNationalCode() {
-        return nationalCode;
+    public int getNumberOfTickets() {
+        return numberOfTickets;
     }
+
+    public void setTrackingCode(String trackingCode) {
+        this.trackingCode = trackingCode;
+    }
+
+    public String getPassengerNationalCode() {
+        return passengerNationalCode;
+    }
+
+    public void setPassengerNationalCode(String passengerNationalCode) {
+        this.passengerNationalCode = passengerNationalCode;
+    }
+
 
     public ArrayList<String> getNationalCodes() {
         return nationalCodes;
@@ -71,21 +107,11 @@ public class Reservation {
         return completed;
     }
 
-    public void setFlightId(int id) {
-        flightId = id;
-    }
-
-    public void setCustomerId(String id) {
-        customerId = id;
-    }
 
     public void setNumberOfTickets(int num) {
         numberOfTickets = num;
     }
 
-    public void setTrackingCode(String code) {
-        trackingCode = code;
-    }
 
     public void setCompleted(boolean bool) {
         completed = bool;

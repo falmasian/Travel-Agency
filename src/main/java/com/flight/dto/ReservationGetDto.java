@@ -62,7 +62,7 @@ public class ReservationGetDto {
 
     @Override
     public String toString() {
-        return "ReservationGetDto{" +  "\n" +
+        return "ReservationGetDto{" + "\n" +
                "    customerId=" + customerId + ",\n" +
                "    flightId=" + flightId + ",\n" +
                "    trackingCode=" + trackingCode + ",\n" +

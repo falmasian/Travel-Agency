@@ -16,7 +16,6 @@ import static java.util.stream.Collectors.toList;
 public class CityService {
 
     private final CityRepository cityRepository;
-
     private final CityMapper cityMapper;
 
     public CityService(CityRepository cityRepository, CityMapper cityMapper) {

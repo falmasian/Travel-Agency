@@ -103,7 +103,7 @@ public class FlightDto {
 
     @Override
     public String toString() {
-        return "FlightDto{" +  "\n" +
+        return "FlightDto{" + "\n" +
                "    flightNumber=" + flightNumber + ",\n" +
                "    originId=" + originId + ",\n" +
                "    destinationId=" + destinationId + ",\n" +

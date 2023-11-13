@@ -2,7 +2,6 @@ package com.flight.service;
 
 import com.flight.Mapper.ReservationGetMapper;
 import com.flight.Mapper.ReservationMapper;
-import com.flight.Mapper.ReserveMapper;
 import com.flight.aspect.ServiceLoggingAspect;
 import com.flight.dto.ReservationDto;
 import com.flight.dto.ReservationGetDto;
@@ -16,17 +15,16 @@ import static java.util.stream.Collectors.toList;
 
 @Component
 public class ReservationService {
+
     private final ReserveRepository reserveRepository;
     private final ReservationGetMapper reservationGetMapper;
     private final ReservationMapper reservationMapper;
-    private final ReserveMapper reserveMapper;
 
     public ReservationService(ReserveRepository reserveRepository, ReservationGetMapper reservationGetMapper
-            , ReservationMapper reservationMapper, ReserveMapper reserveMapper) {
+            , ReservationMapper reservationMapper) {
         this.reserveRepository = reserveRepository;
         this.reservationGetMapper = reservationGetMapper;
         this.reservationMapper = reservationMapper;
-        this.reserveMapper = reserveMapper;
     }
 
     @ServiceLoggingAspect
@@ -34,7 +32,6 @@ public class ReservationService {
         Reservation r = reservationMapper.toReservation(reservationDto);
         return reserveRepository.findReserveByCustomerId(r.getCustomerId().trim())
                 .stream()
-                .map(reserveMapper::toReservation)
                 .map(reservationGetMapper::toReservationGetDto)
                 .collect(toList());
 

@@ -43,7 +43,8 @@ public class BookingClient {
         String cityUrl = BASE_URL + "/api/city/getAll";
         ParameterizedTypeReference<List<CityDto>> cityResponseType = new ParameterizedTypeReference<>() {
         };
-        ResponseEntity<List<CityDto>> cityResponse = restTemplate.exchange(cityUrl, HttpMethod.GET, null, cityResponseType);
+        ResponseEntity<List<CityDto>> cityResponse = restTemplate.exchange(cityUrl
+                , HttpMethod.GET, null, cityResponseType);
         List<CityDto> cityDtoList = cityResponse.getBody();
         if (cityDtoList == null) {
             return false;
@@ -60,17 +61,22 @@ public class BookingClient {
         HttpEntity<FilterFlightDto> requestEntity = new HttpEntity<>(filterFlightDto, headers);
         ParameterizedTypeReference<List<FlightDto>> filterResponseType = new ParameterizedTypeReference<>() {
         };
-        ResponseEntity<List<FlightDto>> filterResponse = restTemplate.exchange(filterUrl, HttpMethod.POST, requestEntity, filterResponseType);
+        ResponseEntity<List<FlightDto>> filterResponse = restTemplate.exchange(filterUrl
+                , HttpMethod.POST, requestEntity, filterResponseType);
 
         List<FlightDto> flightDtoList = filterResponse.getBody();
         if (flightDtoList == null || flightDtoList.size() <= 0) {
             System.out.println("No match flights with this specification was found");
             return false;
         }
-        System.out.println("flight number	origin code	destination code  flight date			cost   remaining seats");
+        System.out.println("flight number	origin code	destination code  flight date	cost   remaining seats");
         for (FlightDto f : flightDtoList) {
-            System.out.println(f.getFlightNumber() + "		" + f.getOriginId() + "   		" + f.getDestinationId()
-                               + "  	 	 " + f.getFlyDateTime() + " 	 " + f.getCost() + "   " + f.getRemainingSeats());
+            System.out.println(f.getFlightNumber() + "		"
+                               + f.getOriginId() + "   		"
+                               + f.getDestinationId() + "  	 	 "
+                               + f.getFlyDateTime() + " 	 "
+                               + f.getCost() + "   "
+                               + f.getRemainingSeats());
         }
         return flightDtoList.size() > 0;
     }
@@ -87,7 +93,6 @@ public class BookingClient {
         Date flightDate = java.sql.Date.valueOf(str);
 
         return new FilterFlightDto(originId, destinationId, flightDate);
-
     }
 
     public String book() {
@@ -156,10 +161,14 @@ public class BookingClient {
         if (flightDtoList == null) {
             return;
         }
-        System.out.println("flight number	origin code	destination code  flight date			cost   remaining seats");
+        System.out.println("flight number	origin code	destination code  flight date	cost   remaining seats");
         for (FlightDto f : flightDtoList) {
-            System.out.println(f.getFlightNumber() + "		" + f.getOriginId() + "   		" + f.getDestinationId()
-                               + "  	 	 " + f.getFlyDateTime() + " 	 " + f.getCost() + "   " + f.getRemainingSeats());
+            System.out.println(f.getFlightNumber() + "	"
+                               + f.getOriginId() + " 	"
+                               + f.getDestinationId() + "  	  "
+                               + f.getFlyDateTime() + " 	 "
+                               + f.getCost() + "   "
+                               + f.getRemainingSeats());
         }
     }
 
@@ -169,8 +178,9 @@ public class BookingClient {
         if (reservationGetDtoList.size() <= 0) {
             return;
         }
-        System.out.println("you have reserved " + reservationGetDtoList.size() + " seats with this tracking code." +
-                           " \nHow many do you want to cancel?");
+        System.out.println("you have reserved " + reservationGetDtoList.size()
+                           + " seats with this tracking code."
+                           + " \nHow many do you want to cancel?");
 
         Scanner ss = new Scanner(System.in);
         int numberOfTickets = ss.nextInt();
@@ -189,7 +199,13 @@ public class BookingClient {
             System.out.println("enter passanger number " + j + " nationalcode: ");
             Scanner scanner1 = new Scanner(System.in);
             String code = scanner1.nextLine().trim();
-            if (reservationGetDtoList.stream().filter(c -> c.getNationalCode().equals(code.trim())).toList().size() > 0) {
+            int numOfTicketsWithInputNationalCode = reservationGetDtoList
+                    .stream()
+                    .filter(c -> c.getNationalCode()
+                            .equals(code.trim()))
+                    .toList()
+                    .size();
+            if (numOfTicketsWithInputNationalCode > 0) {
                 nationalcodes.add(code);
                 System.out.println(nationalcodes.contains(code));
             } else {
@@ -198,8 +214,6 @@ public class BookingClient {
             }
         }
         CancellationDto cancellationDto = new CancellationDto(customerId, nationalcodes);
-
-
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<CancellationDto> requestEntity = new HttpEntity<>(cancellationDto, headers);
@@ -227,12 +241,13 @@ public class BookingClient {
         ParameterizedTypeReference<List<ReservationGetDto>> responseType = new ParameterizedTypeReference<>() {
         };
 
-        ResponseEntity<List<ReservationGetDto>> response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, responseType);
+        ResponseEntity<List<ReservationGetDto>> response = restTemplate.exchange(url, HttpMethod.POST,
+                requestEntity, responseType);
 
         List<ReservationGetDto> reservationGetDtoList = response.getBody();
 
         if (reservationGetDtoList == null || reservationGetDtoList.size() <= 0) {
-            System.out.println("there is no reservation with this national code:");
+            System.out.println("there is no reservation with this national code.");
 
         } else {
             System.out.println("customerId   flight number   passenger nationalCode  tracingCode");

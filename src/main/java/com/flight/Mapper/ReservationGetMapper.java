@@ -14,6 +14,6 @@ public class ReservationGetMapper {
 
     public ReservationGetDto toReservationGetDto(Reservation reservation) {
         return new ReservationGetDto(reservation.getCustomerId(), reservation.getFlightId()
-                , reservation.getTrackingCode(), reservation.getNationalCode());
+                , reservation.getTrackingCode(), reservation.getPassengerNationalCode());
     }
 }
