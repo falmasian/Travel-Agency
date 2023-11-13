@@ -173,7 +173,6 @@ public class BookingClient {
     }
 
     public void cancellingProcess() {
-        Scanner scanner = new Scanner(System.in);
         List<ReservationGetDto> reservationGetDtoList = getAllClientReservations();
         if (reservationGetDtoList.size() <= 0) {
             return;
@@ -272,8 +271,6 @@ public class BookingClient {
 
     public void paymentProcess(String tracingCode) {
         PaymentDto paymentDto = new PaymentDto(tracingCode);
-
-
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<PaymentDto> requestEntity = new HttpEntity<>(paymentDto, headers);

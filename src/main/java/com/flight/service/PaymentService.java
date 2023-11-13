@@ -29,6 +29,7 @@ public class PaymentService {
         this.paymentMapper = paymentMapper;
     }
 
+    @ServiceLoggingAspect
     public float payment(PaymentDto paymentDto) {
         String tracingCode = paymentMapper.toTrackingCode(paymentDto);
         float cost = pay(tracingCode);
@@ -43,12 +44,11 @@ public class PaymentService {
         return cost;
     }
 
-    @ServiceLoggingAspect
     private float pay(String tracingCode) {
         try {
             Reservation reservation = findReservationByTrackingCode(tracingCode);
             if (reservation == null) {
-                return 0;
+                return -2;
             } else {
                 if (reservation.getNumberOfTickets() <= getRemainSeatsByFlightId(reservation.getFlightId())) {
                     return calculateCostOfReservation(reservation);
