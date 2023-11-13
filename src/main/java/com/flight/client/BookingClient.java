@@ -108,7 +108,6 @@ public class BookingClient {
         while (customerId.trim().length() != 10) {
             System.out.println("national code must have 10 character.please try again.");
             System.out.println("enter your national code");
-            Scanner s2 = new Scanner(System.in);
             customerId = s1.nextLine();
         }
         System.out.println("how many tickets do you want?");
