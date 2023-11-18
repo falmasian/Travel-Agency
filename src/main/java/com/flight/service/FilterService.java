@@ -6,12 +6,15 @@ import com.flight.aspect.ServiceLoggingAspect;
 import com.flight.dto.FilterFlightDto;
 import com.flight.dto.FilterResponseDto;
 import com.flight.dto.FlightDto;
+import com.flight.entity.City;
 import com.flight.entity.FlightInfo;
 import com.flight.repository.FlightIfoRepository;
+import jakarta.persistence.criteria.Join;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
+import java.sql.Date;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 @Component
@@ -34,14 +37,36 @@ public class FilterService {
         Calendar c = Calendar.getInstance();
         c.setTime(flight.getFlyDate());
         c.add(Calendar.DATE, 1);
-        Date nextDay = c.getTime();
-        List<FlightDto> flightDtoList = flightRepository.findFlightInfoByOriginIdAndDestinationId(flight.getOriginId()
-                        , flight.getDestinationId())
+        java.util.Date nextDay = c.getTime();
+        Specification<FlightInfo> specification = hasOriginId(filterFlightDto.getOriginId())
+                .and(hasDestinationId(filterFlightDto.getDestinationId()))
+                .and(hasRemainSeats());
+        List<FlightDto> flightDtoList = flightRepository.findAll(specification)
                 .stream()
-                .filter(f -> f.getRemainingSeats() > 0)
                 .filter(f -> f.getFlyDateTime().after(flight.getFlyDate()))
                 .filter(f -> f.getFlyDateTime().before(nextDay))
                 .map(flightMapper::toFlightDto).toList();
         return new FilterResponseDto(flightDtoList);
     }
+
+    private Specification<FlightInfo> hasOriginId(int originId) {
+        return (root, query, criteriaBuilder) -> {
+            Join<City, FlightInfo> cityFlightInfoJoin = root.join("originCity");
+            return criteriaBuilder.equal(cityFlightInfoJoin.get("cityId"), originId);
+        };
+    }
+
+    private Specification<FlightInfo> hasDestinationId(int destinationId) {
+        return (root, query, criteriaBuilder) -> {
+            Join<City, FlightInfo> cityFlightInfoJoin = root.join("destinationCity");
+            return criteriaBuilder.equal(cityFlightInfoJoin.get("cityId"), destinationId);
+        };
+    }
+
+    private Specification<FlightInfo> hasRemainSeats() {
+        return (root, query, criteriaBuilder) -> {
+            return criteriaBuilder.greaterThan(root.get("remainingSeats"), 0);
+        };
+    }
+
 }

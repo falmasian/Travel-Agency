@@ -8,7 +8,8 @@ import org.springframework.stereotype.Component;
 public class FlightMapper {
 
     public FlightDto toFlightDto(FlightInfo flight) {
-        return new FlightDto(flight.getFlightNumber(), flight.getOriginId(), flight.getDestinationId()
+        return new FlightDto(flight.getFlightNumber(), flight.getOriginCity().getCityId(),flight.getOriginCity().getCityName()
+                , flight.getDestinationCity().getCityId() , flight.getDestinationCity().getCityName()
                 , flight.getFlyDateTime(), flight.getCost(), flight.getCapacity(), flight.getRemainingSeats());
     }
 

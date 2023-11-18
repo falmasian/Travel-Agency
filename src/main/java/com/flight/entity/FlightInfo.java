@@ -16,17 +16,19 @@ public class FlightInfo {
 
     private int flightNumber;
 
-    private int originId;
-
-    private int destinationId;
+//    private int originId;
+//
+//    private int destinationId;
 
     private Timestamp flyDateTime;
 
-//    @ManyToOne
-//    private City originCity;
-//
-//    @ManyToOne
-//    private City destinationCity;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "originId", referencedColumnName = "id")
+    private City originCity;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "destinationId", referencedColumnName = "id")
+    private City destinationCity;
 
     @Transient
     private Date flyDate;
@@ -44,8 +46,10 @@ public class FlightInfo {
     private int temporaryReserves;
 
     public FlightInfo(int originId, int destinationId, Date flyDate) {
-        this.originId = originId;
-        this.destinationId = destinationId;
+        this.originCity = new City();
+        this.originCity.setCityId(originId);
+        this.destinationCity = new City();
+        this.destinationCity.setCityId(destinationId);
         this.flyDate = flyDate;
     }
 
@@ -53,8 +57,10 @@ public class FlightInfo {
                       float cost, int capacity, int remainingSeats) {
         this.id = id;
         this.flightNumber = flightNumber;
-        this.originId = originId;
-        this.destinationId = destinationId;
+        this.originCity = new City();
+        this.originCity.setCityId(originId);
+        this.destinationCity = new City();
+        this.destinationCity.setCityId(destinationId);
         this.flyDateTime = flyDateTime;
         this.cost = cost;
         this.capacity = capacity;
@@ -71,13 +77,6 @@ public class FlightInfo {
         this.flightNumber = flightNumber;
     }
 
-    public void setOriginId(int originId) {
-        this.originId = originId;
-    }
-
-    public void setDestinationId(int destinationId) {
-        this.destinationId = destinationId;
-    }
 
     public void setFlyDateTime(Timestamp flyDateTime) {
         this.flyDateTime = flyDateTime;
@@ -109,14 +108,6 @@ public class FlightInfo {
 
     public int getId() {
         return id;
-    }
-
-    public int getOriginId() {
-        return originId;
-    }
-
-    public int getDestinationId() {
-        return destinationId;
     }
 
     public Date getFlyDate() {
@@ -159,19 +150,19 @@ public class FlightInfo {
         return temporaryReserves;
     }
 
-//    public City getOriginCity() {
-//        return originCity;
-//    }
-//
-//    public void setOriginCity(City originCity) {
-//        this.originCity = originCity;
-//    }
-//
-//    public City getDestinationCity() {
-//        return destinationCity;
-//    }
-//
-//    public void setDestinationCity(City destinationCity) {
-//        this.destinationCity = destinationCity;
-//    }
+    public City getOriginCity() {
+        return originCity;
+    }
+
+    public void setOriginCity(City originCity) {
+        this.originCity = originCity;
+    }
+
+    public City getDestinationCity() {
+        return destinationCity;
+    }
+
+    public void setDestinationCity(City destinationCity) {
+        this.destinationCity = destinationCity;
+    }
 }

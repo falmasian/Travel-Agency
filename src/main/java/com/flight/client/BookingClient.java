@@ -74,11 +74,13 @@ public class BookingClient {
             System.out.println("No match flights with this specification was found");
             return false;
         }
-        System.out.println("flight number	origin code	destination code  flight date	cost   remaining seats");
+        System.out.println("flight number                      	origin 	destination   flight date	cost   remaining seats");
         for (FlightDto f :  filterResponseDto.getFlightDtoList()) {
             System.out.println(f.getFlightNumber() + "		"
-                               + f.getOriginId() + "   		"
-                               + f.getDestinationId() + "  	 	 "
+                               + f.getOriginId() + "."
+                               + f.getOriginName() +"    "
+                               + f.getDestinationId() + "."
+                               + f.getDestinationName() + "    "
                                + f.getFlyDateTime() + " 	 "
                                + f.getCost() + "   "
                                + f.getRemainingSeats());
@@ -168,11 +170,13 @@ public class BookingClient {
         if (allFlightsResponse == null || allFlightsResponse.getFlightDtoList() == null) {
             return;
         }
-        System.out.println("flight number	origin code	destination code  flight date	cost   remaining seats");
+        System.out.println("flight number	origin 	destination   flight date	cost   remaining seats");
         for (FlightDto f :  allFlightsResponse.getFlightDtoList()) {
             System.out.println(f.getFlightNumber() + "	"
-                               + f.getOriginId() + " 	"
-                               + f.getDestinationId() + "  	  "
+                               + f.getOriginId() + "."
+                               + f.getOriginName() + " 	"
+                               + f.getDestinationId() + "."
+                               + f.getDestinationName() + "  	  "
                                + f.getFlyDateTime() + " 	 "
                                + f.getCost() + "   "
                                + f.getRemainingSeats());

@@ -12,9 +12,17 @@ public class FlightDto {
      */
     private int originId;
     /**
+     * نام شهر مبدا
+     */
+    private String originName;
+    /**
      * ایدی شهر مقصد
      */
     private int destinationId;
+    /**
+     * نام شهر مقصد
+     */
+    private String destinationName;
     /**
      * تاریخ و ساعت پرواز
      */
@@ -35,10 +43,12 @@ public class FlightDto {
     public FlightDto() {
     }
 
-    public FlightDto(int flightNumber, int originId, int destinationId, Timestamp flyDateTime, float cost, int capacity, int remainingSeats) {
+    public FlightDto(int flightNumber, int originId, String originName, int destinationId, String destinationName, Timestamp flyDateTime, float cost, int capacity, int remainingSeats) {
         this.flightNumber = flightNumber;
         this.originId = originId;
+        this.originName = originName;
         this.destinationId = destinationId;
+        this.destinationName =destinationName;
         this.flyDateTime = flyDateTime;
         this.cost = cost;
         this.capacity = capacity;
@@ -101,12 +111,30 @@ public class FlightDto {
         this.remainingSeats = remainingSeats;
     }
 
+    public String getOriginName() {
+        return originName;
+    }
+
+    public void setOriginName(String originName) {
+        this.originName = originName;
+    }
+
+    public String getDestinationName() {
+        return destinationName;
+    }
+
+    public void setDestinationName(String destinationName) {
+        this.destinationName = destinationName;
+    }
+
     @Override
     public String toString() {
         return "FlightDto{" + "\n" +
                "    flightNumber=" + flightNumber + ",\n" +
                "    originId=" + originId + ",\n" +
+               "    originName=" + originName + ",\n" +
                "    destinationId=" + destinationId + ",\n" +
+               "    destinationName=" + destinationName + ",\n" +
                "    flyDateTime=" + flyDateTime + ",\n" +
                "    cost=" + cost + ",\n" +
                "    capacity=" + capacity + ",\n" +

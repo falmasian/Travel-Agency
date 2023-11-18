@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 @Entity
 @Table(name = "Reserve")
@@ -45,8 +46,12 @@ public class Reservation{
         this.customerId = customerId;
         this.flightId = flightId;
         this.numberOfTickets = numberOfTickets;
-        this.trackingCode = String.valueOf(hashCode());
+        this.trackingCode =  UUID.randomUUID().toString();
         completed = false;
+    }
+
+    public void setTrackingCode(String trackingCode) {
+        this.trackingCode = trackingCode;
     }
 
 
@@ -82,9 +87,7 @@ public class Reservation{
         return numberOfTickets;
     }
 
-    public void setTrackingCode(String trackingCode) {
-        this.trackingCode = trackingCode;
-    }
+
 
     public String getPassengerNationalCode() {
         return passengerNationalCode;
@@ -129,16 +132,16 @@ public class Reservation{
         return nationalCodes.get(index);
     }
 
-    @Override
-    public int hashCode() {
-        int result = 17;
-        result = 31 * result + Integer.parseInt(customerId.substring(2, 7));
-        result = 31 * result + flightId;
-        for (String str : nationalCodes) {
-            String sub = str.substring(4, 6);
-            int num = Integer.parseInt(sub) * 3 + 13;
-            result = result + num;
-        }
-        return result;
-    }
+//    @Override
+//    public int hashCode() {
+//        int result = 17;
+//        result = 31 * result + Integer.parseInt(customerId.substring(2, 7));
+//        result = 31 * result + flightId;
+//        for (String str : nationalCodes) {
+//            String sub = str.substring(4, 6);
+//            int num = Integer.parseInt(sub) * 3 + 13;
+//            result = result + num;
+//        }
+//        return result;
+//    }
 }

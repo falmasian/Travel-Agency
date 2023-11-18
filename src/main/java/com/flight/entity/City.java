@@ -12,13 +12,13 @@ public class City {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int cityId;
 
     @Column(name = "cityName")
     private String cityName;
 
     public City(int id, String cityName) {
-        this.id = id;
+        this.cityId = id;
         this.cityName = cityName;
     }
 
@@ -26,16 +26,16 @@ public class City {
         this.cityName = cityName;
     }
 
-    public int getId() {
-        return id;
+    public int getCityId() {
+        return cityId;
     }
 
     public String getCityName() {
         return cityName;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setCityId(int cityId) {
+        this.cityId = cityId;
     }
 
     public void setCityName(String cityName) {
