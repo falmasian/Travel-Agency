@@ -1,5 +1,6 @@
 package com.flight.controller;
 
+import com.flight.dto.AllCitiesResponse;
 import com.flight.dto.CityDto;
 import com.flight.facade.CityFacade;
 import com.flight.service.CityService;
@@ -17,7 +18,7 @@ public class CityController implements CityFacade {
     }
 
     @Override
-    public List<CityDto> getAll() {
+    public AllCitiesResponse getAll() {
         return cityService.getAllCities();
     }
 

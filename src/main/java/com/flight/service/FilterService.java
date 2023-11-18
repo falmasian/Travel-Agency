@@ -4,6 +4,7 @@ import com.flight.Mapper.FilterFlightMapper;
 import com.flight.Mapper.FlightMapper;
 import com.flight.aspect.ServiceLoggingAspect;
 import com.flight.dto.FilterFlightDto;
+import com.flight.dto.FilterResponseDto;
 import com.flight.dto.FlightDto;
 import com.flight.entity.FlightInfo;
 import com.flight.repository.FlightIfoRepository;
@@ -27,19 +28,20 @@ public class FilterService {
     }
 
     @ServiceLoggingAspect
-    public List<FlightDto> filter(FilterFlightDto filterFlightDto) {
+    public FilterResponseDto filter(FilterFlightDto filterFlightDto) {
         FlightInfo flight = filterFlightMapper.toFlight(filterFlightDto);
 
         Calendar c = Calendar.getInstance();
         c.setTime(flight.getFlyDate());
         c.add(Calendar.DATE, 1);
         Date nextDay = c.getTime();
-        return flightRepository.findFlightInfoByOriginIdAndDestinationId(flight.getOriginId()
+        List<FlightDto> flightDtoList = flightRepository.findFlightInfoByOriginIdAndDestinationId(flight.getOriginId()
                         , flight.getDestinationId())
                 .stream()
                 .filter(f -> f.getRemainingSeats() > 0)
                 .filter(f -> f.getFlyDateTime().after(flight.getFlyDate()))
                 .filter(f -> f.getFlyDateTime().before(nextDay))
                 .map(flightMapper::toFlightDto).toList();
+        return new FilterResponseDto(flightDtoList);
     }
 }

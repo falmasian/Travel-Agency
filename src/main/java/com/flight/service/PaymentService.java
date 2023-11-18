@@ -3,6 +3,7 @@ package com.flight.service;
 import com.flight.Mapper.PaymentMapper;
 import com.flight.aspect.ServiceLoggingAspect;
 import com.flight.dto.PaymentDto;
+import com.flight.dto.PaymentResponseDto;
 import com.flight.entity.FlightInfo;
 import com.flight.entity.Reservation;
 import com.flight.repository.FlightIfoRepository;
@@ -31,7 +32,7 @@ public class PaymentService {
     }
 
     @ServiceLoggingAspect
-    public float payment(PaymentDto paymentDto) {
+    public PaymentResponseDto payment(PaymentDto paymentDto) {
         String tracingCode = paymentMapper.toTrackingCode(paymentDto);
         float cost = pay(tracingCode);
         if (cost > 0) {
@@ -42,7 +43,7 @@ public class PaymentService {
                 LOGGER.error("Error in the server");
             }
         }
-        return cost;
+        return new PaymentResponseDto(cost);
     }
 
     private float pay(String tracingCode) {

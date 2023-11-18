@@ -2,6 +2,7 @@ package com.flight.service;
 
 import com.flight.Mapper.CityMapper;
 import com.flight.aspect.ServiceLoggingAspect;
+import com.flight.dto.AllCitiesResponse;
 import com.flight.dto.CityDto;
 import com.flight.entity.City;
 import com.flight.repository.CityRepository;
@@ -25,8 +26,10 @@ public class CityService {
 
 
     @ServiceLoggingAspect
-    public List<CityDto> getAllCities() {
-        return cityRepository.findAll().stream().map(cityMapper::toCityDto).collect(toList());
+    public AllCitiesResponse getAllCities() {
+
+       List<CityDto> cityDtoList=  cityRepository.findAll().stream().map(cityMapper::toCityDto).collect(toList());
+       return new AllCitiesResponse(cityDtoList);
     }
 
     @ServiceLoggingAspect

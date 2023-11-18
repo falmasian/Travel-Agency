@@ -1,5 +1,6 @@
 package com.flight.facade;
 
+import com.flight.dto.AllCitiesResponse;
 import com.flight.dto.CityDto;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -7,24 +8,21 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Component
-
 public interface CityFacade {
 
-    String baseUrl = "/city/";
+    String baseUrl = "/city";
 
     /**
      * @return List<CityDto>
      * همه ی شهر ها را نشان می دهد
      */
-    @GetMapping(value = baseUrl + "getAll", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    List<CityDto> getAll();
+    @GetMapping(value = baseUrl + "/all", produces = MediaType.APPLICATION_JSON_VALUE)
+    AllCitiesResponse getAll();
 
     /**
      * @param cityDto اضافه کردن یک شهر
      */
-    @PostMapping(value = baseUrl + "insert", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = baseUrl + "/insert", consumes = MediaType.APPLICATION_JSON_VALUE)
     void insert(@RequestBody CityDto cityDto);
 
 
@@ -33,6 +31,6 @@ public interface CityFacade {
      * @return boolean
      * حدف یک شهر با ایدی ان
      */
-    @DeleteMapping(value = baseUrl + "delete/{id}")
+    @DeleteMapping(value = baseUrl + "/delete/{id}")
     boolean delete(@PathVariable int id);
 }

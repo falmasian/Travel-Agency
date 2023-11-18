@@ -27,22 +27,22 @@ public class BookingController implements BookingFacade {
     }
 
     @Override
-    public String reserve(BookingDto bookingDto) {
+    public ReservationResponseDto reserve(BookingDto bookingDto) {
         return bookingService.book(bookingDto);
     }
 
     @Override
-    public List<FlightDto> filter(FilterFlightDto filterFlightDto) {
+    public FilterResponseDto filter(FilterFlightDto filterFlightDto) {
         return filterService.filter(filterFlightDto);
     }
 
     @Override
-    public float cancel(CancellationDto cancellationDto) {
+    public CancellingResponseDto cancel(CancellationDto cancellationDto) {
         return cancellationService.cancelling(cancellationDto);
     }
 
     @Override
-    public List<ReservationGetDto> getAllReservations(ReservationDto reservationDto) {
+    public CustomerReservationsResponseDto getAllReservations(ReservationDto reservationDto) {
         return reservationService.getAllReservations(reservationDto);
     }
 }

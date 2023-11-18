@@ -1,5 +1,6 @@
 package com.flight.controller;
 
+import com.flight.dto.AllFlightsResponse;
 import com.flight.dto.FlightDto;
 import com.flight.facade.FlightFacade;
 import com.flight.service.FlightService;
@@ -17,7 +18,7 @@ public class FlightController implements FlightFacade {
     }
 
     @Override
-    public List<FlightDto> getAll() {
+    public AllFlightsResponse getAll() {
         return flightService.getAllFlights();
     }
 

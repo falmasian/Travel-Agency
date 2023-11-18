@@ -3,6 +3,7 @@ package com.flight.service;
 import com.flight.Mapper.ReservationGetMapper;
 import com.flight.Mapper.ReservationMapper;
 import com.flight.aspect.ServiceLoggingAspect;
+import com.flight.dto.CustomerReservationsResponseDto;
 import com.flight.dto.ReservationDto;
 import com.flight.dto.ReservationGetDto;
 import com.flight.entity.Reservation;
@@ -28,12 +29,13 @@ public class ReservationService {
     }
 
     @ServiceLoggingAspect
-    public List<ReservationGetDto> getAllReservations(ReservationDto reservationDto) {
+    public CustomerReservationsResponseDto getAllReservations(ReservationDto reservationDto) {
         Reservation r = reservationMapper.toReservation(reservationDto);
-        return reserveRepository.findReserveByCustomerId(r.getCustomerId().trim())
+        List<ReservationGetDto> reservationGetDtoList = reserveRepository.findReserveByCustomerId(r.getCustomerId().trim())
                 .stream()
                 .map(reservationGetMapper::toReservationGetDto)
-                .collect(toList());
+                .toList();
+        return new CustomerReservationsResponseDto(reservationGetDtoList);
 
     }
 }

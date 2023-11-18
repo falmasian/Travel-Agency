@@ -1,4 +1,0 @@
-driverClass=oracle.jdbc.driver.OracleDriver
-connectionObject=jdbc:oracle:thin:@localhost:10500:XE
-username=system
-password=oracle

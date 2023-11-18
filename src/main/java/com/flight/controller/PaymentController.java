@@ -1,6 +1,7 @@
 package com.flight.controller;
 
 import com.flight.dto.PaymentDto;
+import com.flight.dto.PaymentResponseDto;
 import com.flight.facade.PaymentFacade;
 import com.flight.service.PaymentService;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,7 +16,7 @@ public class PaymentController implements PaymentFacade {
     }
 
     @Override
-    public float payment(PaymentDto paymentDto) {
+    public PaymentResponseDto payment(PaymentDto paymentDto) {
         return paymentService.payment(paymentDto);
     }
 }

@@ -1,6 +1,7 @@
 package com.flight.facade;
 
 import com.flight.dto.PaymentDto;
+import com.flight.dto.PaymentResponseDto;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,5 +18,5 @@ public interface PaymentFacade {
      * هزینه را نشان میدهد
      */
     @PostMapping(value = url, consumes = MediaType.APPLICATION_JSON_VALUE)
-    float payment(@RequestBody PaymentDto paymentDto);
+    PaymentResponseDto payment(@RequestBody PaymentDto paymentDto);
 }

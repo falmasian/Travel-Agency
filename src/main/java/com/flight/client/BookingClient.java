@@ -29,31 +29,31 @@ public class BookingClient {
 
     public void bookingProcess() {
         if (filterFlights()) {
-            String tracingCode = book();
-            if (tracingCode != null && tracingCode.equals("-1")) {
+            ReservationResponseDto reservationResponseDto = book();
+            if (reservationResponseDto == null || reservationResponseDto.getTracingCode().equals("-1")) {
                 System.out.println("Booking failed. Probably the flight number was wrong.");
                 return;
             }
-            if (tracingCode != null) {
-                continueBooking(tracingCode);
-            } else {
-                System.out.println("Booking failed.");
-            }
+//            if (tracingCode != null) {
+                continueBooking(reservationResponseDto.getTracingCode());
+//            } else {
+//                System.out.println("Booking failed.");
+//            }
         }
     }
 
     public boolean filterFlights() {
-        String cityUrl = BASE_URL + "/api/city/getAll";
-        ParameterizedTypeReference<List<CityDto>> cityResponseType = new ParameterizedTypeReference<>() {
+        String cityUrl = BASE_URL + "/api/city/all";
+        ParameterizedTypeReference<AllCitiesResponse> cityResponseType = new ParameterizedTypeReference<>() {
         };
-        ResponseEntity<List<CityDto>> cityResponse = restTemplate.exchange(cityUrl, HttpMethod.GET
+        ResponseEntity<AllCitiesResponse> cityResponse = restTemplate.exchange(cityUrl, HttpMethod.GET
                 , null, cityResponseType);
-        List<CityDto> cityDtoList = cityResponse.getBody();
-        if (cityDtoList == null) {
+        AllCitiesResponse citiesResponse = cityResponse.getBody();
+        if (citiesResponse == null || citiesResponse.getCityDtoList()== null) {
             return false;
         }
         int i = 0;
-        for (CityDto c : cityDtoList) {
+        for (CityDto c : citiesResponse.getCityDtoList()) {
             i++;
             System.out.println(i + ". " + c.getCityName());
         }
@@ -62,18 +62,20 @@ public class BookingClient {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<FilterFlightDto> requestEntity = new HttpEntity<>(filterFlightDto, headers);
-        ParameterizedTypeReference<List<FlightDto>> filterResponseType = new ParameterizedTypeReference<>() {
+        ParameterizedTypeReference<FilterResponseDto> filterResponseType = new ParameterizedTypeReference<>() {
         };
-        ResponseEntity<List<FlightDto>> filterResponse = restTemplate.exchange(filterUrl, HttpMethod.POST
+        ResponseEntity<FilterResponseDto> filterResponse = restTemplate.exchange(filterUrl, HttpMethod.POST
                 , requestEntity, filterResponseType);
 
-        List<FlightDto> flightDtoList = filterResponse.getBody();
-        if (flightDtoList == null || flightDtoList.size() <= 0) {
+        FilterResponseDto filterResponseDto = filterResponse.getBody();
+        if (filterResponseDto == null
+            || filterResponseDto.getFlightDtoList() == null
+            || filterResponseDto.getFlightDtoList().size() <= 0) {
             System.out.println("No match flights with this specification was found");
             return false;
         }
         System.out.println("flight number	origin code	destination code  flight date	cost   remaining seats");
-        for (FlightDto f : flightDtoList) {
+        for (FlightDto f :  filterResponseDto.getFlightDtoList()) {
             System.out.println(f.getFlightNumber() + "		"
                                + f.getOriginId() + "   		"
                                + f.getDestinationId() + "  	 	 "
@@ -81,7 +83,7 @@ public class BookingClient {
                                + f.getCost() + "   "
                                + f.getRemainingSeats());
         }
-        return flightDtoList.size() > 0;
+        return  filterResponseDto.getFlightDtoList().size() > 0;
     }
 
     public FilterFlightDto getInput() {
@@ -98,7 +100,7 @@ public class BookingClient {
         return new FilterFlightDto(originId, destinationId, flightDate);
     }
 
-    public String book() {
+    public ReservationResponseDto book() {
         Scanner s = new Scanner(System.in);
         System.out.println("enter Flight number");
         int flightId = s.nextInt();
@@ -136,7 +138,9 @@ public class BookingClient {
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<BookingDto> requestEntity = new HttpEntity<>(bookingDto, headers);
         String url = BASE_URL + "/api/book/reserve";
-        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
+        ResponseEntity<ReservationResponseDto> response = restTemplate.exchange(url, HttpMethod.POST
+                , requestEntity
+                , ReservationResponseDto.class);
         return response.getBody();
     }
 
@@ -154,17 +158,18 @@ public class BookingClient {
     }
 
     public void getAllFlights() {
-        String endpoint = "/api/flight/getAll";
+        String endpoint = "/api/flight/all";
         String url = BASE_URL + endpoint;
-        ParameterizedTypeReference<List<FlightDto>> responseType = new ParameterizedTypeReference<>() {
+        ParameterizedTypeReference<AllFlightsResponse> responseType = new ParameterizedTypeReference<>() {
         };
-        ResponseEntity<List<FlightDto>> response = restTemplate.exchange(url, HttpMethod.GET, null, responseType);
-        List<FlightDto> flightDtoList = response.getBody();
-        if (flightDtoList == null) {
+        ResponseEntity<AllFlightsResponse> response = restTemplate.exchange(url, HttpMethod.GET
+                , null, responseType);
+        AllFlightsResponse allFlightsResponse = response.getBody();
+        if (allFlightsResponse == null || allFlightsResponse.getFlightDtoList() == null) {
             return;
         }
         System.out.println("flight number	origin code	destination code  flight date	cost   remaining seats");
-        for (FlightDto f : flightDtoList) {
+        for (FlightDto f :  allFlightsResponse.getFlightDtoList()) {
             System.out.println(f.getFlightNumber() + "	"
                                + f.getOriginId() + " 	"
                                + f.getDestinationId() + "  	  "
@@ -175,7 +180,7 @@ public class BookingClient {
     }
 
     public void cancellingProcess() {
-        List<ReservationGetDto> reservationGetDtoList = getAllClientReservations();
+        List<ReservationGetDto> reservationGetDtoList = getAllClientReservations().getReservationGetDtoList();
         if (reservationGetDtoList.size() <= 0) {
             return;
         }
@@ -214,45 +219,48 @@ public class BookingClient {
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<CancellationDto> requestEntity = new HttpEntity<>(cancellationDto, headers);
         String url = BASE_URL + "/api/book/cancel";
-        ResponseEntity<Float> response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, Float.class);
-        Float cost = response.getBody();
+        ResponseEntity<CancellingResponseDto> response = restTemplate.exchange(url, HttpMethod.POST
+                , requestEntity, CancellingResponseDto.class);
+        CancellingResponseDto cancellingResponseDto = response.getBody();
 
-        if (cost != null && cost > 0) {
+        if (cancellingResponseDto != null  && cancellingResponseDto.getCost() > 0) {
             System.out.println("The tickets have been successfully cancelled.\n"
-                               + cost + "$ will be deposited into your account within twenty-four hours");
+                               + cancellingResponseDto.getCost() + "$ will be deposited into your account within twenty-four hours");
         } else {
             System.out.println("Could not able to cancel.");
         }
     }
 
-    public List<ReservationGetDto> getAllClientReservations() {
+    public CustomerReservationsResponseDto getAllClientReservations() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("please enter your national code: ");
         String nationalCode = scanner.nextLine().trim();
         ReservationDto reservationDto = new ReservationDto(nationalCode);
-        String url = BASE_URL + "/api/book/getAllCustomerReservations";
+        String url = BASE_URL + "/api/book/allCustomerReservations";
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<ReservationDto> requestEntity = new HttpEntity<>(reservationDto, headers);
-        ParameterizedTypeReference<List<ReservationGetDto>> responseType = new ParameterizedTypeReference<>() {
+        ParameterizedTypeReference<CustomerReservationsResponseDto> responseType = new ParameterizedTypeReference<>() {
         };
 
-        ResponseEntity<List<ReservationGetDto>> response = restTemplate.exchange(url, HttpMethod.POST
+        ResponseEntity<CustomerReservationsResponseDto> response = restTemplate.exchange(url, HttpMethod.POST
                 , requestEntity, responseType);
 
-        List<ReservationGetDto> reservationGetDtoList = response.getBody();
+        CustomerReservationsResponseDto customerReservationsResponseDto = response.getBody();
 
-        if (reservationGetDtoList == null || reservationGetDtoList.size() <= 0) {
+        if (customerReservationsResponseDto == null
+            || customerReservationsResponseDto.getReservationGetDtoList() == null
+            || customerReservationsResponseDto.getReservationGetDtoList().size() <= 0) {
             System.out.println("there is no reservation with this national code.");
 
         } else {
             System.out.println("customerId   flight number   passenger nationalCode  tracingCode");
-            for (ReservationGetDto r : reservationGetDtoList) {
+            for (ReservationGetDto r : customerReservationsResponseDto.getReservationGetDtoList()) {
                 System.out.println(r.getCustomerId() + "    " + r.getFlightId()
                                    + "    " + r.getNationalCode() + "    " + r.getTrackingCode());
             }
         }
-        return reservationGetDtoList;
+        return customerReservationsResponseDto;
     }
 
     public void paymentProcess() {
@@ -272,17 +280,18 @@ public class BookingClient {
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<PaymentDto> requestEntity = new HttpEntity<>(paymentDto, headers);
         String url = BASE_URL + "/api/payment";
-        ResponseEntity<Float> response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, Float.class);
-        Float cost = response.getBody();
-        if (cost == null) {
+        ResponseEntity<PaymentResponseDto> response = restTemplate.exchange(url, HttpMethod.POST
+                , requestEntity, PaymentResponseDto.class);
+        PaymentResponseDto paymentResponseDto = response.getBody();
+        if (paymentResponseDto == null) {
             System.out.println("tracking code did not find or Your payment deadline has expired.");
 
-        } else if (cost > 0) {
+        } else if (paymentResponseDto.getCost() > 0) {
             System.out.println("You have successfully paid. Your flight has been confirmed");
-            System.out.println(cost + "$ Deducted from your account");
-        } else if (cost == -1) {
+            System.out.println(paymentResponseDto.getCost() + "$ Deducted from your account");
+        } else if (paymentResponseDto.getCost() == -1) {
             System.out.println("sorry!There are not enough seats left.");
-        } else if (cost < -1) {
+        } else if (paymentResponseDto.getCost() < -1) {
             System.out.println("tracking code did not find or Your payment deadline has expired.");
         }
     }

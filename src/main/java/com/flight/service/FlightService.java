@@ -2,6 +2,7 @@ package com.flight.service;
 
 import com.flight.Mapper.FlightMapper;
 import com.flight.aspect.ServiceLoggingAspect;
+import com.flight.dto.AllFlightsResponse;
 import com.flight.dto.FlightDto;
 import com.flight.entity.FlightInfo;
 import com.flight.repository.FlightIfoRepository;
@@ -24,12 +25,13 @@ public class FlightService {
     }
 
     @ServiceLoggingAspect
-    public List<FlightDto> getAllFlights() {
+    public AllFlightsResponse getAllFlights() {
 
-        return flightRepository.findAll()
+        List<FlightDto> flightDtoList =  flightRepository.findAll()
                 .stream()
                 .map(flightMapper::toFlightDto)
                 .collect(toList());
+        return new AllFlightsResponse(flightDtoList);
     }
 
     @ServiceLoggingAspect

@@ -5,6 +5,7 @@ import com.flight.Mapper.CancellationMapper;
 import com.flight.aspect.ServiceLoggingAspect;
 import com.flight.cache.CacheElement;
 import com.flight.dto.CancellationDto;
+import com.flight.dto.CancellingResponseDto;
 import com.flight.entity.FlightInfo;
 import com.flight.entity.Reservation;
 import com.flight.repository.FlightIfoRepository;
@@ -33,7 +34,7 @@ public class CancellationService {
     }
 
     @ServiceLoggingAspect
-    public float cancelling(CancellationDto cancellationDto) {
+    public CancellingResponseDto cancelling(CancellationDto cancellationDto) {
         Reservation inputReservation = cancellationMapper.toReservation(cancellationDto);
         try {
             List<Reservation> reservations = reserveRepository.findReserveByCustomerId(inputReservation.getCustomerId())
@@ -42,7 +43,7 @@ public class CancellationService {
 
 
             if (reservations == null || reservations.size() <= 0) {
-                return -1;
+                return new CancellingResponseDto(-1);
             }
             int numberOfTickets = reservations.size();
             int flightId = reservations.get(0).getFlightId();
@@ -68,11 +69,11 @@ public class CancellationService {
                 reserveRepository.deleteByCustomerIdAndPassengerNationalCode(inputReservation.getCustomerId(), code);
             }
             LOGGER.info("tickets cancelled.");
-            return cost;
+            return new CancellingResponseDto(cost);
         } catch (Exception ex) {
             LOGGER.error("Error in the server");
         }
-        return -2;
+        return new CancellingResponseDto(-2);
     }
 
     public synchronized void updateAfterCancellation(int numOfCancelled, FlightInfo flight) {
