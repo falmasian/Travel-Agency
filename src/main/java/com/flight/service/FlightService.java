@@ -4,12 +4,9 @@ import com.flight.Mapper.FlightMapper;
 import com.flight.aspect.ServiceLoggingAspect;
 import com.flight.dto.AllFlightsResponse;
 import com.flight.dto.FlightDto;
-import com.flight.entity.City;
 import com.flight.entity.FlightInfo;
 import com.flight.repository.FlightIfoRepository;
-import jakarta.persistence.criteria.Join;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

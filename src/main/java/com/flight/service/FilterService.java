@@ -13,7 +13,6 @@ import jakarta.persistence.criteria.Join;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
-import java.sql.Date;
 import java.util.Calendar;
 import java.util.List;
 
