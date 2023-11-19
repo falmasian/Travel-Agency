@@ -1,7 +1,7 @@
 package com.flight.service;
 
 import com.flight.Mapper.FlightMapper;
-import com.flight.aspect.ServiceLoggingAspect;
+import com.flight.aspect.Service;
 import com.flight.dto.AllFlightsResponse;
 import com.flight.dto.FlightDto;
 import com.flight.entity.FlightInfo;
@@ -24,7 +24,7 @@ public class FlightService {
         this.flightMapper = flightMapper;
     }
 
-    @ServiceLoggingAspect
+    @Service
     public AllFlightsResponse getAllFlights() {
         flightRepository.findAll().stream().forEach(c -> System.out.println(c.getDestinationCity().getCityName()));
 
@@ -41,7 +41,7 @@ public class FlightService {
 //        };
 //    }
 
-    @ServiceLoggingAspect
+    @Service
     public boolean deleteFlight(int id) {
         try {
             flightRepository.deleteById(id);
@@ -51,9 +51,10 @@ public class FlightService {
         }
     }
 
-    @ServiceLoggingAspect
-    public void insertFlight(FlightDto flightDto) {
+    @Service
+    public int insertFlight(FlightDto flightDto) {
         FlightInfo flightInfo = flightMapper.toFlight(flightDto);
         flightRepository.save(flightInfo);
+        return flightInfo.getFlightNumber();
     }
 }

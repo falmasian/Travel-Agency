@@ -23,8 +23,8 @@ public class CityController implements CityFacade {
     }
 
     @Override
-    public void insert(CityDto cityDto) {
-        cityService.insertCity(cityDto);
+    public int insert(CityDto cityDto) {
+        return cityService.insertCity(cityDto);
     }
 
     @Override

@@ -2,7 +2,7 @@ package com.flight.service;
 
 
 import com.flight.Mapper.CancellationMapper;
-import com.flight.aspect.ServiceLoggingAspect;
+import com.flight.aspect.Service;
 import com.flight.cache.CacheElement;
 import com.flight.dto.CancellationDto;
 import com.flight.dto.CancellingResponseDto;
@@ -33,15 +33,13 @@ public class CancellationService {
         this.cancellationMapper = cancellationMapper;
     }
 
-    @ServiceLoggingAspect
+    @Service
+    //todo : esme method bayad simple present bashe.
     public CancellingResponseDto cancelling(CancellationDto cancellationDto) {
         Reservation inputReservation = cancellationMapper.toReservation(cancellationDto);
         try {
             List<Reservation> reservations = reserveRepository.findReserveByCustomerId(inputReservation.getCustomerId())
                     .stream().toList();
-
-
-
             if (reservations == null || reservations.size() <= 0) {
                 return new CancellingResponseDto(-1);
             }
@@ -49,7 +47,6 @@ public class CancellationService {
             int flightId = reservations.get(0).getFlightId();
             Optional<FlightInfo> f = flightRepository.findById(flightId);
             float cost = f.get().getCost() * numberOfTickets;
-
 
             Optional<FlightInfo> optionalFlight = flightRepository.findById(flightId);
 
@@ -59,7 +56,6 @@ public class CancellationService {
                 flight.setRemainingSeats(currentAvailableSeats + numberOfTickets);
                 flightRepository.save(flight);
             }
-
 
             FlightInfo flight = flightRepository.getReferenceById(flightId);
             CreatedCaches.flightCapacityCacheManager.putInCacheWithName(CreatedCaches.flightCapacityCacheName

@@ -5,8 +5,8 @@ import java.util.*;
 public class Cache {
 
     private final long EXPIRED_TIME_IN_SEC;
-    Map<Object, Object> cache;
-    Timer timer;
+    private Map<Object, Object> cache;
+    private Timer timer;
 
     public Cache(long periodTime) {
         EXPIRED_TIME_IN_SEC = periodTime;

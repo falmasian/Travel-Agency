@@ -25,7 +25,7 @@ public interface FlightFacade {
      */
     @PostMapping(value = baseUrl + "/insert", consumes = MediaType.APPLICATION_JSON_VALUE
             , produces = MediaType.APPLICATION_JSON_VALUE)
-    void insert(@RequestBody FlightDto flightDto);
+    int insert(@RequestBody FlightDto flightDto);
 
 
     /**

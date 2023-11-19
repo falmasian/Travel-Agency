@@ -23,8 +23,8 @@ public class FlightController implements FlightFacade {
     }
 
     @Override
-    public void insert(FlightDto flightDto) {
-        flightService.insertFlight(flightDto);
+    public int insert(FlightDto flightDto) {
+        return flightService.insertFlight(flightDto);
     }
 
     @Override

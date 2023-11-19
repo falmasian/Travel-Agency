@@ -1,7 +1,6 @@
 package com.flight.mapper;
 
 import com.flight.Mapper.BookingMapper;
-import com.flight.Mapper.CityMapper;
 import com.flight.dto.BookingDto;
 import com.flight.entity.Reservation;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,7 +19,7 @@ public class BookingMapperTest {
     }
 
     @Test
-    public void toReservation(){
+    public void toReservation() {
         BookingDto bookingDto = mock(BookingDto.class);
         Reservation reservation = bookingMapper.toReservation(bookingDto);
         assertThat(reservation.getCustomerId()).isSameAs(bookingDto.getCustomerId());
@@ -28,7 +27,7 @@ public class BookingMapperTest {
     }
 
     @Test
-    public void toBookingDto(){
+    public void toBookingDto() {
         Reservation reservation = mock(Reservation.class);
         BookingDto bookingDto = bookingMapper.toBookingDto(reservation);
         assertThat(reservation.getCustomerId()).isSameAs(bookingDto.getCustomerId());

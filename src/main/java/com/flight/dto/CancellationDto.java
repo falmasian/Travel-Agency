@@ -8,6 +8,7 @@ public class CancellationDto {
      * ایدی مشتری
      */
     private String customerId;
+
     /**
      * کد ملی های کنسلی مسافران
      */

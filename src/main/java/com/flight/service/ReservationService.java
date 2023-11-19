@@ -2,7 +2,7 @@ package com.flight.service;
 
 import com.flight.Mapper.ReservationGetMapper;
 import com.flight.Mapper.ReservationMapper;
-import com.flight.aspect.ServiceLoggingAspect;
+import com.flight.aspect.Service;
 import com.flight.dto.CustomerReservationsResponseDto;
 import com.flight.dto.ReservationDto;
 import com.flight.dto.ReservationGetDto;
@@ -26,7 +26,7 @@ public class ReservationService {
         this.reservationMapper = reservationMapper;
     }
 
-    @ServiceLoggingAspect
+    @Service
     public CustomerReservationsResponseDto getAllReservations(ReservationDto reservationDto) {
         Reservation r = reservationMapper.toReservation(reservationDto);
         List<ReservationGetDto> reservationGetDtoList = reserveRepository.findReserveByCustomerId(r.getCustomerId().trim())

@@ -23,7 +23,7 @@ public interface CityFacade {
      * @param cityDto اضافه کردن یک شهر
      */
     @PostMapping(value = baseUrl + "/insert", consumes = MediaType.APPLICATION_JSON_VALUE)
-    void insert(@RequestBody CityDto cityDto);
+    int insert(@RequestBody CityDto cityDto);
 
 
     /**

@@ -1,7 +1,7 @@
 package com.flight.service;
 
 import com.flight.Mapper.BookingMapper;
-import com.flight.aspect.ServiceLoggingAspect;
+import com.flight.aspect.Service;
 import com.flight.cache.CacheElement;
 import com.flight.dto.BookingDto;
 import com.flight.dto.ReservationResponseDto;
@@ -28,32 +28,31 @@ public class BookingService {
         this.bookingMapper = bookingMapper;
     }
 
-    @ServiceLoggingAspect
+    @Service
     public ReservationResponseDto book(BookingDto bookingDto) {
         Reservation reservation = bookingMapper.toReservation(bookingDto);
         try {
-
             Optional<FlightInfo> chosenFlight = flightRepository.findById(reservation.getFlightId());
             if (chosenFlight.isEmpty()) {
                 return new ReservationResponseDto("-1");
             }
             int key = chosenFlight.get().getFlightNumber();
             if (!CreatedCaches.flightCapacityCacheManager.isKeyInCache(CreatedCaches.flightCapacityCacheName, key)) {
-                boolean result = CreatedCaches.flightCapacityCacheManager
-                        .putInCacheWithName(CreatedCaches.flightCapacityCacheName, key
-                                , new CacheElement<>(chosenFlight.get()));
+                CreatedCaches.flightCapacityCacheManager.putInCacheWithName
+                        (CreatedCaches.flightCapacityCacheName, key, new CacheElement<>(chosenFlight.get()));
             }
-            FlightInfo fc = CreatedCaches.flightCapacityCacheManager
+            FlightInfo flightInfo = CreatedCaches.flightCapacityCacheManager
                     .getItemFromCache(CreatedCaches.flightCapacityCacheName, key);
-            int remain = fc.getRemainingCapacity();
+            int remain = flightInfo.getRemainingCapacity();
             if (remain >= reservation.getNumberOfTickets()) {
                 CreatedCaches.reservationCacheManager.putInCacheWithName(CreatedCaches.reservedFlightsCacheName
                         , reservation.getTrackingCode(), new CacheElement(reservation));
-                fc.addTemporaryReserves(reservation.getNumberOfTickets());
+                flightInfo.addTemporaryReserves(reservation.getNumberOfTickets());
                 LOGGER.info("a temporary reservation with tracking code {} created by customer with ID {} "
                         , reservation.getTrackingCode(), reservation.getCustomerId());
                 return new ReservationResponseDto(reservation.getTrackingCode());
             }
+            //todo: khafe sazie exception
         } catch (Exception ex) {
             LOGGER.error("Error in the server");
         }

@@ -2,7 +2,7 @@ package com.flight.service;
 
 import com.flight.Mapper.FilterFlightMapper;
 import com.flight.Mapper.FlightMapper;
-import com.flight.aspect.ServiceLoggingAspect;
+import com.flight.aspect.Service;
 import com.flight.dto.FilterFlightDto;
 import com.flight.dto.FilterResponseDto;
 import com.flight.dto.FlightDto;
@@ -29,7 +29,7 @@ public class FilterService {
         this.flightMapper = flightMapper;
     }
 
-    @ServiceLoggingAspect
+    @Service
     public FilterResponseDto filter(FilterFlightDto filterFlightDto) {
         FlightInfo flight = filterFlightMapper.toFlight(filterFlightDto);
 

@@ -1,7 +1,7 @@
 package com.flight.service;
 
 import com.flight.Mapper.PaymentMapper;
-import com.flight.aspect.ServiceLoggingAspect;
+import com.flight.aspect.Service;
 import com.flight.dto.PaymentDto;
 import com.flight.dto.PaymentResponseDto;
 import com.flight.entity.FlightInfo;
@@ -31,7 +31,8 @@ public class PaymentService {
         this.paymentMapper = paymentMapper;
     }
 
-    @ServiceLoggingAspect
+    @Service
+    @Transactional
     public PaymentResponseDto payment(PaymentDto paymentDto) {
         String tracingCode = paymentMapper.toTrackingCode(paymentDto);
         float cost = pay(tracingCode);
@@ -123,7 +124,6 @@ public class PaymentService {
         }
     }
 
-    @Transactional
     private void confirmReservation(String tracingCode){
         Reservation reservation = findReservationByTrackingCode(tracingCode);
         synchronized (this) {

@@ -15,7 +15,7 @@ public class LoggingAspect {
     private static final String BEFORE_BODY_TEXT = "Request Body: ";
     private static final String BEFORE_RESPONSE_TEXT = "Response: ";
 
-    @Around("@annotation(com.flight.aspect.ServiceLoggingAspect)")
+    @Around("@annotation(com.flight.aspect.Service)")
     public Object logRequestAndResponse(ProceedingJoinPoint joinPoint) throws Throwable {
 
         LOGGER.info("\n" + BEFORE_NAME_TEXT + joinPoint.getSignature().getName());
