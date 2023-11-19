@@ -6,6 +6,10 @@ import com.flight.dto.PaymentDto;
 import com.flight.dto.PaymentResponseDto;
 import com.flight.entity.FlightInfo;
 import com.flight.entity.Reservation;
+import com.flight.exception.EmptyFlightException;
+import com.flight.exception.EmptyReservationException;
+import com.flight.exception.FailedToPayException;
+import com.flight.exception.NotEnoughSeatsException;
 import com.flight.repository.FlightIfoRepository;
 import com.flight.repository.ReserveRepository;
 import com.flight.server.CreatedCaches;
@@ -24,7 +28,8 @@ public class PaymentService {
     private final PaymentMapper paymentMapper;
     private static final Logger LOGGER = LoggerFactory.getLogger(PaymentService.class);
 
-    public PaymentService(FlightIfoRepository flightRepository, ReserveRepository reserveRepository
+    public PaymentService(FlightIfoRepository flightRepository
+            , ReserveRepository reserveRepository
             , PaymentMapper paymentMapper) {
         this.flightRepository = flightRepository;
         this.reserveRepository = reserveRepository;
@@ -33,37 +38,36 @@ public class PaymentService {
 
     @Service
     @Transactional
-    public PaymentResponseDto payment(PaymentDto paymentDto) {
+    public PaymentResponseDto pay(PaymentDto paymentDto) throws FailedToPayException
+            , EmptyFlightException
+            , EmptyReservationException, NotEnoughSeatsException {
         String tracingCode = paymentMapper.toTrackingCode(paymentDto);
-        float cost = pay(tracingCode);
+        float cost = getCost(tracingCode);
         if (cost > 0) {
             try {
                 confirmReservation(tracingCode);
                 LOGGER.info("reservation with tracking code {} is payed.", tracingCode);
             } catch (Exception ex) {
-                LOGGER.error("Error in the server");
+                throw new FailedToPayException("Payment failed.");
             }
         }
         return new PaymentResponseDto(cost);
     }
 
-    private float pay(String tracingCode) {
-        try {
-            Reservation reservation = findReservationByTrackingCode(tracingCode);
-            if (reservation == null) {
-                return -2;
+    private float getCost(String tracingCode) throws EmptyReservationException
+            , NotEnoughSeatsException
+            , EmptyFlightException {
+        Reservation reservation = findReservationByTrackingCode(tracingCode);
+        if (reservation == null) {
+            throw new EmptyReservationException("There is no reservation with this tracing code.");
+        } else {
+            if (reservation.getNumberOfTickets() <= getRemainSeatsByFlightId(reservation.getFlightId())) {
+                return calculateCostOfReservation(reservation);
             } else {
-                if (reservation.getNumberOfTickets() <= getRemainSeatsByFlightId(reservation.getFlightId())) {
-                    return calculateCostOfReservation(reservation);
-                } else {
-                    deleteReservationFromCache(tracingCode);
-                    return -1;
-                }
+                deleteReservationFromCache(tracingCode);
+                throw new NotEnoughSeatsException("There is no enough remain seats in this flights");
             }
-        } catch (NumberFormatException ex) {
-            LOGGER.error("Error in the server");
         }
-        return -2;
     }
 
     private Reservation findReservationByTrackingCode(String tracingCode) {
@@ -71,15 +75,18 @@ public class PaymentService {
                 , tracingCode);
     }
 
-    private float calculateCostOfReservation(Reservation reservation) {
+    private float calculateCostOfReservation(Reservation reservation) throws EmptyFlightException {
         float eachTicketCost = getCostByFlightId(reservation.getFlightId());
         return eachTicketCost * reservation.getNumberOfTickets();
     }
 
-    private float getCostByFlightId(int flightId) {
+    private float getCostByFlightId(int flightId) throws EmptyFlightException {
 
         Optional<FlightInfo> optionalFlightInfo = flightRepository.findById(flightId);
-        return optionalFlightInfo.map(FlightInfo::getCost).orElse((float) -1);
+        if (optionalFlightInfo.isEmpty()) {
+            throw new EmptyFlightException("There is no flight with this flight number.");
+        }
+        return optionalFlightInfo.get().getCost();
     }
 
     private int getRemainSeatsByFlightId(int flightId) {
@@ -88,7 +95,8 @@ public class PaymentService {
     }
 
     private void deleteReservationFromCache(String tracingCode) {
-        CreatedCaches.reservationCacheManager.removeItemFromCache(CreatedCaches.reservedFlightsCacheName, tracingCode);
+        CreatedCaches.reservationCacheManager
+                .removeItemFromCache(CreatedCaches.reservedFlightsCacheName, tracingCode);
     }
 
     private synchronized void updateCapacity(Reservation reservation) {
@@ -101,14 +109,15 @@ public class PaymentService {
     }
 
     @Transactional
-    private synchronized void insertInDatabase(Reservation reservation){
+    private synchronized void insertInDatabase(Reservation reservation) {
         for (int i = 0; i < reservation.getNumberOfTickets(); i++) {
             reservation.setPassengerNationalCode(reservation.getFromNationalCodesByIndex(i));
-            Reservation reserve = new Reservation(reservation.getCustomerId() , reservation.getFlightId()
-                    , reservation.getFromNationalCodesByIndex(i) ,reservation.getTrackingCode());
+            Reservation reserve = new Reservation(reservation.getCustomerId(), reservation.getFlightId()
+                    , reservation.getFromNationalCodesByIndex(i), reservation.getTrackingCode());
             reserveRepository.save(reserve);
         }
-        LOGGER.info("reservation with tracking code {} is inserted in database.", reservation.getTrackingCode());
+        LOGGER.info("reservation with tracking code {} is inserted in database."
+                , reservation.getTrackingCode());
     }
 
     public synchronized void updateFlightRemainSeats(int flightId, int numOfTickets) {
@@ -124,7 +133,7 @@ public class PaymentService {
         }
     }
 
-    private void confirmReservation(String tracingCode){
+    private void confirmReservation(String tracingCode) {
         Reservation reservation = findReservationByTrackingCode(tracingCode);
         synchronized (this) {
             insertInDatabase(reservation);

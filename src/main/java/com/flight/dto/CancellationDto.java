@@ -10,6 +10,11 @@ public class CancellationDto {
     private String customerId;
 
     /**
+     *   شماره پرواز
+     */
+    private int flightId;
+
+    /**
      * کد ملی های کنسلی مسافران
      */
     private ArrayList<String> nationalCodes;
@@ -17,8 +22,9 @@ public class CancellationDto {
     public CancellationDto() {
     }
 
-    public CancellationDto(String customerId, ArrayList<String> nationalCodes) {
+    public CancellationDto(String customerId,int flightId, ArrayList<String> nationalCodes) {
         this.customerId = customerId;
+        this.flightId = flightId;
         this.nationalCodes = nationalCodes;
     }
 

@@ -19,7 +19,8 @@ public class ReservationService {
     private final ReservationGetMapper reservationGetMapper;
     private final ReservationMapper reservationMapper;
 
-    public ReservationService(ReserveRepository reserveRepository, ReservationGetMapper reservationGetMapper
+    public ReservationService(ReserveRepository reserveRepository
+            , ReservationGetMapper reservationGetMapper
             , ReservationMapper reservationMapper) {
         this.reserveRepository = reserveRepository;
         this.reservationGetMapper = reservationGetMapper;
@@ -28,12 +29,20 @@ public class ReservationService {
 
     @Service
     public CustomerReservationsResponseDto getAllReservations(ReservationDto reservationDto) {
-        Reservation r = reservationMapper.toReservation(reservationDto);
-        List<ReservationGetDto> reservationGetDtoList = reserveRepository.findReserveByCustomerId(r.getCustomerId().trim())
+        Reservation reservation = reservationMapper.toReservation(reservationDto);
+        List<Reservation> reservationList;
+        if (reservation.getFlightId() > 0) {
+            reservationList = reserveRepository
+                    .findReserveByCustomerIdAndFlightId(reservation.getCustomerId().trim()
+                            , reservation.getFlightId());
+        } else {
+            reservationList = reserveRepository
+                    .findReserveByCustomerId(reservation.getCustomerId().trim());
+        }
+        List<ReservationGetDto> reservationGetDtoList = reservationList
                 .stream()
                 .map(reservationGetMapper::toReservationGetDto)
                 .toList();
         return new CustomerReservationsResponseDto(reservationGetDtoList);
-
     }
 }

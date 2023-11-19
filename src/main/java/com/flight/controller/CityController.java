@@ -19,16 +19,16 @@ public class CityController implements CityFacade {
 
     @Override
     public AllCitiesResponse getAll() {
-        return cityService.getAllCities();
+        return cityService.getAll();
     }
 
     @Override
     public int insert(CityDto cityDto) {
-        return cityService.insertCity(cityDto);
+        return cityService.insert(cityDto);
     }
 
     @Override
     public boolean delete(int id) {
-        return cityService.deleteCityById(id);
+        return cityService.deleteById(id);
     }
 }

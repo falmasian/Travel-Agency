@@ -14,6 +14,6 @@ public class CancellationMapper {
     }
 
     public CancellationDto toCancellationDto(Reservation reservation) {
-        return new CancellationDto(reservation.getCustomerId(), reservation.getNationalCodes());
+        return new CancellationDto(reservation.getCustomerId(), reservation.getFlightId(), reservation.getNationalCodes());
     }
 }

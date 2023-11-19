@@ -7,6 +7,8 @@ import com.flight.dto.BookingDto;
 import com.flight.dto.ReservationResponseDto;
 import com.flight.entity.FlightInfo;
 import com.flight.entity.Reservation;
+import com.flight.exception.EmptyFlightException;
+import com.flight.exception.NotEnoughSeatsException;
 import com.flight.repository.FlightIfoRepository;
 import com.flight.server.CreatedCaches;
 import org.slf4j.Logger;
@@ -29,33 +31,29 @@ public class BookingService {
     }
 
     @Service
-    public ReservationResponseDto book(BookingDto bookingDto) {
+    public ReservationResponseDto book(BookingDto bookingDto) throws EmptyFlightException
+            , NotEnoughSeatsException {
         Reservation reservation = bookingMapper.toReservation(bookingDto);
-        try {
-            Optional<FlightInfo> chosenFlight = flightRepository.findById(reservation.getFlightId());
-            if (chosenFlight.isEmpty()) {
-                return new ReservationResponseDto("-1");
-            }
-            int key = chosenFlight.get().getFlightNumber();
-            if (!CreatedCaches.flightCapacityCacheManager.isKeyInCache(CreatedCaches.flightCapacityCacheName, key)) {
-                CreatedCaches.flightCapacityCacheManager.putInCacheWithName
-                        (CreatedCaches.flightCapacityCacheName, key, new CacheElement<>(chosenFlight.get()));
-            }
-            FlightInfo flightInfo = CreatedCaches.flightCapacityCacheManager
-                    .getItemFromCache(CreatedCaches.flightCapacityCacheName, key);
-            int remain = flightInfo.getRemainingCapacity();
-            if (remain >= reservation.getNumberOfTickets()) {
-                CreatedCaches.reservationCacheManager.putInCacheWithName(CreatedCaches.reservedFlightsCacheName
-                        , reservation.getTrackingCode(), new CacheElement(reservation));
-                flightInfo.addTemporaryReserves(reservation.getNumberOfTickets());
-                LOGGER.info("a temporary reservation with tracking code {} created by customer with ID {} "
-                        , reservation.getTrackingCode(), reservation.getCustomerId());
-                return new ReservationResponseDto(reservation.getTrackingCode());
-            }
-            //todo: khafe sazie exception
-        } catch (Exception ex) {
-            LOGGER.error("Error in the server");
+        Optional<FlightInfo> chosenFlight = flightRepository.findById(reservation.getFlightId());
+        if (chosenFlight.isEmpty()) {
+            throw new EmptyFlightException("There is no Flight with this flight number.");
         }
-        return new ReservationResponseDto("");
+        int key = chosenFlight.get().getFlightNumber();
+        if (!CreatedCaches.flightCapacityCacheManager.isKeyInCache(CreatedCaches.flightCapacityCacheName, key)) {
+            CreatedCaches.flightCapacityCacheManager.putInCacheWithName
+                    (CreatedCaches.flightCapacityCacheName, key, new CacheElement<>(chosenFlight.get()));
+        }
+        FlightInfo flightInfo = CreatedCaches.flightCapacityCacheManager
+                .getItemFromCache(CreatedCaches.flightCapacityCacheName, key);
+        int remain = flightInfo.getRemainingCapacity();
+        if (remain < reservation.getNumberOfTickets()) {
+            throw new NotEnoughSeatsException("there are no enough seats to reserve.");
+        }
+        CreatedCaches.reservationCacheManager.putInCacheWithName(CreatedCaches.reservedFlightsCacheName
+                , reservation.getTrackingCode(), new CacheElement(reservation));
+        flightInfo.addTemporaryReserves(reservation.getNumberOfTickets());
+        LOGGER.info("a temporary reservation with tracking code {} created by customer with ID {} "
+                , reservation.getTrackingCode(), reservation.getCustomerId());
+        return new ReservationResponseDto(reservation.getTrackingCode());
     }
 }

@@ -8,9 +8,12 @@ import com.flight.dto.CancellationDto;
 import com.flight.dto.CancellingResponseDto;
 import com.flight.entity.FlightInfo;
 import com.flight.entity.Reservation;
+import com.flight.exception.EmptyFlightException;
+import com.flight.exception.EmptyReservationException;
 import com.flight.repository.FlightIfoRepository;
 import com.flight.repository.ReserveRepository;
 import com.flight.server.CreatedCaches;
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -34,44 +37,41 @@ public class CancellationService {
     }
 
     @Service
-    //todo : esme method bayad simple present bashe.
-    public CancellingResponseDto cancelling(CancellationDto cancellationDto) {
+    @Transactional
+    public CancellingResponseDto cancel(CancellationDto cancellationDto) throws EmptyReservationException
+            , EmptyFlightException {
         Reservation inputReservation = cancellationMapper.toReservation(cancellationDto);
-        try {
-            List<Reservation> reservations = reserveRepository.findReserveByCustomerId(inputReservation.getCustomerId())
-                    .stream().toList();
-            if (reservations == null || reservations.size() <= 0) {
-                return new CancellingResponseDto(-1);
-            }
-            int numberOfTickets = reservations.size();
-            int flightId = reservations.get(0).getFlightId();
-            Optional<FlightInfo> f = flightRepository.findById(flightId);
-            float cost = f.get().getCost() * numberOfTickets;
-
-            Optional<FlightInfo> optionalFlight = flightRepository.findById(flightId);
-
-            if (optionalFlight.isPresent()) {
-                FlightInfo flight = optionalFlight.get();
-                int currentAvailableSeats = flight.getRemainingSeats();
-                flight.setRemainingSeats(currentAvailableSeats + numberOfTickets);
-                flightRepository.save(flight);
-            }
-
-            FlightInfo flight = flightRepository.getReferenceById(flightId);
-            CreatedCaches.flightCapacityCacheManager.putInCacheWithName(CreatedCaches.flightCapacityCacheName
-                    , flightId, new CacheElement<>(flight));
-            updateAfterCancellation(numberOfTickets, flight);
-            for (String code : inputReservation.getNationalCodes()) {
-                reserveRepository.deleteByCustomerIdAndPassengerNationalCode(inputReservation.getCustomerId(), code);
-            }
-            LOGGER.info("tickets cancelled.");
-            return new CancellingResponseDto(cost);
-        } catch (Exception ex) {
-            LOGGER.error("Error in the server");
+        int flightId = inputReservation.getFlightId();
+        Optional<FlightInfo> optionalFlightInfo = flightRepository.findById(flightId);
+        if (optionalFlightInfo.isEmpty()) {
+            throw new EmptyFlightException("There is no flight with this flight number.");
         }
-        return new CancellingResponseDto(-2);
+        FlightInfo flightInfo = optionalFlightInfo.get();
+        List<Reservation> reservations = reserveRepository
+                .findReserveByCustomerIdAndFlightId(inputReservation.getCustomerId()
+                        , inputReservation.getFlightId())
+                .stream().toList();
+        if (reservations == null || reservations.size() <= 0) {
+            throw new EmptyReservationException("There is no reservation with this national code and flight number.");
+        }
+        int numberOfTickets = reservations.size();
+        float cost = flightInfo.getCost() * numberOfTickets;
+        int currentAvailableSeats = flightInfo.getRemainingSeats();
+        flightInfo.setRemainingSeats(currentAvailableSeats + numberOfTickets);
+        flightRepository.save(flightInfo);
+
+        FlightInfo flight = flightRepository.getReferenceById(flightId);
+        CreatedCaches.flightCapacityCacheManager.putInCacheWithName(CreatedCaches.flightCapacityCacheName
+                , flightId, new CacheElement<>(flight));
+        updateAfterCancellation(numberOfTickets, flight);
+        for (String code : inputReservation.getNationalCodes()) {
+            reserveRepository.deleteByCustomerIdAndPassengerNationalCode(inputReservation.getCustomerId(), code);
+        }
+        LOGGER.info("tickets cancelled.");
+        return new CancellingResponseDto(cost);
     }
 
+    @Transactional
     public synchronized void updateAfterCancellation(int numOfCancelled, FlightInfo flight) {
         flight.setCompletedReserves(flight.getCompletedReserves() - numOfCancelled);
         flight.setRemainingSeats(flight.getRemainingSeats() + numOfCancelled);

@@ -12,6 +12,7 @@ import java.util.List;
 public interface ReserveRepository extends JpaRepository<Reservation, Integer> {
 
     List<Reservation> findReserveByCustomerId(String customerId);
+    List<Reservation> findReserveByCustomerIdAndFlightId(String customerId, int flightId);
 
     @Transactional
     void deleteByCustomerIdAndPassengerNationalCode(@Param("customerId") String customerId, @Param("passengerNationalCode") String nationalcode);

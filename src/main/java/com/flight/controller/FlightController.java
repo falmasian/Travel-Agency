@@ -19,16 +19,16 @@ public class FlightController implements FlightFacade {
 
     @Override
     public AllFlightsResponse getAll() {
-        return flightService.getAllFlights();
+        return flightService.getAll();
     }
 
     @Override
     public int insert(FlightDto flightDto) {
-        return flightService.insertFlight(flightDto);
+        return flightService.insert(flightDto);
     }
 
     @Override
     public boolean delete(int id) {
-        return flightService.deleteFlight(id);
+        return flightService.deleteById(id);
     }
 }

@@ -25,24 +25,16 @@ public class FlightService {
     }
 
     @Service
-    public AllFlightsResponse getAllFlights() {
-        flightRepository.findAll().stream().forEach(c -> System.out.println(c.getDestinationCity().getCityName()));
-
+    public AllFlightsResponse getAll() {
         List<FlightDto> flightDtoList =  flightRepository.findAll()
                 .stream()
                 .map(flightMapper::toFlightDto)
                 .collect(toList());
         return new AllFlightsResponse(flightDtoList);
     }
-//    public static Specification<FlightInfo> joinCity() {
-//        return (root, query, criteriaBuilder) -> {
-//            Join<FlightInfo, City> FlightCity = root.join("City ");
-//            return criteriaBuilder.equal(authorsBook.get("title"), bookTitle);
-//        };
-//    }
 
     @Service
-    public boolean deleteFlight(int id) {
+    public boolean deleteById(int id) {
         try {
             flightRepository.deleteById(id);
             return true;
@@ -52,7 +44,7 @@ public class FlightService {
     }
 
     @Service
-    public int insertFlight(FlightDto flightDto) {
+    public int insert(FlightDto flightDto) {
         FlightInfo flightInfo = flightMapper.toFlight(flightDto);
         flightRepository.save(flightInfo);
         return flightInfo.getFlightNumber();

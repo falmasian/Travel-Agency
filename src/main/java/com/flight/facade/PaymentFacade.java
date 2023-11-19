@@ -2,6 +2,10 @@ package com.flight.facade;
 
 import com.flight.dto.PaymentDto;
 import com.flight.dto.PaymentResponseDto;
+import com.flight.exception.EmptyFlightException;
+import com.flight.exception.EmptyReservationException;
+import com.flight.exception.FailedToPayException;
+import com.flight.exception.NotEnoughSeatsException;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,5 +22,5 @@ public interface PaymentFacade {
      * هزینه را نشان میدهد
      */
     @PostMapping(value = url, consumes = MediaType.APPLICATION_JSON_VALUE)
-    PaymentResponseDto payment(@RequestBody PaymentDto paymentDto);
+    PaymentResponseDto pay(@RequestBody PaymentDto paymentDto) throws FailedToPayException, EmptyFlightException, EmptyReservationException, NotEnoughSeatsException;
 }

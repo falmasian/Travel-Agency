@@ -8,6 +8,7 @@ import com.flight.dto.FilterResponseDto;
 import com.flight.dto.FlightDto;
 import com.flight.entity.City;
 import com.flight.entity.FlightInfo;
+import com.flight.exception.EmptyFlightException;
 import com.flight.repository.FlightIfoRepository;
 import jakarta.persistence.criteria.Join;
 import org.springframework.data.jpa.domain.Specification;
@@ -23,14 +24,15 @@ public class FilterService {
     private final FilterFlightMapper filterFlightMapper;
     private final FlightMapper flightMapper;
 
-    public FilterService(FlightIfoRepository flightRepository, FilterFlightMapper filterFlightMapper, FlightMapper flightMapper) {
+    public FilterService(FlightIfoRepository flightRepository, FilterFlightMapper filterFlightMapper
+            , FlightMapper flightMapper) {
         this.flightRepository = flightRepository;
         this.filterFlightMapper = filterFlightMapper;
         this.flightMapper = flightMapper;
     }
 
     @Service
-    public FilterResponseDto filter(FilterFlightDto filterFlightDto) {
+    public FilterResponseDto filter(FilterFlightDto filterFlightDto) throws EmptyFlightException {
         FlightInfo flight = filterFlightMapper.toFlight(filterFlightDto);
 
         Calendar c = Calendar.getInstance();
@@ -45,6 +47,9 @@ public class FilterService {
                 .filter(f -> f.getFlyDateTime().after(flight.getFlyDate()))
                 .filter(f -> f.getFlyDateTime().before(nextDay))
                 .map(flightMapper::toFlightDto).toList();
+        if (flightDtoList.isEmpty()) {
+            throw new EmptyFlightException("No match flights with this specification was found");
+        }
         return new FilterResponseDto(flightDtoList);
     }
 

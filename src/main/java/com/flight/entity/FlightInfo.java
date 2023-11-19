@@ -16,10 +16,6 @@ public class FlightInfo {
 
     private int flightNumber;
 
-//    private int originId;
-//
-//    private int destinationId;
-
     private Timestamp flyDateTime;
 
     @ManyToOne(fetch = FetchType.LAZY)

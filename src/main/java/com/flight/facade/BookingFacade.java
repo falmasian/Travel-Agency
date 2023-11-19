@@ -1,6 +1,9 @@
 package com.flight.facade;
 
 import com.flight.dto.*;
+import com.flight.exception.EmptyFlightException;
+import com.flight.exception.EmptyReservationException;
+import com.flight.exception.NotEnoughSeatsException;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +21,7 @@ public interface BookingFacade {
      * عملیات رزرو  را انجام میدهد و کد پیگیری را برمیگرداند
      */
     @PostMapping(value = baseUrl + "/reserve", consumes = MediaType.APPLICATION_JSON_VALUE)
-    ReservationResponseDto reserve(@RequestBody BookingDto bookingDto);
+    ReservationResponseDto reserve(@RequestBody BookingDto bookingDto) throws EmptyFlightException, NotEnoughSeatsException;
 
 
     /**
@@ -28,7 +31,7 @@ public interface BookingFacade {
      */
     @PostMapping(value = baseUrl + "/filter", consumes = MediaType.APPLICATION_JSON_VALUE
             , produces = MediaType.APPLICATION_JSON_VALUE)
-   FilterResponseDto filter(@RequestBody FilterFlightDto filterFlightDto);
+   FilterResponseDto filter(@RequestBody FilterFlightDto filterFlightDto) throws EmptyFlightException;
 
     /**
      * @param cancellationDto مشخصات ورودی
@@ -37,7 +40,7 @@ public interface BookingFacade {
      */
     @PostMapping(value = baseUrl + "/cancel", consumes = MediaType.APPLICATION_JSON_VALUE
             , produces = MediaType.APPLICATION_JSON_VALUE)
-    CancellingResponseDto cancel(@RequestBody CancellationDto cancellationDto);
+    CancellingResponseDto cancel(@RequestBody CancellationDto cancellationDto) throws EmptyFlightException, EmptyReservationException;
 
     /**
      * @param reservationDto مشخصات ورودی

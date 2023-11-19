@@ -1,5 +1,8 @@
 package com.flight.controller;
 
+import com.flight.exception.EmptyFlightException;
+import com.flight.exception.EmptyReservationException;
+import com.flight.exception.NotEnoughSeatsException;
 import com.flight.facade.BookingFacade;
 import com.flight.dto.*;
 import com.flight.service.BookingService;
@@ -27,18 +30,20 @@ public class BookingController implements BookingFacade {
     }
 
     @Override
-    public ReservationResponseDto reserve(BookingDto bookingDto) {
+    public ReservationResponseDto reserve(BookingDto bookingDto) throws EmptyFlightException
+            , NotEnoughSeatsException {
         return bookingService.book(bookingDto);
     }
 
     @Override
-    public FilterResponseDto filter(FilterFlightDto filterFlightDto) {
+    public FilterResponseDto filter(FilterFlightDto filterFlightDto) throws EmptyFlightException {
         return filterService.filter(filterFlightDto);
     }
 
     @Override
-    public CancellingResponseDto cancel(CancellationDto cancellationDto) {
-        return cancellationService.cancelling(cancellationDto);
+    public CancellingResponseDto cancel(CancellationDto cancellationDto) throws EmptyFlightException
+            , EmptyReservationException {
+        return cancellationService.cancel(cancellationDto);
     }
 
     @Override

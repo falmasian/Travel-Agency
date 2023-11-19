@@ -26,21 +26,21 @@ public class CityService {
 
 
     @Service
-    public AllCitiesResponse getAllCities() {
+    public AllCitiesResponse getAll() {
 
        List<CityDto> cityDtoList=  cityRepository.findAll().stream().map(cityMapper::toCityDto).collect(toList());
        return new AllCitiesResponse(cityDtoList);
     }
 
     @Service
-    public int insertCity(CityDto cityDto) {
+    public int insert(CityDto cityDto) {
         City city = cityMapper.toCity(cityDto);
         cityRepository.save(city);
         return city.getCityId();
     }
 
     @Service
-    public boolean deleteCityById(int id) {
+    public boolean deleteById(int id) {
         try {
             cityRepository.deleteById(id);
             return true;
