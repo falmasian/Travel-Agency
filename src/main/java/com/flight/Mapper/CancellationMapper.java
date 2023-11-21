@@ -10,6 +10,7 @@ public class CancellationMapper {
         Reservation reservation = new Reservation();
         reservation.setCustomerId(cancellationDto.getCustomerId());
         reservation.setNationalCodes(cancellationDto.getNationalCodes());
+        reservation.setFlightId(cancellationDto.getFlightId());
         return reservation;
     }
 

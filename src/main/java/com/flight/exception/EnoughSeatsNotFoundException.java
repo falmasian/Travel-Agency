@@ -1,11 +1,10 @@
 package com.flight.exception;
 
-public class FailedToPayException extends RuntimeException {
+public class EnoughSeatsNotFoundException extends RuntimeException {
 
-
-    private static final long serialVersionUID = 4L;
+    private static final long serialVersionUID = 3L;
     private final String errorMassage;
-    public FailedToPayException(String errorMassage){
+    public EnoughSeatsNotFoundException(String errorMassage) {
         super(errorMassage);
         this.errorMassage = errorMassage;
     }

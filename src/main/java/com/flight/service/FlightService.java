@@ -5,6 +5,7 @@ import com.flight.aspect.Service;
 import com.flight.dto.AllFlightsResponse;
 import com.flight.dto.FlightDto;
 import com.flight.entity.FlightInfo;
+import com.flight.exception.FlightNotFoundException;
 import com.flight.repository.FlightIfoRepository;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
@@ -26,7 +27,11 @@ public class FlightService {
 
     @Service
     public AllFlightsResponse getAll() {
-        List<FlightDto> flightDtoList =  flightRepository.findAll()
+        List<FlightInfo> flightInfoList = flightRepository.findAll();
+        if (flightInfoList.isEmpty()){
+            throw new FlightNotFoundException("there are no available flights.");
+        }
+        List<FlightDto> flightDtoList =  flightInfoList
                 .stream()
                 .map(flightMapper::toFlightDto)
                 .collect(toList());

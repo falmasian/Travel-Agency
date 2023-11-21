@@ -8,13 +8,16 @@ import com.flight.dto.FilterResponseDto;
 import com.flight.dto.FlightDto;
 import com.flight.entity.City;
 import com.flight.entity.FlightInfo;
-import com.flight.exception.EmptyFlightException;
+import com.flight.exception.FlightNotFoundException;
+import com.flight.exception.InvalidInputException;
 import com.flight.repository.FlightIfoRepository;
 import jakarta.persistence.criteria.Join;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Component
@@ -32,9 +35,15 @@ public class FilterService {
     }
 
     @Service
-    public FilterResponseDto filter(FilterFlightDto filterFlightDto) throws EmptyFlightException {
+    public FilterResponseDto filter(FilterFlightDto filterFlightDto) throws FlightNotFoundException {
         FlightInfo flight = filterFlightMapper.toFlight(filterFlightDto);
-
+        if(flight.getOriginCity().getCityId() == flight.getDestinationCity().getCityId()){
+            throw new InvalidInputException("origin and destination city can't be the same.");
+        }
+        LocalDateTime now = LocalDateTime.now();
+//        if (flight.getFlyDate().before(new Date())){
+//            throw new InvalidInputException("Input date is before current date.");
+//        }
         Calendar c = Calendar.getInstance();
         c.setTime(flight.getFlyDate());
         c.add(Calendar.DATE, 1);
@@ -48,7 +57,7 @@ public class FilterService {
                 .filter(f -> f.getFlyDateTime().before(nextDay))
                 .map(flightMapper::toFlightDto).toList();
         if (flightDtoList.isEmpty()) {
-            throw new EmptyFlightException("No match flights with this specification was found");
+            throw new FlightNotFoundException("No match flights with this specification was found");
         }
         return new FilterResponseDto(flightDtoList);
     }

@@ -6,10 +6,10 @@ import com.flight.dto.PaymentDto;
 import com.flight.dto.PaymentResponseDto;
 import com.flight.entity.FlightInfo;
 import com.flight.entity.Reservation;
-import com.flight.exception.EmptyFlightException;
-import com.flight.exception.EmptyReservationException;
+import com.flight.exception.FlightNotFoundException;
+import com.flight.exception.ReservationNotFoundException;
 import com.flight.exception.FailedToPayException;
-import com.flight.exception.NotEnoughSeatsException;
+import com.flight.exception.EnoughSeatsNotFoundException;
 import com.flight.repository.FlightIfoRepository;
 import com.flight.repository.ReserveRepository;
 import com.flight.server.CreatedCaches;
@@ -39,8 +39,8 @@ public class PaymentService {
     @Service
     @Transactional
     public PaymentResponseDto pay(PaymentDto paymentDto) throws FailedToPayException
-            , EmptyFlightException
-            , EmptyReservationException, NotEnoughSeatsException {
+            , FlightNotFoundException
+            , ReservationNotFoundException, EnoughSeatsNotFoundException {
         String tracingCode = paymentMapper.toTrackingCode(paymentDto);
         float cost = getCost(tracingCode);
         if (cost > 0) {
@@ -54,18 +54,19 @@ public class PaymentService {
         return new PaymentResponseDto(cost);
     }
 
-    private float getCost(String tracingCode) throws EmptyReservationException
-            , NotEnoughSeatsException
-            , EmptyFlightException {
+    private float getCost(String tracingCode) throws ReservationNotFoundException
+            , EnoughSeatsNotFoundException
+            , FlightNotFoundException {
         Reservation reservation = findReservationByTrackingCode(tracingCode);
         if (reservation == null) {
-            throw new EmptyReservationException("There is no reservation with this tracing code.");
+            throw new ReservationNotFoundException("There is no reservation with this tracing code." +
+                                                " \nor payment deadline has expired.");
         } else {
             if (reservation.getNumberOfTickets() <= getRemainSeatsByFlightId(reservation.getFlightId())) {
                 return calculateCostOfReservation(reservation);
             } else {
                 deleteReservationFromCache(tracingCode);
-                throw new NotEnoughSeatsException("There is no enough remain seats in this flights");
+                throw new EnoughSeatsNotFoundException("There is no enough remain seats in this flights");
             }
         }
     }
@@ -75,16 +76,16 @@ public class PaymentService {
                 , tracingCode);
     }
 
-    private float calculateCostOfReservation(Reservation reservation) throws EmptyFlightException {
+    private float calculateCostOfReservation(Reservation reservation) throws FlightNotFoundException {
         float eachTicketCost = getCostByFlightId(reservation.getFlightId());
         return eachTicketCost * reservation.getNumberOfTickets();
     }
 
-    private float getCostByFlightId(int flightId) throws EmptyFlightException {
+    private float getCostByFlightId(int flightId) throws FlightNotFoundException {
 
         Optional<FlightInfo> optionalFlightInfo = flightRepository.findById(flightId);
         if (optionalFlightInfo.isEmpty()) {
-            throw new EmptyFlightException("There is no flight with this flight number.");
+            throw new FlightNotFoundException("There is no flight with this flight number.");
         }
         return optionalFlightInfo.get().getCost();
     }

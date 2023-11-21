@@ -7,6 +7,9 @@ import java.util.List;
 @NoArgsConstructor
 public class FilterResponseDto {
 
+    /**
+     * لیست پرواز های فیلتر شده
+     */
     private List<FlightDto> flightDtoList;
 
     public FilterResponseDto(List<FlightDto> flightDtoList) {

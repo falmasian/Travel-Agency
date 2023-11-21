@@ -7,6 +7,7 @@ import com.flight.dto.CustomerReservationsResponseDto;
 import com.flight.dto.ReservationDto;
 import com.flight.dto.ReservationGetDto;
 import com.flight.entity.Reservation;
+import com.flight.exception.ReservationNotFoundException;
 import com.flight.repository.ReserveRepository;
 import org.springframework.stereotype.Component;
 
@@ -28,7 +29,8 @@ public class ReservationService {
     }
 
     @Service
-    public CustomerReservationsResponseDto getAllReservations(ReservationDto reservationDto) {
+    public CustomerReservationsResponseDto getAllReservations(ReservationDto reservationDto)
+            throws ReservationNotFoundException{
         Reservation reservation = reservationMapper.toReservation(reservationDto);
         List<Reservation> reservationList;
         if (reservation.getFlightId() > 0) {
@@ -38,6 +40,9 @@ public class ReservationService {
         } else {
             reservationList = reserveRepository
                     .findReserveByCustomerId(reservation.getCustomerId().trim());
+        }
+        if (reservationList.isEmpty()){
+            throw new ReservationNotFoundException("there is no reservation with this tracing code");
         }
         List<ReservationGetDto> reservationGetDtoList = reservationList
                 .stream()

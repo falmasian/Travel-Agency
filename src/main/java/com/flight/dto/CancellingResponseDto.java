@@ -5,6 +5,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CancellingResponseDto {
 
+    /**
+     * هزینه بازگشتی کنسلی
+     */
     private float cost;
 
     public CancellingResponseDto(float cost) {

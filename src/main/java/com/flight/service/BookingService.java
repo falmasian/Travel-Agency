@@ -7,8 +7,8 @@ import com.flight.dto.BookingDto;
 import com.flight.dto.ReservationResponseDto;
 import com.flight.entity.FlightInfo;
 import com.flight.entity.Reservation;
-import com.flight.exception.EmptyFlightException;
-import com.flight.exception.NotEnoughSeatsException;
+import com.flight.exception.FlightNotFoundException;
+import com.flight.exception.EnoughSeatsNotFoundException;
 import com.flight.repository.FlightIfoRepository;
 import com.flight.server.CreatedCaches;
 import org.slf4j.Logger;
@@ -31,12 +31,12 @@ public class BookingService {
     }
 
     @Service
-    public ReservationResponseDto book(BookingDto bookingDto) throws EmptyFlightException
-            , NotEnoughSeatsException {
+    public ReservationResponseDto book(BookingDto bookingDto) throws FlightNotFoundException
+            , EnoughSeatsNotFoundException {
         Reservation reservation = bookingMapper.toReservation(bookingDto);
         Optional<FlightInfo> chosenFlight = flightRepository.findById(reservation.getFlightId());
         if (chosenFlight.isEmpty()) {
-            throw new EmptyFlightException("There is no Flight with this flight number.");
+            throw new FlightNotFoundException("There is no Flight with this flight number.");
         }
         int key = chosenFlight.get().getFlightNumber();
         if (!CreatedCaches.flightCapacityCacheManager.isKeyInCache(CreatedCaches.flightCapacityCacheName, key)) {
@@ -47,7 +47,7 @@ public class BookingService {
                 .getItemFromCache(CreatedCaches.flightCapacityCacheName, key);
         int remain = flightInfo.getRemainingCapacity();
         if (remain < reservation.getNumberOfTickets()) {
-            throw new NotEnoughSeatsException("there are no enough seats to reserve.");
+            throw new EnoughSeatsNotFoundException("there are no enough seats to reserve.");
         }
         CreatedCaches.reservationCacheManager.putInCacheWithName(CreatedCaches.reservedFlightsCacheName
                 , reservation.getTrackingCode(), new CacheElement(reservation));

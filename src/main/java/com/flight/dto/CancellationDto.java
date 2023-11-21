@@ -44,6 +44,10 @@ public class CancellationDto {
         this.nationalCodes = nationalCodes;
     }
 
+    public int getFlightId() {
+        return flightId;
+    }
+
     @Override
     public String toString() {
         return "CancellationDto{" + "\n" +

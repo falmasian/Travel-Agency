@@ -1,11 +1,11 @@
 package com.flight.exception;
 
-public class FailedToPayException extends RuntimeException {
+public class InvalidInputException extends RuntimeException {
 
-
-    private static final long serialVersionUID = 4L;
+    private static final long serialVersionUID = 5L;
     private final String errorMassage;
-    public FailedToPayException(String errorMassage){
+
+    public InvalidInputException(String errorMassage) {
         super(errorMassage);
         this.errorMassage = errorMassage;
     }

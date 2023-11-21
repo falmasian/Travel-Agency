@@ -2,10 +2,10 @@ package com.flight.controller;
 
 import com.flight.dto.PaymentDto;
 import com.flight.dto.PaymentResponseDto;
-import com.flight.exception.EmptyFlightException;
-import com.flight.exception.EmptyReservationException;
+import com.flight.exception.FlightNotFoundException;
+import com.flight.exception.ReservationNotFoundException;
 import com.flight.exception.FailedToPayException;
-import com.flight.exception.NotEnoughSeatsException;
+import com.flight.exception.EnoughSeatsNotFoundException;
 import com.flight.facade.PaymentFacade;
 import com.flight.service.PaymentService;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,7 +21,7 @@ public class PaymentController implements PaymentFacade {
 
     @Override
     public PaymentResponseDto pay(PaymentDto paymentDto) throws FailedToPayException
-            , EmptyFlightException, EmptyReservationException, NotEnoughSeatsException {
+            , FlightNotFoundException, ReservationNotFoundException, EnoughSeatsNotFoundException {
         return paymentService.pay(paymentDto);
     }
 }

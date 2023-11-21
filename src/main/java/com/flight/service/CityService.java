@@ -27,8 +27,7 @@ public class CityService {
 
     @Service
     public AllCitiesResponse getAll() {
-
-       List<CityDto> cityDtoList=  cityRepository.findAll().stream().map(cityMapper::toCityDto).collect(toList());
+       List<CityDto> cityDtoList =  cityRepository.findAll().stream().map(cityMapper::toCityDto).collect(toList());
        return new AllCitiesResponse(cityDtoList);
     }
 

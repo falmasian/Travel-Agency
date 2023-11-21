@@ -25,11 +25,13 @@ public class LoggingAspect {
             LOGGER.info("\n" + BEFORE_BODY_TEXT + "[]");
         }
         Object response = joinPoint.proceed();
+
         if (response != null) {
             LOGGER.info("\n" + BEFORE_RESPONSE_TEXT + response);
         } else {
             LOGGER.info(BEFORE_RESPONSE_TEXT + "[]");
         }
         return response;
+
     }
 }

@@ -1,8 +1,8 @@
 package com.flight.controller;
 
-import com.flight.exception.EmptyFlightException;
-import com.flight.exception.EmptyReservationException;
-import com.flight.exception.NotEnoughSeatsException;
+import com.flight.exception.FlightNotFoundException;
+import com.flight.exception.ReservationNotFoundException;
+import com.flight.exception.EnoughSeatsNotFoundException;
 import com.flight.facade.BookingFacade;
 import com.flight.dto.*;
 import com.flight.service.BookingService;
@@ -10,8 +10,6 @@ import com.flight.service.CancellationService;
 import com.flight.service.FilterService;
 import com.flight.service.ReservationService;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 public class BookingController implements BookingFacade {
@@ -30,24 +28,25 @@ public class BookingController implements BookingFacade {
     }
 
     @Override
-    public ReservationResponseDto reserve(BookingDto bookingDto) throws EmptyFlightException
-            , NotEnoughSeatsException {
+    public ReservationResponseDto reserve(BookingDto bookingDto) throws FlightNotFoundException
+            , EnoughSeatsNotFoundException {
         return bookingService.book(bookingDto);
     }
 
     @Override
-    public FilterResponseDto filter(FilterFlightDto filterFlightDto) throws EmptyFlightException {
+    public FilterResponseDto filter(FilterFlightDto filterFlightDto) throws FlightNotFoundException {
         return filterService.filter(filterFlightDto);
     }
 
     @Override
-    public CancellingResponseDto cancel(CancellationDto cancellationDto) throws EmptyFlightException
-            , EmptyReservationException {
+    public CancellingResponseDto cancel(CancellationDto cancellationDto) throws FlightNotFoundException
+            , ReservationNotFoundException {
         return cancellationService.cancel(cancellationDto);
     }
 
     @Override
-    public CustomerReservationsResponseDto getAllReservations(ReservationDto reservationDto) {
+    public CustomerReservationsResponseDto getAllReservations(ReservationDto reservationDto)
+            throws ReservationNotFoundException {
         return reservationService.getAllReservations(reservationDto);
     }
 }

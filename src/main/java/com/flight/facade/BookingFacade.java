@@ -1,16 +1,12 @@
 package com.flight.facade;
 
 import com.flight.dto.*;
-import com.flight.exception.EmptyFlightException;
-import com.flight.exception.EmptyReservationException;
-import com.flight.exception.NotEnoughSeatsException;
+import com.flight.exception.FlightNotFoundException;
+import com.flight.exception.ReservationNotFoundException;
+import com.flight.exception.EnoughSeatsNotFoundException;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.util.List;
 
 public interface BookingFacade {
 
@@ -21,7 +17,7 @@ public interface BookingFacade {
      * عملیات رزرو  را انجام میدهد و کد پیگیری را برمیگرداند
      */
     @PostMapping(value = baseUrl + "/reserve", consumes = MediaType.APPLICATION_JSON_VALUE)
-    ReservationResponseDto reserve(@RequestBody BookingDto bookingDto) throws EmptyFlightException, NotEnoughSeatsException;
+    ReservationResponseDto reserve(@RequestBody BookingDto bookingDto) throws FlightNotFoundException, EnoughSeatsNotFoundException;
 
 
     /**
@@ -31,7 +27,7 @@ public interface BookingFacade {
      */
     @PostMapping(value = baseUrl + "/filter", consumes = MediaType.APPLICATION_JSON_VALUE
             , produces = MediaType.APPLICATION_JSON_VALUE)
-   FilterResponseDto filter(@RequestBody FilterFlightDto filterFlightDto) throws EmptyFlightException;
+   FilterResponseDto filter(@RequestBody FilterFlightDto filterFlightDto) throws FlightNotFoundException;
 
     /**
      * @param cancellationDto مشخصات ورودی
@@ -40,7 +36,8 @@ public interface BookingFacade {
      */
     @PostMapping(value = baseUrl + "/cancel", consumes = MediaType.APPLICATION_JSON_VALUE
             , produces = MediaType.APPLICATION_JSON_VALUE)
-    CancellingResponseDto cancel(@RequestBody CancellationDto cancellationDto) throws EmptyFlightException, EmptyReservationException;
+    CancellingResponseDto cancel(@RequestBody CancellationDto cancellationDto) throws FlightNotFoundException
+            , ReservationNotFoundException;
 
     /**
      * @param reservationDto مشخصات ورودی
@@ -49,5 +46,6 @@ public interface BookingFacade {
      */
     @PostMapping(value = baseUrl + "/allCustomerReservations", consumes = MediaType.APPLICATION_JSON_VALUE
             , produces = MediaType.APPLICATION_JSON_VALUE)
-    CustomerReservationsResponseDto getAllReservations(@RequestBody ReservationDto reservationDto);
+    CustomerReservationsResponseDto getAllReservations(@RequestBody ReservationDto reservationDto)
+            throws ReservationNotFoundException;
 }

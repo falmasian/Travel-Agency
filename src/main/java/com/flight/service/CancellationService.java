@@ -8,8 +8,9 @@ import com.flight.dto.CancellationDto;
 import com.flight.dto.CancellingResponseDto;
 import com.flight.entity.FlightInfo;
 import com.flight.entity.Reservation;
-import com.flight.exception.EmptyFlightException;
-import com.flight.exception.EmptyReservationException;
+import com.flight.exception.FlightNotFoundException;
+import com.flight.exception.InvalidInputException;
+import com.flight.exception.ReservationNotFoundException;
 import com.flight.repository.FlightIfoRepository;
 import com.flight.repository.ReserveRepository;
 import com.flight.server.CreatedCaches;
@@ -18,6 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,21 +40,24 @@ public class CancellationService {
 
     @Service
     @Transactional
-    public CancellingResponseDto cancel(CancellationDto cancellationDto) throws EmptyReservationException
-            , EmptyFlightException {
+    public CancellingResponseDto cancel(CancellationDto cancellationDto) throws ReservationNotFoundException
+            , FlightNotFoundException {
         Reservation inputReservation = cancellationMapper.toReservation(cancellationDto);
         int flightId = inputReservation.getFlightId();
         Optional<FlightInfo> optionalFlightInfo = flightRepository.findById(flightId);
         if (optionalFlightInfo.isEmpty()) {
-            throw new EmptyFlightException("There is no flight with this flight number.");
+            throw new FlightNotFoundException("There is no flight with this flight number.");
         }
         FlightInfo flightInfo = optionalFlightInfo.get();
+//        if (flightInfo.getFlyDateTime().before(new Date())) {
+//            throw new InvalidInputException("The date of this flight is in the past. it was done in the past");
+//        }
         List<Reservation> reservations = reserveRepository
                 .findReserveByCustomerIdAndFlightId(inputReservation.getCustomerId()
                         , inputReservation.getFlightId())
                 .stream().toList();
         if (reservations == null || reservations.size() <= 0) {
-            throw new EmptyReservationException("There is no reservation with this national code and flight number.");
+            throw new ReservationNotFoundException("There is no reservation with this national code and flight number.");
         }
         int numberOfTickets = reservations.size();
         float cost = flightInfo.getCost() * numberOfTickets;
