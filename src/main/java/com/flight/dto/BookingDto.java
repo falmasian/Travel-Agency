@@ -1,7 +1,10 @@
 package com.flight.dto;
 
+import lombok.NoArgsConstructor;
+
 import java.util.ArrayList;
 
+@NoArgsConstructor
 public class BookingDto {
 
     /**
@@ -18,9 +21,6 @@ public class BookingDto {
      * کد ملی های مسافران
      */
     private ArrayList<String> nationalCodes = new ArrayList<>();
-
-    public BookingDto() {
-    }
 
     public BookingDto(String customerId, int flightId, ArrayList<String> nationalCodes) {
         this.customerId = customerId;
@@ -51,7 +51,6 @@ public class BookingDto {
     public void setNationalCodes(ArrayList<String> nationalCodes) {
         this.nationalCodes = nationalCodes;
     }
-
 
     @Override
     public String toString() {

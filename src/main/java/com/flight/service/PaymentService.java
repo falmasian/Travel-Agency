@@ -82,7 +82,6 @@ public class PaymentService {
     }
 
     private float getCostByFlightId(int flightId) throws FlightNotFoundException {
-
         Optional<FlightInfo> optionalFlightInfo = flightRepository.findById(flightId);
         if (optionalFlightInfo.isEmpty()) {
             throw new FlightNotFoundException("There is no flight with this flight number.");
@@ -122,8 +121,6 @@ public class PaymentService {
     }
 
     public synchronized void updateFlightRemainSeats(int flightId, int numOfTickets) {
-
-
         Optional<FlightInfo> optionalFlight = flightRepository.findById(flightId);
 
         if (optionalFlight.isPresent()) {

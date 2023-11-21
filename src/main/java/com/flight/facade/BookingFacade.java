@@ -17,7 +17,8 @@ public interface BookingFacade {
      * عملیات رزرو  را انجام میدهد و کد پیگیری را برمیگرداند
      */
     @PostMapping(value = baseUrl + "/reserve", consumes = MediaType.APPLICATION_JSON_VALUE)
-    ReservationResponseDto reserve(@RequestBody BookingDto bookingDto) throws FlightNotFoundException, EnoughSeatsNotFoundException;
+    ReservationResponseDto reserve(@RequestBody BookingDto bookingDto)
+            throws FlightNotFoundException, EnoughSeatsNotFoundException;
 
 
     /**

@@ -27,7 +27,8 @@ public class Reservation{
     @Transient
     private boolean completed;
 
-    public Reservation(int id, String customerId, int flightId, String passengerNationalCode, String trackingCode) {
+    public Reservation(int id, String customerId, int flightId
+            , String passengerNationalCode, String trackingCode) {
         this.id = id;
         this.customerId = customerId;
         this.flightId = flightId;
@@ -35,7 +36,8 @@ public class Reservation{
         this.passengerNationalCode = passengerNationalCode;
     }
 
-    public Reservation(String customerId, int flightId, String passengerNationalCode, String trackingCode) {
+    public Reservation(String customerId, int flightId
+            , String passengerNationalCode, String trackingCode) {
         this.customerId = customerId;
         this.flightId = flightId;
         this.trackingCode = trackingCode;
@@ -131,17 +133,4 @@ public class Reservation{
     public String getFromNationalCodesByIndex(int index) {
         return nationalCodes.get(index);
     }
-
-//    @Override
-//    public int hashCode() {
-//        int result = 17;
-//        result = 31 * result + Integer.parseInt(customerId.substring(2, 7));
-//        result = 31 * result + flightId;
-//        for (String str : nationalCodes) {
-//            String sub = str.substring(4, 6);
-//            int num = Integer.parseInt(sub) * 3 + 13;
-//            result = result + num;
-//        }
-//        return result;
-//    }
 }

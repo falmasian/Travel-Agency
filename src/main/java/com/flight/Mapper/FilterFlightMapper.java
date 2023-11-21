@@ -13,6 +13,7 @@ public class FilterFlightMapper {
     }
 
     public FilterFlightDto toFilterFlightDto(FlightInfo flight) {
-        return new FilterFlightDto(flight.getOriginCity().getCityId(), flight.getDestinationCity().getCityId(), flight.getFlyDate());
+        return new FilterFlightDto(flight.getOriginCity().getCityId()
+                , flight.getDestinationCity().getCityId(), flight.getFlyDate());
     }
 }

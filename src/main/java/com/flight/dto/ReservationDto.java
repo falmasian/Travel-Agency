@@ -1,5 +1,8 @@
 package com.flight.dto;
 
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor
 public class ReservationDto {
 
     /**
@@ -11,9 +14,6 @@ public class ReservationDto {
      * شماره پرواز
      */
     int flightId;
-
-    public ReservationDto() {
-    }
 
     public ReservationDto(String nationalCode) {
         this.nationalCode = nationalCode;

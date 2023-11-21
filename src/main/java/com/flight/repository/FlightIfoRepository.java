@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface FlightIfoRepository extends JpaRepository<FlightInfo, Integer> , JpaSpecificationExecutor<FlightInfo> {
-
-  //  List<FlightInfo> findFlightInfoByOriginIdAndDestinationId(int originId, int destinationId);
+public interface FlightIfoRepository extends JpaRepository<FlightInfo, Integer>
+        , JpaSpecificationExecutor<FlightInfo> {
 }

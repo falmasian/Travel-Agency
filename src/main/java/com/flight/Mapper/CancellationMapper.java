@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class CancellationMapper {
+
     public Reservation toReservation(CancellationDto cancellationDto) {
         Reservation reservation = new Reservation();
         reservation.setCustomerId(cancellationDto.getCustomerId());
@@ -15,6 +16,7 @@ public class CancellationMapper {
     }
 
     public CancellationDto toCancellationDto(Reservation reservation) {
-        return new CancellationDto(reservation.getCustomerId(), reservation.getFlightId(), reservation.getNationalCodes());
+        return new CancellationDto(reservation.getCustomerId()
+                , reservation.getFlightId(), reservation.getNationalCodes());
     }
 }

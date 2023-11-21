@@ -1,13 +1,13 @@
 package com.flight.dto;
 
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor
 public class PaymentDto {
     /**
      * کد پیگیری
      */
     private String tracingCode;
-
-    public PaymentDto() {
-    }
 
     public PaymentDto(String tracingCode) {
         this.tracingCode = tracingCode;

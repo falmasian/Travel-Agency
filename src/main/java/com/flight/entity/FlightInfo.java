@@ -49,8 +49,8 @@ public class FlightInfo {
         this.flyDate = flyDate;
     }
 
-    public FlightInfo(int id, int flightNumber, int originId, int destinationId, Timestamp flyDateTime,
-                      float cost, int capacity, int remainingSeats) {
+    public FlightInfo(int id, int flightNumber, int originId, int destinationId
+            , Timestamp flyDateTime, float cost, int capacity, int remainingSeats) {
         this.id = id;
         this.flightNumber = flightNumber;
         this.originCity = new City();
@@ -72,7 +72,6 @@ public class FlightInfo {
     public void setFlightNumber(int flightNumber) {
         this.flightNumber = flightNumber;
     }
-
 
     public void setFlyDateTime(Timestamp flyDateTime) {
         this.flyDateTime = flyDateTime;

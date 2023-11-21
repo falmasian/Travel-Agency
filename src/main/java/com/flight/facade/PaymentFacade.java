@@ -22,6 +22,7 @@ public interface PaymentFacade {
      * هزینه را نشان میدهد
      */
     @PostMapping(value = url, consumes = MediaType.APPLICATION_JSON_VALUE)
-    PaymentResponseDto pay(@RequestBody PaymentDto paymentDto) throws FailedToPayException, FlightNotFoundException
+    PaymentResponseDto pay(@RequestBody PaymentDto paymentDto)
+            throws FailedToPayException, FlightNotFoundException
             , ReservationNotFoundException, EnoughSeatsNotFoundException;
 }

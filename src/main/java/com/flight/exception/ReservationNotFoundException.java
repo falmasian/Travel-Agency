@@ -1,7 +1,10 @@
 package com.flight.exception;
 
+import java.io.Serial;
+
 public class ReservationNotFoundException extends RuntimeException {
 
+    @Serial
     private static final long serialVersionUID = 2L;
     private final String errorMassage;
     public ReservationNotFoundException(String errorMassage){

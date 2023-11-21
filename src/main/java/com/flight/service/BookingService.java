@@ -24,7 +24,6 @@ public class BookingService {
     private final FlightIfoRepository flightRepository;
     private final BookingMapper bookingMapper;
 
-
     public BookingService(FlightIfoRepository flightRepository, BookingMapper bookingMapper) {
         this.flightRepository = flightRepository;
         this.bookingMapper = bookingMapper;

@@ -81,5 +81,4 @@ public class FilterService {
             return criteriaBuilder.greaterThan(root.get("remainingSeats"), 0);
         };
     }
-
 }

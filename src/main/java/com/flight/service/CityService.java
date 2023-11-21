@@ -24,7 +24,6 @@ public class CityService {
         this.cityMapper = cityMapper;
     }
 
-
     @Service
     public AllCitiesResponse getAll() {
        List<CityDto> cityDtoList =  cityRepository.findAll().stream().map(cityMapper::toCityDto).collect(toList());
