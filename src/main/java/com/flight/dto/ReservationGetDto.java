@@ -8,14 +8,17 @@ public class ReservationGetDto {
      * ایدی مشتری
      */
     private String customerId;
+
     /**
      * شماره پرواز
      */
     private int flightId;
+
     /**
      * کد پیگیری
      */
     private String trackingCode;
+
     /**
      * کد ملی مسافر
      */
