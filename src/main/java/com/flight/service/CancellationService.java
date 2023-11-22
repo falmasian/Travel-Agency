@@ -59,6 +59,11 @@ public class CancellationService {
         if (reservations == null || reservations.size() <= 0) {
             throw new ReservationNotFoundException("There is no reservation with this national code and flight number.");
         }
+        for(String nationalcode : cancellationDto.getNationalCodes()){
+            if(nationalcode.trim().length() != 10){
+               throw new InvalidInputException("national code should have 10 character");
+            }
+        }
         int numberOfTickets = reservations.size();
         float cost = flightInfo.getCost() * numberOfTickets;
         int currentAvailableSeats = flightInfo.getRemainingSeats();

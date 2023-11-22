@@ -42,7 +42,7 @@ public class ReservationService {
                     .findReserveByCustomerId(reservation.getCustomerId().trim());
         }
         if (reservationList.isEmpty()){
-            throw new ReservationNotFoundException("there is no reservation with this tracing code");
+            throw new ReservationNotFoundException("there is no reservation with this specification");
         }
         List<ReservationGetDto> reservationGetDtoList = reservationList
                 .stream()
