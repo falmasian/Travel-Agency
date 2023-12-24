@@ -3,7 +3,7 @@ package com.flight.facade;
 import com.flight.dto.*;
 import com.flight.exception.FlightNotFoundException;
 import com.flight.exception.ReservationNotFoundException;
-import com.flight.exception.EnoughSeatsNotFoundException;
+import com.flight.exception.InsufficientSeatsException;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,8 +18,7 @@ public interface BookingFacade {
      */
     @PostMapping(value = baseUrl + "/reserve", consumes = MediaType.APPLICATION_JSON_VALUE)
     ReservationResponseDto reserve(@RequestBody BookingDto bookingDto)
-            throws FlightNotFoundException, EnoughSeatsNotFoundException;
-
+            throws FlightNotFoundException, InsufficientSeatsException;
 
     /**
      * @param filterFlightDto پرواز ورودی
@@ -45,7 +44,7 @@ public interface BookingFacade {
      * @return List<ReservationGetDto>
      *     همه ی رزرو های مشتری را نشان میدهد
      */
-    @PostMapping(value = baseUrl + "/allCustomerReservations", consumes = MediaType.APPLICATION_JSON_VALUE
+    @PostMapping(value = baseUrl + "/all-customer-reservations", consumes = MediaType.APPLICATION_JSON_VALUE
             , produces = MediaType.APPLICATION_JSON_VALUE)
     CustomerReservationsResponseDto getAllReservations(@RequestBody ReservationDto reservationDto)
             throws ReservationNotFoundException;

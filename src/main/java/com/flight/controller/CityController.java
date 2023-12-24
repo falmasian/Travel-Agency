@@ -1,5 +1,6 @@
 package com.flight.controller;
 
+import com.flight.aspect.Controller;
 import com.flight.dto.AllCitiesResponse;
 import com.flight.dto.CityDto;
 import com.flight.facade.CityFacade;
@@ -18,16 +19,19 @@ public class CityController implements CityFacade {
     }
 
     @Override
+    @Controller
     public AllCitiesResponse getAll() {
         return cityService.getAll();
     }
 
     @Override
+    @Controller
     public int insert(CityDto cityDto) {
         return cityService.insert(cityDto);
     }
 
     @Override
+    @Controller
     public boolean delete(int id) {
         return cityService.deleteById(id);
     }

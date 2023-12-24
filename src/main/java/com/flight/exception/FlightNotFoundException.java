@@ -2,7 +2,7 @@ package com.flight.exception;
 
 import java.io.Serial;
 
-public class FlightNotFoundException extends RuntimeException {
+public class FlightNotFoundException extends Exception {
 
     @Serial
     private static final long serialVersionUID = 1L;

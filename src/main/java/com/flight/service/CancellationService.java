@@ -2,14 +2,13 @@ package com.flight.service;
 
 
 import com.flight.Mapper.CancellationMapper;
-import com.flight.aspect.Service;
 import com.flight.cache.CacheElement;
 import com.flight.dto.CancellationDto;
 import com.flight.dto.CancellingResponseDto;
 import com.flight.entity.FlightInfo;
 import com.flight.entity.Reservation;
 import com.flight.exception.FlightNotFoundException;
-import com.flight.exception.InvalidInputException;
+import com.flight.exception.ValidationException;
 import com.flight.exception.ReservationNotFoundException;
 import com.flight.repository.FlightIfoRepository;
 import com.flight.repository.ReserveRepository;
@@ -19,7 +18,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,7 +36,6 @@ public class CancellationService {
         this.cancellationMapper = cancellationMapper;
     }
 
-    @Service
     @Transactional
     public CancellingResponseDto cancel(CancellationDto cancellationDto) throws ReservationNotFoundException
             , FlightNotFoundException {
@@ -61,7 +58,7 @@ public class CancellationService {
         }
         for(String nationalcode : cancellationDto.getNationalCodes()){
             if(nationalcode.trim().length() != 10){
-               throw new InvalidInputException("national code should have 10 character");
+               throw new ValidationException("national code should have 10 character");
             }
         }
         int numberOfTickets = reservations.size();

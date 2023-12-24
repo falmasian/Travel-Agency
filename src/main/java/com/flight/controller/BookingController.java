@@ -1,8 +1,9 @@
 package com.flight.controller;
 
+import com.flight.aspect.Controller;
 import com.flight.exception.FlightNotFoundException;
 import com.flight.exception.ReservationNotFoundException;
-import com.flight.exception.EnoughSeatsNotFoundException;
+import com.flight.exception.InsufficientSeatsException;
 import com.flight.facade.BookingFacade;
 import com.flight.dto.*;
 import com.flight.service.BookingService;
@@ -28,23 +29,27 @@ public class BookingController implements BookingFacade {
     }
 
     @Override
+    @Controller
     public ReservationResponseDto reserve(BookingDto bookingDto) throws FlightNotFoundException
-            , EnoughSeatsNotFoundException {
+            , InsufficientSeatsException {
         return bookingService.book(bookingDto);
     }
 
     @Override
+    @Controller
     public FilterResponseDto filter(FilterFlightDto filterFlightDto) throws FlightNotFoundException {
         return filterService.filter(filterFlightDto);
     }
 
     @Override
+    @Controller
     public CancellingResponseDto cancel(CancellationDto cancellationDto) throws FlightNotFoundException
             , ReservationNotFoundException {
         return cancellationService.cancel(cancellationDto);
     }
 
     @Override
+    @Controller
     public CustomerReservationsResponseDto getAllReservations(ReservationDto reservationDto)
             throws ReservationNotFoundException {
         return reservationService.getAllReservations(reservationDto);

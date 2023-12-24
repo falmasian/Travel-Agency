@@ -2,13 +2,13 @@ package com.flight.exception;
 
 import java.io.Serial;
 
-public class FailedToPayException extends RuntimeException {
-
+public class ValidationException extends RuntimeException {
 
     @Serial
-    private static final long serialVersionUID = 4L;
+    private static final long serialVersionUID = 5L;
     private final String errorMassage;
-    public FailedToPayException(String errorMassage){
+
+    public ValidationException(String errorMassage) {
         super(errorMassage);
         this.errorMassage = errorMassage;
     }

@@ -6,7 +6,12 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
-public class FlightAgencyException {
+public class FlightAgencyControllerAdvice {
+
+//    @ExceptionHandler(value = FlightAgencyBaseException.class)
+//    public ResponseEntity<Object> exception(FlightAgencyBaseException exception) {
+//        return new ResponseEntity<>(exception.getErrorCode(), HttpStatus.NOT_FOUND);
+//    }
 
     @ExceptionHandler(value = FlightNotFoundException.class)
     public ResponseEntity<Object> exception(FlightNotFoundException exception) {
@@ -18,18 +23,18 @@ public class FlightAgencyException {
         return new ResponseEntity<>(exception.getErrorMassage(), HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(value = EnoughSeatsNotFoundException.class)
-    public ResponseEntity<Object> exception(EnoughSeatsNotFoundException exception) {
+    @ExceptionHandler(value = InsufficientSeatsException.class)
+    public ResponseEntity<Object> exception(InsufficientSeatsException exception) {
         return new ResponseEntity<>(exception.getErrorMassage(), HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(value = FailedToPayException.class)
-    public ResponseEntity<Object> exception(FailedToPayException exception) {
+    @ExceptionHandler(value = PaymentProblemException.class)
+    public ResponseEntity<Object> exception(PaymentProblemException exception) {
         return new ResponseEntity<>(exception.getErrorMassage(), HttpStatus.NOT_MODIFIED);
     }
 
-    @ExceptionHandler(value = InvalidInputException.class)
-    public ResponseEntity<Object> exception(InvalidInputException exception) {
+    @ExceptionHandler(value = ValidationException.class)
+    public ResponseEntity<Object> exception(ValidationException exception) {
         return new ResponseEntity<>(exception.getErrorMassage(), HttpStatus.BAD_REQUEST);
     }
 

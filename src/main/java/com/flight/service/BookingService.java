@@ -1,14 +1,13 @@
 package com.flight.service;
 
 import com.flight.Mapper.BookingMapper;
-import com.flight.aspect.Service;
 import com.flight.cache.CacheElement;
 import com.flight.dto.BookingDto;
 import com.flight.dto.ReservationResponseDto;
 import com.flight.entity.FlightInfo;
 import com.flight.entity.Reservation;
 import com.flight.exception.FlightNotFoundException;
-import com.flight.exception.EnoughSeatsNotFoundException;
+import com.flight.exception.InsufficientSeatsException;
 import com.flight.repository.FlightIfoRepository;
 import com.flight.server.CreatedCaches;
 import org.slf4j.Logger;
@@ -29,9 +28,8 @@ public class BookingService {
         this.bookingMapper = bookingMapper;
     }
 
-    @Service
     public ReservationResponseDto book(BookingDto bookingDto) throws FlightNotFoundException
-            , EnoughSeatsNotFoundException {
+            , InsufficientSeatsException {
         Reservation reservation = bookingMapper.toReservation(bookingDto);
         Optional<FlightInfo> chosenFlight = flightRepository.findById(reservation.getFlightId());
         if (chosenFlight.isEmpty()) {
@@ -46,7 +44,7 @@ public class BookingService {
                 .getItemFromCache(CreatedCaches.flightCapacityCacheName, key);
         int remain = flightInfo.getRemainingCapacity();
         if (remain < reservation.getNumberOfTickets()) {
-            throw new EnoughSeatsNotFoundException("there are no enough seats to reserve.");
+            throw new InsufficientSeatsException("there are no enough seats to reserve.");
         }
         CreatedCaches.reservationCacheManager.putInCacheWithName(CreatedCaches.reservedFlightsCacheName
                 , reservation.getTrackingCode(), new CacheElement(reservation));

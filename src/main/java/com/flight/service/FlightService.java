@@ -1,7 +1,6 @@
 package com.flight.service;
 
 import com.flight.Mapper.FlightMapper;
-import com.flight.aspect.Service;
 import com.flight.dto.AllFlightsResponse;
 import com.flight.dto.FlightDto;
 import com.flight.entity.FlightInfo;
@@ -25,8 +24,7 @@ public class FlightService {
         this.flightMapper = flightMapper;
     }
 
-    @Service
-    public AllFlightsResponse getAll() {
+    public AllFlightsResponse getAll() throws FlightNotFoundException {
         List<FlightInfo> flightInfoList = flightRepository.findAll();
         if (flightInfoList.isEmpty()){
             throw new FlightNotFoundException("there are no available flights.");
@@ -38,7 +36,6 @@ public class FlightService {
         return new AllFlightsResponse(flightDtoList);
     }
 
-    @Service
     public boolean deleteById(int id) {
         try {
             flightRepository.deleteById(id);
@@ -48,7 +45,6 @@ public class FlightService {
         }
     }
 
-    @Service
     public int insert(FlightDto flightDto) {
         FlightInfo flightInfo = flightMapper.toFlight(flightDto);
         flightRepository.save(flightInfo);

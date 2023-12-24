@@ -16,13 +16,13 @@ public interface CityFacade {
      * @return List<CityDto>
      * همه ی شهر ها را نشان می دهد
      */
-    @GetMapping(value = baseUrl + "/all", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = baseUrl, produces = MediaType.APPLICATION_JSON_VALUE)
     AllCitiesResponse getAll();
 
     /**
      * @param cityDto اضافه کردن یک شهر
      */
-    @PostMapping(value = baseUrl + "/insert", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = baseUrl , consumes = MediaType.APPLICATION_JSON_VALUE)
     int insert(@RequestBody CityDto cityDto);
 
 
@@ -31,6 +31,6 @@ public interface CityFacade {
      * @return boolean
      * حدف یک شهر با ایدی ان
      */
-    @DeleteMapping(value = baseUrl + "/delete/{id}")
+    @DeleteMapping(value = baseUrl + "/{id}")
     boolean delete(@PathVariable int id);
 }

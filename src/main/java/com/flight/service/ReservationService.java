@@ -2,7 +2,6 @@ package com.flight.service;
 
 import com.flight.Mapper.ReservationGetMapper;
 import com.flight.Mapper.ReservationMapper;
-import com.flight.aspect.Service;
 import com.flight.dto.CustomerReservationsResponseDto;
 import com.flight.dto.ReservationDto;
 import com.flight.dto.ReservationGetDto;
@@ -28,7 +27,6 @@ public class ReservationService {
         this.reservationMapper = reservationMapper;
     }
 
-    @Service
     public CustomerReservationsResponseDto getAllReservations(ReservationDto reservationDto)
             throws ReservationNotFoundException{
         Reservation reservation = reservationMapper.toReservation(reservationDto);

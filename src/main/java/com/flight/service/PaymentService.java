@@ -1,15 +1,14 @@
 package com.flight.service;
 
 import com.flight.Mapper.PaymentMapper;
-import com.flight.aspect.Service;
 import com.flight.dto.PaymentDto;
 import com.flight.dto.PaymentResponseDto;
 import com.flight.entity.FlightInfo;
 import com.flight.entity.Reservation;
 import com.flight.exception.FlightNotFoundException;
 import com.flight.exception.ReservationNotFoundException;
-import com.flight.exception.FailedToPayException;
-import com.flight.exception.EnoughSeatsNotFoundException;
+import com.flight.exception.PaymentProblemException;
+import com.flight.exception.InsufficientSeatsException;
 import com.flight.repository.FlightIfoRepository;
 import com.flight.repository.ReserveRepository;
 import com.flight.server.CreatedCaches;
@@ -36,11 +35,10 @@ public class PaymentService {
         this.paymentMapper = paymentMapper;
     }
 
-    @Service
     @Transactional
-    public PaymentResponseDto pay(PaymentDto paymentDto) throws FailedToPayException
+    public PaymentResponseDto pay(PaymentDto paymentDto) throws PaymentProblemException
             , FlightNotFoundException
-            , ReservationNotFoundException, EnoughSeatsNotFoundException {
+            , ReservationNotFoundException, InsufficientSeatsException {
         String tracingCode = paymentMapper.toTrackingCode(paymentDto);
         float cost = getCost(tracingCode);
         if (cost > 0) {
@@ -48,14 +46,14 @@ public class PaymentService {
                 confirmReservation(tracingCode);
                 LOGGER.info("reservation with tracking code {} is payed.", tracingCode);
             } catch (Exception ex) {
-                throw new FailedToPayException("Payment failed.");
+                throw new PaymentProblemException("Payment failed.");
             }
         }
         return new PaymentResponseDto(cost);
     }
 
     private float getCost(String tracingCode) throws ReservationNotFoundException
-            , EnoughSeatsNotFoundException
+            , InsufficientSeatsException
             , FlightNotFoundException {
         Reservation reservation = findReservationByTrackingCode(tracingCode);
         if (reservation == null) {
@@ -66,7 +64,7 @@ public class PaymentService {
                 return calculateCostOfReservation(reservation);
             } else {
                 deleteReservationFromCache(tracingCode);
-                throw new EnoughSeatsNotFoundException("There is no enough remain seats in this flights");
+                throw new InsufficientSeatsException("There is no enough remain seats in this flights");
             }
         }
     }

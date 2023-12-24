@@ -12,26 +12,29 @@ import org.springframework.stereotype.Component;
 public class LoggingAspect {
     private static final Logger LOGGER = LoggerFactory.getLogger(LoggingAspect.class);
     private static final String BEFORE_NAME_TEXT = "Method Name: ";
-    private static final String BEFORE_BODY_TEXT = "Request Body: ";
+    private static final String BEFORE_BODY_TEXT = "Request: ";
     private static final String BEFORE_RESPONSE_TEXT = "Response: ";
 
-    @Around("@annotation(com.flight.aspect.Service)")
+    @Around(value = "@annotation(com.flight.aspect.Controller)")
     public Object logRequestAndResponse(ProceedingJoinPoint joinPoint) throws Throwable {
-
         LOGGER.info("\n" + BEFORE_NAME_TEXT + joinPoint.getSignature().getName());
         if (joinPoint.getArgs() != null && joinPoint.getArgs().length > 0) {
             LOGGER.info("\n" + BEFORE_BODY_TEXT + joinPoint.getArgs()[0].toString());
         } else {
             LOGGER.info("\n" + BEFORE_BODY_TEXT + "[]");
         }
-        Object response = joinPoint.proceed();
+        try {
+            Object response = joinPoint.proceed();
 
-        if (response != null) {
-            LOGGER.info("\n" + BEFORE_RESPONSE_TEXT + response);
-        } else {
-            LOGGER.info(BEFORE_RESPONSE_TEXT + "[]");
+            if (response != null) {
+                LOGGER.info("\n" + BEFORE_RESPONSE_TEXT + response);
+            } else {
+                LOGGER.info(BEFORE_RESPONSE_TEXT + "[]");
+            }
+            return response;
+        } catch (Exception exception) {
+            LOGGER.error(exception.getMessage(), exception);
+            throw exception;
         }
-        return response;
-
     }
 }

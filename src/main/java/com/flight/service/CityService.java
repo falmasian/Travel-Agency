@@ -1,7 +1,6 @@
 package com.flight.service;
 
 import com.flight.Mapper.CityMapper;
-import com.flight.aspect.Service;
 import com.flight.dto.AllCitiesResponse;
 import com.flight.dto.CityDto;
 import com.flight.entity.City;
@@ -24,7 +23,6 @@ public class CityService {
         this.cityMapper = cityMapper;
     }
 
-    @Service
     public AllCitiesResponse getAll() {
        List<CityDto> cityDtoList =  cityRepository
                .findAll()
@@ -34,14 +32,12 @@ public class CityService {
        return new AllCitiesResponse(cityDtoList);
     }
 
-    @Service
     public int insert(CityDto cityDto) {
         City city = cityMapper.toCity(cityDto);
         cityRepository.save(city);
         return city.getCityId();
     }
 
-    @Service
     public boolean deleteById(int id) {
         try {
             cityRepository.deleteById(id);

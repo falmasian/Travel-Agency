@@ -4,8 +4,8 @@ import com.flight.dto.PaymentDto;
 import com.flight.dto.PaymentResponseDto;
 import com.flight.exception.FlightNotFoundException;
 import com.flight.exception.ReservationNotFoundException;
-import com.flight.exception.FailedToPayException;
-import com.flight.exception.EnoughSeatsNotFoundException;
+import com.flight.exception.PaymentProblemException;
+import com.flight.exception.InsufficientSeatsException;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +23,6 @@ public interface PaymentFacade {
      */
     @PostMapping(value = url, consumes = MediaType.APPLICATION_JSON_VALUE)
     PaymentResponseDto pay(@RequestBody PaymentDto paymentDto)
-            throws FailedToPayException, FlightNotFoundException
-            , ReservationNotFoundException, EnoughSeatsNotFoundException;
+            throws PaymentProblemException, FlightNotFoundException
+            , ReservationNotFoundException, InsufficientSeatsException;
 }
